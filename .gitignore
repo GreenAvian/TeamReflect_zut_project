@@ -1,54 +1,138 @@
-# C++ objects and libs
-*.slo
-*.lo
-*.o
-*.a
-*.la
-*.lai
-*.so
-*.so.*
-*.dll
-*.dylib
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
 
-# Qt-es
-object_script.*.Release
-object_script.*.Debug
-*_plugin_import.cpp
-/.qmake.cache
-/.qmake.stash
-*.pro.user
-*.pro.user.*
-*.qbs.user
-*.qbs.user.*
-*.moc
-moc_*.cpp
-moc_*.h
-qrc_*.cpp
-ui_*.h
-*.qmlc
-*.jsc
-Makefile*
-*build-*
-*.qm
-*.prl
+# Backup files # 
+*.bak 
 
-# Qt unit tests
-target_wrapper.*
+# If you are using PyCharm # 
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
-# QtCreator
-*.autosave
+# AWS User-specific
+.idea/**/aws.xml
 
-# QtCreator Qml
-*.qmlproject.user
-*.qmlproject.user.*
+# Generated files
+.idea/**/contentModel.xml
 
-# QtCreator CMake
-CMakeLists.txt.user*
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
 
-# QtCreator 4.8< compilation database
-compile_commands.json
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
 
-# QtCreator local machine specific files for imported projects
-*creator.user*
+# File-based project format
+*.iws
 
-*_qmlcache.qrc
+# IntelliJ
+out/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Python # 
+*.py[cod] 
+*$py.class 
+
+# Distribution / packaging 
+.Python build/ 
+develop-eggs/ 
+dist/ 
+downloads/ 
+eggs/ 
+.eggs/ 
+lib/ 
+lib64/ 
+parts/ 
+sdist/ 
+var/ 
+wheels/ 
+*.whl
+*.egg-info/ 
+.installed.cfg 
+*.egg 
+*.manifest 
+*.spec 
+
+# Installer logs 
+pip-log.txt 
+pip-delete-this-directory.txt 
+
+# Unit test / coverage reports 
+htmlcov/ 
+.tox/ 
+.coverage 
+.coverage.* 
+.cache 
+.pytest_cache/ 
+nosetests.xml 
+coverage.xml 
+*.cover 
+.hypothesis/ 
+
+# Jupyter Notebook 
+.ipynb_checkpoints 
+
+# pyenv 
+.python-version 
+
+# celery 
+celerybeat-schedule.* 
+
+# SageMath parsed files 
+*.sage.py 
+
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 
+
+# mkdocs documentation 
+/site 
+
+# mypy 
+.mypy_cache/ 
+
+# Sublime Text # 
+*.tmlanguage.cache 
+*.tmPreferences.cache 
+*.stTheme.cache 
+*.sublime-workspace 
+*.sublime-project 
+
+# sftp configuration file 
+sftp-config.json 
+
+# Package control specific files Package 
+Control.last-run 
+Control.ca-list 
+Control.ca-bundle 
+Control.system-ca-bundle 
+GitHub.sublime-settings 
+
+# Visual Studio Code # 
+.vscode/* 
+!.vscode/settings.json 
+!.vscode/tasks.json 
+!.vscode/launch.json 
+!.vscode/extensions.json 
+.history
