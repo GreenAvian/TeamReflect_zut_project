@@ -23,22 +23,22 @@ class User:
     
 
 
-#Tests
-u1 = User("John", "Doe", "mail@mail.com")
+# #Tests
+# u1 = User("John", "Doe", "mail@mail.com")
 
-print(u1.id)
-print(u1.firstName)
-print(u1.lastName)
-print(u1.email)
-print(u1.idList)
-u1.rateUser(1)
-print(u1.rating)
+# print(u1.id)
+# print(u1.firstName)
+# print(u1.lastName)
+# print(u1.email)
+# print(u1.idList)
+# u1.rateUser(1)
+# print(u1.rating)
 
-u2 = User("Jane", "Smith", "mail@mail.com")
+# u2 = User("Jane", "Smith", "mail@mail.com")
 
-print(u2.id)
-print(u2.firstName)
-print(u2.lastName)
-print(u2.email)
-print(u2.idList)
-print(u2.rating)
+# print(u2.id)
+# print(u2.firstName)
+# print(u2.lastName)
+# print(u2.email)
+# print(u2.idList)
+# print(u2.rating)
