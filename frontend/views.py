@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .forms import NameForm
+from .models import Person
 
 
 def home(request):
@@ -15,7 +16,9 @@ def get_name(request):
         form = NameForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            request.session['form_data'] = form.cleaned_data    # Store data in the session
+            # request.session['form_data'] = form.cleaned_data    # Store data in the session
+            #   OR
+            form.save() # Save it to the database
             return HttpResponseRedirect(reverse('result_page')) # Pass data to the result page
 
     # if a GET (or any other method) we'll create a blank form
@@ -25,5 +28,7 @@ def get_name(request):
 
 def result_page(request):
     print(request.build_absolute_uri()) #optional
-    form = request.session.pop('form_data', None)
-    return render(request,'thanks.html', {"form": form})
+    #form = request.session.pop('form_data', None) # Retrieve the session data
+    #   OR
+    people = Person.objects.all() # Fetch all Person records or the last inserted one
+    return render(request, 'thanks.html', {"people": people})
