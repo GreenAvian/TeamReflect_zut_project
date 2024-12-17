@@ -8,16 +8,18 @@ class Person(models.Model): # --- Example model, delete this later !!! ---
         return self.name
 
 class Feedback(models.Model):
-    id_feedback = models.TextField(db_column='id_Feedback', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    type = models.TextField(db_column='Type', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    created_at = models.TextField(db_column='Created_at', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    priority = models.TextField(db_column='Priority', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    created_by = models.TextField(db_column='Created_by', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    content = models.TextField(db_column='Content', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    status = models.TextField(db_column='Status', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    id_feedback = models.AutoField(db_column='id_Feedback', primary_key=True)
+    type = models.CharField(db_column='Type', max_length=50, null=True)  
+    created_at = models.DateTimeField(db_column='Created_at', auto_now_add=True, null=True)
+    priority = models.CharField(db_column='Priority', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
+    created_by = models.CharField(db_column='Created_by', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
+    content = models.TextField(db_column='Content', null=True)
+    status = models.CharField(db_column='Status', max_length=50, null=True)
 
+    def __str__(self):
+        return self.name
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Feedback'
 
 
