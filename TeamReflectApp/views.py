@@ -3,11 +3,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .forms import NameForm, FeedbackForm
 from .models import Person, Feedback
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 
 def home(request):
     print(request.build_absolute_uri()) #optional
-    return render(request,'home.html')
+    return render(request,'base.html')
 
 def get_name(request):
     # if this is a POST request we need to process the form data
@@ -56,3 +59,8 @@ def result_feedbacks(request):
     #   OR
     feedbacks = Feedback.objects.all() # Fetch all Person records or the last inserted one
     return render(request, 'feedback_list.html', {"feedbacks": feedbacks})
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"
