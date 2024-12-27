@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete User</title>
+</head>
+<body>
+    <h1>Are you sure you want to delete this user?</h1>
+
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Yes, delete user</button>
+    </form>
+
+    <a href="{% url 'user_list' %}">Cancel</a>
+</body>
+</html>
