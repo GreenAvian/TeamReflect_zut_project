@@ -1,18 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
+from django.views.generic import CreateView
+from django.views import View
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
+from django.urls import reverse, reverse_lazy
 from .forms import FeedbackForm
 from .models import Feedback, UserProfile
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.views import View
-from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.models import User
-from django.http import Http404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
-
 
 def home(request):
     print(request.build_absolute_uri()) #optional
