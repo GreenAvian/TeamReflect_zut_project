@@ -8,6 +8,7 @@ from .models import Feedback, UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 def home(request):
     print(request.build_absolute_uri()) #optional
@@ -45,6 +46,33 @@ def user_list(request):
 def profile_view(request, username):
     profile = UserProfile.objects.get(user__username=username)
     return render(request, 'profile.html', {'profile': profile})
+
+@login_required
+def edit_profile(request, username):
+    profile = get_object_or_404(UserProfile, user__username=username)
+
+    # Check if the user is the owner of the profile or a superuser
+    if request.user != profile.user and not request.user.is_superuser:
+        raise PermissionDenied("You are not authorized to edit this profile.")
+
+    if request.method == "POST":
+        field = request.POST.get('field')
+
+        if field == "name":
+            profile.user.first_name = request.POST.get('first_name', profile.user.first_name)
+            profile.user.last_name = request.POST.get('last_name', profile.user.last_name)
+            profile.user.save()
+        elif field == "phone_number":
+            profile.phone_number = request.POST.get('phone_number', profile.phone_number)
+        elif field == "description":
+            profile.description = request.POST.get('description', profile.description)
+        elif field == "rating":
+            profile.rating = request.POST.get('rating', profile.rating)
+        else:
+            raise PermissionDenied("Invalid field.")
+
+        profile.save()
+    return redirect('profile_view', username=profile.user.username)
 
 class DeleteUserView(View):
     def get(self, request, user_id):

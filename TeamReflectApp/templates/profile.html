@@ -5,9 +5,63 @@
 </head>
 <body>
     <h1>{{ profile.user.username }}</h1>
-    <h2>{{ profile.user.first_name }}  {{ profile.user.last_name }}</h2>
-    <p><strong>Phone:</strong> {{ profile.phone_number }}</p>
-    <p><strong>Description:</strong> {{ profile.description }}</p>
-    <p><strong>Rating:</strong> {{ profile.rating }}</p>
+    <h2>
+        {{ profile.user.first_name }} {{ profile.user.last_name }}
+        <button onclick="editField('nameForm')">Edit</button>
+    </h2>
+    <form id="nameForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+        {% csrf_token %}
+        <input type="hidden" name="field" value="name">
+        <input type="text" name="first_name" placeholder="First Name" value="{{ profile.user.first_name }}">
+        <input type="text" name="last_name" placeholder="Last Name" value="{{ profile.user.last_name }}">
+        <button type="submit">Save</button>
+        <button type="button" onclick="cancelEdit('nameForm')">Cancel</button>
+    </form>
+
+    <p>
+        <strong>Phone:</strong> {{ profile.phone_number }}
+        <button onclick="editField('phoneForm')">Edit</button>
+    </p>
+    <form id="phoneForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+        {% csrf_token %}
+        <input type="hidden" name="field" value="phone_number">
+        <input type="text" name="phone_number" value="{{ profile.phone_number }}">
+        <button type="submit">Save</button>
+        <button type="button" onclick="cancelEdit('phoneForm')">Cancel</button>
+    </form>
+
+    <p>
+        <strong>Description:</strong> {{ profile.description }}
+        <button onclick="editField('descriptionForm')">Edit</button>
+    </p>
+    <form id="descriptionForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+        {% csrf_token %}
+        <input type="hidden" name="field" value="description">
+        <textarea name="description">{{ profile.description }}</textarea>
+        <button type="submit">Save</button>
+        <button type="button" onclick="cancelEdit('descriptionForm')">Cancel</button>
+    </form>
+
+    <p>
+        <strong>Rating:</strong> {{ profile.rating }}
+        <button onclick="editField('ratingForm')">Edit</button>
+    </p>
+    <form id="ratingForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+        {% csrf_token %}
+        <input type="hidden" name="field" value="rating">
+        <input type="number" name="rating" value="{{ profile.rating }}" step="0.1" min="0" max="5">
+        <button type="submit">Save</button>
+        <button type="button" onclick="cancelEdit('ratingForm')">Cancel</button>
+    </form>
+
+    <script>
+        function editField(formId) {
+            document.getElementById(formId).style.display = 'block';
+        }
+
+        function cancelEdit(formId) {
+            document.getElementById(formId).style.display = 'none';
+        }
+    </script>
 </body>
 </html>
