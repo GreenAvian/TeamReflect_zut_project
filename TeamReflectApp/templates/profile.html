@@ -7,7 +7,9 @@
     <h1>{{ profile.user.username }}</h1>
     <h2>
         {{ profile.user.first_name }} {{ profile.user.last_name }}
-        <button onclick="editField('nameForm')">Edit</button>
+        {% if can_edit%}
+            <button onclick="editField('nameForm')">Edit</button>
+        {% endif %}
     </h2>
     <form id="nameForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
         {% csrf_token %}
@@ -20,7 +22,9 @@
 
     <p>
         <strong>Phone:</strong> {{ profile.phone_number }}
-        <button onclick="editField('phoneForm')">Edit</button>
+        {% if can_edit %}
+            <button onclick="editField('phoneForm')">Edit</button>
+        {% endif %}
     </p>
     <form id="phoneForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
         {% csrf_token %}
@@ -32,7 +36,9 @@
 
     <p>
         <strong>Description:</strong> {{ profile.description }}
-        <button onclick="editField('descriptionForm')">Edit</button>
+        {% if can_edit %}
+            <button onclick="editField('descriptionForm')">Edit</button>
+        {% endif %}
     </p>
     <form id="descriptionForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
         {% csrf_token %}
@@ -44,7 +50,9 @@
 
     <p>
         <strong>Rating:</strong> {{ profile.rating }}
-        <button onclick="editField('ratingForm')">Edit</button>
+        {% if can_edit %}
+            <button onclick="editField('ratingForm')">Edit</button>
+        {% endif %}
     </p>
     <form id="ratingForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
         {% csrf_token %}

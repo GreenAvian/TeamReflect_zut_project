@@ -45,7 +45,10 @@ def user_list(request):
 
 def profile_view(request, username):
     profile = UserProfile.objects.get(user__username=username)
-    return render(request, 'profile.html', {'profile': profile})
+    can_edit = False
+    if request.user == profile.user or request.user.is_superuser:
+        can_edit = True
+    return render(request, 'profile.html', {'profile': profile, 'can_edit': can_edit})
 
 def feedback_view(request, id_feedback):
     feedback = Feedback.objects.get(id_feedback=id_feedback)
