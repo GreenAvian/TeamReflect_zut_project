@@ -14,5 +14,6 @@ urlpatterns = [
     path('confirm_delete_user/<int:user_id>/', views.ConfirmDeleteUserView.as_view(), name='confirm_delete_user'),  # URL for user deletion confirmation
     path('profile/<str:username>/', views.profile_view, name='profile_view'),
     path('profile/<str:username>/edit/', views.edit_profile, name='edit_profile_field'),
+    path('feedbacks/<int:id_feedback>/', views.feedback_view, name='feedback_view'),
 
 ]

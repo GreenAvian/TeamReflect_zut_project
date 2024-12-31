@@ -1,4 +1,4 @@
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
@@ -46,6 +46,10 @@ def user_list(request):
 def profile_view(request, username):
     profile = UserProfile.objects.get(user__username=username)
     return render(request, 'profile.html', {'profile': profile})
+
+def feedback_view(request, id_feedback):
+    feedback = Feedback.objects.get(id_feedback=id_feedback)
+    return render(request, 'feedback.html', {'feedback': feedback})
 
 @login_required
 def edit_profile(request, username):
