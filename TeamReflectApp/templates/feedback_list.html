@@ -3,6 +3,6 @@
 <p>Here are the saved entries:</p>
 <ul>
     {% for feedback in feedbacks %}
-        <li>{{ feedback.type }} {{ feedback.created_at }} {{ feedback.priority }} {{ feedback.status }} {{ feedback.created_by }} {{ feedback.content }}</li>
+        <li> <a href="/feedbacks/{{ feedback.id_feedback }}">{{ feedback.id_feedback }}</a> {{ feedback.type }} {{ feedback.created_at }} {{ feedback.priority }} {{ feedback.status }} {{ feedback.created_by }} {{ feedback.content }}</li>
     {% endfor %}
 </ul>

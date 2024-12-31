@@ -64,7 +64,7 @@
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
+                    <td><a href="/profile/{{  user.username }}">{{ user.username }}</a></td>
                     <td>{{ user.email }}</td>
                     <td>
                         <a href="{% url 'confirm_delete_user' user.id %}">Delete</a>
