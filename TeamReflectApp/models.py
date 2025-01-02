@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 
 class Feedback(models.Model):
     id_feedback = models.AutoField(db_column='id_Feedback', primary_key=True)
-    type = models.CharField(db_column='Type', max_length=50, null=True)  
+    type = models.CharField(db_column='Type', max_length=50, null=True)
+    rating = models.IntegerField(db_column='Rating', default = 0, blank=True, null=False)  # Field name made lowercase. This field type is a guess. 
     created_at = models.DateTimeField(db_column='Created_at', auto_now_add=True, null=True)
     priority = models.CharField(db_column='Priority', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
     created_by = models.CharField(db_column='Created_by', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
@@ -19,9 +20,9 @@ class Feedback(models.Model):
 
 class FeedbackReview(models.Model):
     id_feedback = models.AutoField(db_column='id_Feedback', primary_key=True)
-    user = models.CharField(db_column='Type', max_length=50, null=True)  
-    rating = models.DateTimeField(db_column='Created_at', auto_now_add=True, null=True)
-    review = models.CharField(db_column='Priority', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
+    user = models.CharField(db_column='User', max_length=50, null=True)  
+    rating = models.IntegerField(db_column='Rating', default = 0, blank=True, null=False)  # Field name made lowercase. This field type is a guess.
+    review = models.CharField(db_column='Review', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
     created_at = models.DateTimeField(db_column='Created_at', auto_now_add=True, null=True)
 
     def __str__(self):
