@@ -17,6 +17,20 @@ class Feedback(models.Model):
         managed = True
         db_table = 'Feedback'
 
+class FeedbackReview(models.Model):
+    id_feedback = models.AutoField(db_column='id_Feedback', primary_key=True)
+    user = models.CharField(db_column='Type', max_length=50, null=True)  
+    rating = models.DateTimeField(db_column='Created_at', auto_now_add=True, null=True)
+    review = models.CharField(db_column='Priority', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
+    created_at = models.DateTimeField(db_column='Created_at', auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        managed = True
+        db_table = 'Feedback_Review'
+
+
 
 class Feedbackvisibility(models.Model):
     id_feedbackvisibility = models.TextField(db_column='id_FeedbackVisibility', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
