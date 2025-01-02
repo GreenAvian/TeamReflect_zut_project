@@ -98,16 +98,17 @@ def get_feedback(request):
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
         form = FeedbackForm(request.POST)
-        # check whether it's valid:
         if form.is_valid():
-            # request.session['form_data'] = form.cleaned_data    # Store data in the session
-            #   OR
-            form.save() # Save it to the database
-            return HttpResponseRedirect(reverse('result_feedbacks')) # Pass data to the result page
-
-    # if a GET (or any other method) we'll create a blank form
+            # If you don't do it this way it won't work
+            feedback = form.save(commit=False)
+            feedback.created_by = request.user
+            feedback.save()
+            return HttpResponseRedirect(reverse('result_feedbacks'))
+        
+    # GET
     else:
-        form = FeedbackForm()
+        form = FeedbackForm(initial={'created_by': request.user.username})
+        
     return render(request, "feedback_form.html", {"form": form})
 
 def result_feedbacks(request):

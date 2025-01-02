@@ -16,7 +16,11 @@ class FeedbackForm(forms.ModelForm):
         label="1-5 rating",
         required=True 
     )
+
+    created_by = forms.CharField(
+        widget=forms.HiddenInput(),
+        required=False)
     
     class Meta:
         model = Feedback
-        fields = ['type', 'priority', 'created_by', 'content', 'status', 'rating']  # Specify fields to include in the form
+        fields = ['type', 'priority', 'content', 'status', 'rating', 'created_by']  # Specify fields to include in the form

@@ -16,8 +16,9 @@
 
 <a href="/">Home</a>
 <a href="/feedbacks/">Feedbacks</a>
-<form action="/your-feedback/" method="post">
+<form action="/feedbacks/form/" method="post">
     {% csrf_token %}
+    <input type="hidden" name="field" value="name">
     {{ form }}
     <input type="submit" value="Submit">
 </form>
