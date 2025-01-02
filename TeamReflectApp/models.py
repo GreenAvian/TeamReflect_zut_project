@@ -71,7 +71,7 @@ class Roles(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')  # Field name made lowercase. This field type is a guess.
-    rating = models.FloatField(db_column='Rating', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    rating = models.IntegerField(db_column='Rating', default = 0, blank=True, null=False)  # Field name made lowercase. This field type is a guess.
     #role_id = models.TextField(db_column='Role_id', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
     description = models.TextField(db_column='Description', blank=True, null=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")

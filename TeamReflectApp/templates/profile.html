@@ -50,18 +50,20 @@
 
     <p>
         <strong>Rating:</strong> {{ profile.rating }}
-        {% if can_edit %}
-            <button onclick="editField('ratingForm')">Edit</button>
-        {% endif %}
     </p>
-    <form id="ratingForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+
+    <form id="ratingForm" style="display:inline;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
         {% csrf_token %}
         <input type="hidden" name="field" value="rating">
-        <input type="number" name="rating" value="{{ profile.rating }}" step="0.1" min="0" max="5">
-        <button type="submit">Save</button>
-        <button type="button" onclick="cancelEdit('ratingForm')">Cancel</button>
+        <input type="hidden" name="rating" value= 1>
+        <button type="submit">Like</button>
     </form>
-
+    <form id="ratingForm" style="display:inline;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+        {% csrf_token %}
+        <input type="hidden" name="field" value="rating">
+        <input type="hidden" name="rating" value= -1>
+        <button type="submit">Dislike</button>
+    </form>
     <script>
         function editField(formId) {
             document.getElementById(formId).style.display = 'block';

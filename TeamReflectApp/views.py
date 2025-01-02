@@ -74,7 +74,7 @@ def edit_profile(request, username):
         elif field == "description":
             profile.description = request.POST.get('description', profile.description)
         elif field == "rating":
-            profile.rating = request.POST.get('rating', profile.rating)
+            profile.rating = profile.rating + int(request.POST.get('rating', profile.rating))
         else:
             raise PermissionDenied("Invalid field.")
 
