@@ -1,35 +1,30 @@
 {% extends 'base.html' %}
 
-{% block title %}Szczegóły grupy{% endblock %}
+{% block title %}Group Details{% endblock %}
 
 {% block content %}
-<h1>Szczegóły grupy: {{ group.name }}</h1>
-
-<h2>Członkowie:</h2>
+<h1>Group Details: {{ group.name }}</h1>
+<h2>Members:</h2>
 <ul>
     {% for member in members %}
     <li>
         {{ member.username }}
-        <form action="{% url 'group_detail' group.id %}" method="post" style="display:inline;">
+        <form method="post" action="">
             {% csrf_token %}
             <input type="hidden" name="user_id" value="{{ member.id }}">
-            <button type="submit" name="remove_member">Usuń</button>
-        </form>
-        <form action="{% url 'group_detail' group.id %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <input type="hidden" name="user_id" value="{{ member.id }}">
-            <button type="submit" name="set_leader">Ustaw jako lidera</button>
+            <button type="submit" name="remove_member">Remove</button>
+            <button type="submit" name="set_leader">Set as Leader</button>
         </form>
     </li>
     {% endfor %}
 </ul>
 
-<h2>Dodaj nowego członka:</h2>
-<form action="{% url 'group_detail' group.id %}" method="post">
+<h2>Add a New Member:</h2>
+<form method="post" action="">
     {% csrf_token %}
-    <input type="text" name="username" placeholder="Nazwa użytkownika">
-    <button type="submit" name="add_member">Dodaj</button>
+    <input type="text" name="username" placeholder="Username">
+    <button type="submit" name="add_member">Add</button>
 </form>
 
-<a href="{% url 'group_list' %}">Powrót do listy grup</a>
+<a href="{% url 'group_list' %}">Back to Group List</a>
 {% endblock %}
