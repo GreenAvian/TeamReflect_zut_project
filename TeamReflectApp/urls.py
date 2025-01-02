@@ -6,7 +6,7 @@ from .views import SignUpView, DeleteUserView
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
-    path("your-feedback/", views.get_feedback, name = 'get_feedback'),
+    path("feedbacks/form/", views.get_feedback, name = 'get_feedback'),
     path("feedbacks/", views.result_feedbacks, name = 'result_feedbacks'),
     path("signup/", SignUpView.as_view(), name="signup"),
     path('delete_user/<int:user_id>/', DeleteUserView.as_view(), name='delete_user'),
