@@ -15,5 +15,10 @@ urlpatterns = [
     path('profile/<str:username>/', views.profile_view, name='profile_view'),
     path('profile/<str:username>/edit/', views.edit_profile, name='edit_profile_field'),
     path('feedbacks/<int:id_feedback>/', views.feedback_view, name='feedback_view'),
+    path('groups/', views.group_list, name='group_list'),
+    path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
+    path('groups/create/', views.create_group, name='create_group'),
+    path('groups/<int:group_id>/delete/', views.delete_group, name='delete_group'),
+    
 
 ]

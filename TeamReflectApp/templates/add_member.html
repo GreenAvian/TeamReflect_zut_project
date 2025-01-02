@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Member
+{% endblock %}
+
+{% block content %}
+<h1>Add Member to {{ group.name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="user_id">Select User:</label>
+    <select name="user_id">
+        {% for user in users %}
+        <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Add</button>
+</form>
+<a href="{% url 'group_members' group.id_groups %}">Back to Members</a>
+{% endblock %}

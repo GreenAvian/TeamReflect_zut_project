@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista grup{% endblock %}
+
+{% block content %}
+<h1>Lista grup</h1>
+<ul>
+    {% for group in groups %}
+    <li>
+        {{ group.name }}
+        <a href="{% url 'group_detail' group.id %}">Szczegóły</a>
+        <a href="{% url 'delete_group' group.id %}" onclick="return confirm('Czy na pewno chcesz usunąć grupę?');">Usuń</a>
+    </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'create_group' %}">Utwórz nową grupę</a>
+{% endblock %}

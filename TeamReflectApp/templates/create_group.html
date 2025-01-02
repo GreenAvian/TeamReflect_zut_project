@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Utwórz nową grupę{% endblock %}
+
+{% block content %}
+<h1>Utwórz nową grupę</h1>
+<form method="POST">
+  {% csrf_token %}
+  <label for="name">Nazwa grupy:</label>
+  <input type="text" id="name" name="name" required>
+  <button type="submit">Utwórz</button>
+</form>
+{% if error %}
+<p style="color: red;">{{ error }}</p>
+{% endif %}
+<a href="{% url 'group_list' %}">Powrót do listy grup</a>
+{% endblock %}

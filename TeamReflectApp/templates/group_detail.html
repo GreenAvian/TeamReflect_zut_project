@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Szczegóły grupy{% endblock %}
+
+{% block content %}
+<h1>Szczegóły grupy: {{ group.name }}</h1>
+
+<h2>Członkowie:</h2>
+<ul>
+    {% for member in members %}
+    <li>
+        {{ member.username }}
+        <form action="{% url 'group_detail' group.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ member.id }}">
+            <button type="submit" name="remove_member">Usuń</button>
+        </form>
+        <form action="{% url 'group_detail' group.id %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ member.id }}">
+            <button type="submit" name="set_leader">Ustaw jako lidera</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<h2>Dodaj nowego członka:</h2>
+<form action="{% url 'group_detail' group.id %}" method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Nazwa użytkownika">
+    <button type="submit" name="add_member">Dodaj</button>
+</form>
+
+<a href="{% url 'group_list' %}">Powrót do listy grup</a>
+{% endblock %}

@@ -9,10 +9,89 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.models import Group
+
 
 def home(request):
     print(request.build_absolute_uri()) #optional
     return render(request,'base.html')
+
+@login_required
+def group_list(request):
+    """Lista grup"""
+    groups = Group.objects.all()
+    return render(request, 'group_list.html', {'groups': groups})
+
+@login_required
+def group_detail(request, group_id):
+    """Szczegóły grupy, dodawanie/usuwanie członków i ustawianie lidera"""
+    group = get_object_or_404(Group, id=group_id)
+    members = group.user_set.all()  
+
+    if request.method == "POST":
+        # Dodawanie członka
+        if "add_member" in request.POST:
+            username = request.POST.get("username")
+            if username:
+                try:
+                    user = User.objects.get(username=username)
+                    group.user_set.add(user)  
+                except User.DoesNotExist:
+                    return render(request, "group_detail.html", {
+                        "group": group,
+                        "members": members,
+                        "error": "Nie znaleziono użytkownika.",
+                    })
+                return redirect("group_detail", group_id=group.id)
+
+        
+        if "remove_member" in request.POST:
+            user_id = request.POST.get("user_id")
+            user = get_object_or_404(User, id=user_id)
+            group.user_set.remove(user)  
+            return redirect("group_detail", group_id=group.id)
+
+       
+        if "set_leader" in request.POST:
+            user_id = request.POST.get("user_id")
+            user = get_object_or_404(User, id=user_id)
+            if user not in group.user_set.all():
+                raise PermissionDenied("Użytkownik nie jest członkiem tej grupy.")
+
+            
+            UserProfile.objects.filter(user__in=group.user_set.all()).update(is_leader=False)
+          
+            user.profile.is_leader = True
+            user.profile.save()
+            return redirect("group_detail", group_id=group.id)
+
+    return render(request, "group_detail.html", {"group": group, "members": members})
+
+@login_required
+def create_group(request):
+    """Tworzenie nowej grupy"""
+    if request.method == 'POST':
+        group_name = request.POST.get('name')
+        if not group_name:
+            return render(request, 'create_group.html', {'error': 'Nazwa grupy jest wymagana.'})
+
+        group = Group.objects.create(name=group_name)
+        group.user_set.add(request.user)  
+        return redirect('group_list')
+
+    return render(request, 'create_group.html')
+
+@login_required
+def delete_group(request, group_id):
+    """Usuwanie grupy"""
+    group = get_object_or_404(Group, id=group_id)
+
+   
+    if not group.user_set.filter(id=request.user.id).exists():
+        raise PermissionDenied("Nie jesteś członkiem tej grupy.")
+
+    group.delete()
+    return redirect('group_list')
 
 def get_feedback(request):
     # if this is a POST request we need to process the form data
@@ -115,3 +194,4 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
+   
