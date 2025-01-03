@@ -132,6 +132,9 @@ def profile_view(request, username):
 
 def feedback_view(request, id_feedback):
     feedback = Feedback.objects.get(id_feedback=id_feedback)
+    if request.method == "POST":
+        feedback.likes = feedback.likes + int(request.POST.get('likes', feedback.rating))
+        feedback.save()
     return render(request, 'feedback.html', {'feedback': feedback})
 
 @login_required

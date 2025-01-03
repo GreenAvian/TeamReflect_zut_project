@@ -4,13 +4,15 @@ from django.contrib.auth.models import User
 
 class Feedback(models.Model):
     id_feedback = models.AutoField(db_column='id_Feedback', primary_key=True)
+    title = models.CharField(db_column='Title', max_length=50, null=True)
     type = models.CharField(db_column='Type', max_length=50, null=True)
-    rating = models.IntegerField(db_column='Rating', default = 0, blank=True, null=False)  # Field name made lowercase. This field type is a guess. 
+    rating = models.IntegerField(db_column='Rating', default = 0, blank=True)  # Field name made lowercase. This field type is a guess. 
     created_at = models.DateTimeField(db_column='Created_at', auto_now_add=True, null=True)
     priority = models.CharField(db_column='Priority', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
     created_by = models.CharField(db_column='Created_by', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
     content = models.TextField(db_column='Content', null=True)
     status = models.CharField(db_column='Status', max_length=50, null=True)
+    likes = models.IntegerField(db_column='Likes', default = 0, blank=True)
 
     def __str__(self):
         return self.name

@@ -21,6 +21,17 @@ class FeedbackForm(forms.ModelForm):
         widget=forms.HiddenInput(),
         required=False)
     
+    priority = forms.ChoiceField(
+        choices=[],
+        widget=forms.Select(),
+        label="Priority",
+        required=True
+    )
+
     class Meta:
         model = Feedback
-        fields = ['type', 'priority', 'content', 'status', 'rating', 'created_by']  # Specify fields to include in the form
+        fields = ['title', 'priority', 'content', 'rating', 'created_by']  # Specify fields to include in the form
+
+    def __init__(self, *args, **kwargs): 
+            super().__init__(*args, **kwargs)
+            self.fields['priority'].choices = [('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')]

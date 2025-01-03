@@ -3,6 +3,18 @@
 {% block title %}Feedback - {{ feedback.id_Feedback }}{% endblock %}
 
 {% block content %}
+<b>{{ feedback.title }}</b> Created on: {{ feedback.created_at }} Priority: {{ feedback.priority }} Status: {{ feedback.status }} Poster:{{ feedback.created_by }} {{ feedback.content }} Rating: {{ feedback.rating }}/5 Likes: {{ feedback.likes }}
 
-    {{ feedback.type }} {{ feedback.created_at }} {{ feedback.priority }} {{ feedback.status }} {{ feedback.created_by }} {{ feedback.content }} {{ feedback.rating }}
+<form id="likeForm" style="display:inline;" method="POST" action="{% url 'feedback_view' id_feedback=feedback.id_feedback %}">
+    {% csrf_token %}
+    <input type="hidden" name="field" value="likes">
+    <input type="hidden" name="likes" value= 1>
+    <button type="submit">Like</button>
+</form>
+<form id="likeForm" style="display:inline;" method="POST" action="{% url 'feedback_view' id_feedback=feedback.id_feedback %}">
+    {% csrf_token %}
+    <input type="hidden" name="field" value="likes">
+    <input type="hidden" name="likes" value= -1>
+    <button type="submit">Dislike</button>
+</form>
 {% endblock %}

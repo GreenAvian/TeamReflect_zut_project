@@ -18,9 +18,6 @@
         margin: 2px 0 0 2px;
       }
 </style>
-
-<a href="/">Home</a>
-<a href="/feedbacks/">Feedbacks</a>
 <form action="/feedback/form/" method="post">
     {% csrf_token %}
     <input type="hidden" name="field" value="name">
