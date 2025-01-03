@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Feedback - {{ feedback.id_Feedback }}</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Feedback - {{ feedback.id_Feedback }}{% endblock %}
+
+{% block content %}
+
     {{ feedback.type }} {{ feedback.created_at }} {{ feedback.priority }} {{ feedback.status }} {{ feedback.created_by }} {{ feedback.content }} {{ feedback.rating }}
-</body>
-</html>
+{% endblock %}

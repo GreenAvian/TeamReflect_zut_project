@@ -1,3 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %}Feedback list{% endblock %}
+
+{% block content %}
 <a href="/">Home</a>
 <a href="/feedbacks/form/">Form</a>
 <p>Here are the saved entries:</p>
@@ -6,3 +11,4 @@
         <li> <a href="/feedbacks/{{ feedback.id_feedback }}">{{ feedback.id_feedback }}</a> {{ feedback.type }} {{ feedback.created_at }} {{ feedback.priority }} {{ feedback.status }} {{ feedback.created_by }} {{ feedback.content }} {{ feedback.rating }}</li>
     {% endfor %}
 </ul>
+{% endblock %}
