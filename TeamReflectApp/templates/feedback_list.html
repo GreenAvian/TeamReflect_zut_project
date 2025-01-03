@@ -3,12 +3,10 @@
 {% block title %}Feedback list{% endblock %}
 
 {% block content %}
-<a href="/">Home</a>
-<a href="/feedbacks/form/">Form</a>
 <p>Here are the saved entries:</p>
 <ul>
     {% for feedback in feedbacks %}
-        <li> <a href="/feedbacks/{{ feedback.id_feedback }}">{{ feedback.id_feedback }}</a> {{ feedback.type }} {{ feedback.created_at }} {{ feedback.priority }} {{ feedback.status }} {{ feedback.created_by }} {{ feedback.content }} {{ feedback.rating }}</li>
+        <li> <a href="/feedback/{{ feedback.id_feedback }}">{{ feedback.id_feedback }}</a> {{ feedback.type }} {{ feedback.created_at }} {{ feedback.priority }} {{ feedback.status }} {{ feedback.created_by }} {{ feedback.content }} {{ feedback.rating }}</li>
     {% endfor %}
 </ul>
 {% endblock %}
