@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamReflect - Tworzenie Grupy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav>
+    <div class="nav-header">
+        <div class="logo">TeamReflect</div>
+        <div class="menu-icon">☰</div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="index.html">Strona główna</a></li>
+        <li><a href="create-group.html">Tworzenie Grupy</a></li>
+        <li><a href="add-feedback.html">Dodaj Feedback</a></li>
+        <li><a href="view-feedback.html">Przegląd Feedbacku</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="admin-panel.html">Panel Administratora</a></li>
+    </ul>
+</nav>
+
+<main>
+    <section id="create-group">
+        <h2>Tworzenie Grupy</h2>
+        <form id="create-group-form">
+            <label for="group-name">Nazwa Zespołu</label>
+            <input type="text" id="group-name" placeholder="Podaj Nazwę Grupy" required>
+
+            <div id="members-container">
+                <label for="member-1">Członek 1</label>
+                <input type="text" id="member-1" name="members[]" placeholder="Podaj Imię" required>
+            </div>
+
+            <button type="button" id="add-member-btn">Dodaj kolejnego członka</button>
+            <button type="submit">Stwórz Zespół</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>© 2024 TeamReflect</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
