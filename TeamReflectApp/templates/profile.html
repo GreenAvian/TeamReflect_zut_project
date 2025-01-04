@@ -4,6 +4,24 @@
 
 {% block content %}
 <body>
+    <p>
+        {% if profile.profile_image %}
+            <img src="{{ profile.profile_image.url }}" alt="Profile Picture" style="max-width: 600px; max-height: 600px;">
+        {% endif %}
+            
+        {% if can_edit %}
+            <button onclick="editField('imageForm')">Edit</button>
+        {% endif %}
+    </p>
+    
+    <form id="imageForm" style="display:none;" method="POST" enctype="multipart/form-data" action="{% url 'edit_profile_field' username=profile.user.username %}">
+        {% csrf_token %}
+        <input type="hidden" name="field" value="image">
+        <input type="file" name="image" accept="image/*">
+        <button type="submit">Save</button>
+        <button type="button" onclick="cancelEdit('imageForm')">Cancel</button>
+    </form>
+
     <h1>{{ profile.user.username }}</h1>
     <h2>
         {{ profile.user.first_name }} {{ profile.user.last_name }}
@@ -64,6 +82,7 @@
         <input type="hidden" name="rating" value= -1>
         <button type="submit">Dislike</button>
     </form>
+
     <script>
         function editField(formId) {
             document.getElementById(formId).style.display = 'block';

@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 from django.views.generic.base import TemplateView
 from .views import SignUpView, DeleteUserView
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
@@ -19,6 +20,9 @@ urlpatterns = [
     path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
     path('groups/create/', views.create_group, name='create_group'),
     path('groups/<int:group_id>/delete/', views.delete_group, name='delete_group'),
-    
-
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
+

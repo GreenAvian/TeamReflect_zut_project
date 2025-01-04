@@ -158,6 +158,11 @@ def edit_profile(request, username):
             profile.description = request.POST.get('description', profile.description)
         elif field == "rating":
             profile.rating = profile.rating + int(request.POST.get('rating', profile.rating))
+        elif field == "image":
+            if 'image' in request.FILES:
+                profile.profile_image = request.FILES['image']
+            else:
+                raise PermissionDenied("No image uploaded.")
         else:
             raise PermissionDenied("Invalid field.")
 
