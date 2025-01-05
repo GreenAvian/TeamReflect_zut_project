@@ -3,25 +3,37 @@
 {% block title %}Feedback form{% endblock %}
 
 {% block content %}
-<style>
-    .rating-form label {
-        float: left;
-        clear: none;
-        display: block;
-        padding: 0px 1em 0px 8px;
-      }
-      
-      .rating-form input[type=radio],
-      input.radio {
-        float: left;
-        clear: none;
-        margin: 2px 0 0 2px;
-      }
-</style>
 <form action="/feedback/form/" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="field" value="name">
-    {{ form }}
-    <input type="submit" value="Submit">
+  {% csrf_token %}
+  <input type="hidden" name="field" value="name">
+
+  <!-- Title Field -->
+  <div class="feedback-form-row feedback-form-title">
+      <label class="feedback-title-label" for="{{ form.title.id_for_label }}">Title:</label>
+      {{ form.title }}
+  </div>
+
+  <!-- Content Field -->
+  <div class="feedback-form-row feedback-form-content">
+      <label class="feedback-content-label" for="{{ form.content.id_for_label }}">Content:</label>
+      {{ form.content }}
+  </div>
+
+  <!-- Rating Field -->
+  <div class="feedback-form-row feedback-form-rating">
+      <label class="feedback-rating-label" for="{{ form.rating.id_for_label }}">Rating:</label>
+      {{ form.rating }}
+  </div>
+
+  <!-- Priority Field -->
+  <div class="feedback-form-row feedback-form-priority">
+      <label class="feedback-priority-label" for="{{ form.priority.id_for_label }}">Priority:</label>
+      {{ form.priority }}
+  </div>
+
+  <input type="submit" value="Submit">
 </form>
+
 {% endblock %}
+
+{% comment %} fields = ['title', 'content', 'rating', 'priority', 'created_by']  # Specify fields to include in the form {% endcomment %}

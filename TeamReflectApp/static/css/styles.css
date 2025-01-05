@@ -1,3 +1,5 @@
+/*   Main styling    */
+
 /* Reset */
 * {
     margin: 0;
@@ -82,4 +84,88 @@ header, footer {
 .nav-links a:hover {
     background: #0056b3;
     border-radius: 5px;
+}
+
+/*   Feedback styling    */
+
+.feedback-form-row {
+    clear:left;
+    margin: 30px 0;
+    padding:5px 30px;
+    border-radius:10px;
+    max-width: 60%;
+    background-color: #007bff;
+    color:#fff;
+}
+
+/* Rating field (RadioSelect) */
+.feedback-rating-label {
+    clear:left;
+    display: block;
+    padding: 5px 0;
+    
+}
+
+.feedback-rating-form label {
+    float: left;
+    color: black;
+    clear: none;
+    margin: 0px 1em 0px 8px;
+}
+
+.feedback-rating-form input[type=radio],
+.feedback-rating-form input.radio {
+    float: left;
+    clear: none;
+    margin: 2px 0 0 2px;
+}
+
+/* Priority field (Select) */
+.feedback-priority-form {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+}
+
+.feedback-priority-form {
+    text-align: center;
+}
+
+.feedback-priority-label {
+    clear:left;
+    display: block;
+    padding: 5px 0;
+}
+
+/* Title field (TextInput) */
+.feedback-title-form {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+}
+
+.feedback-title-form::placeholder {
+    /* styling goes here */
+}
+
+.feedback-title-label {
+    display: block;
+    padding: 5px 0;
+}
+
+/* Content field (Textarea) */
+.feedback-content-form {
+    width:100%;
+    padding: 8px;
+    margin: 10px 0;
+    resize: none;
+}
+
+.feedback-content-form::placeholder {
+    /* styling goes here */
+}
+
+.feedback-content-label {
+    display: block;
+    padding: 5px 0;
 }

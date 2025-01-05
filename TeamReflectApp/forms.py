@@ -12,7 +12,7 @@ class FeedbackForm(forms.ModelForm):
     
     rating = forms.ChoiceField(
         choices=RATING_CHOICES,
-        widget=forms.RadioSelect(attrs={'class': 'rating-form'}),
+        widget=forms.RadioSelect(attrs={'class': 'feedback-rating-form'}),
         label="1-5 rating",
         required=True 
     )
@@ -22,16 +22,24 @@ class FeedbackForm(forms.ModelForm):
         required=False)
     
     priority = forms.ChoiceField(
-        choices=[],
-        widget=forms.Select(),
+        choices=[('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')],
+        widget=forms.Select(attrs={'class': 'feedback-priority-form'}),
         label="Priority",
+        required=True
+    )
+
+    title = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'feedback-title-form', 'placeholder': 'Enter title here'}),
+        label="Title",
+        required=True
+    )
+    
+    content = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'feedback-content-form', 'placeholder': 'Provide your feedback'}),
+        label="Content",
         required=True
     )
 
     class Meta:
         model = Feedback
-        fields = ['title', 'priority', 'content', 'rating', 'created_by']  # Specify fields to include in the form
-
-    def __init__(self, *args, **kwargs): 
-            super().__init__(*args, **kwargs)
-            self.fields['priority'].choices = [('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')]
+        fields = ['title', 'content', 'rating', 'priority', 'created_by']  # Specify fields to include in the form
