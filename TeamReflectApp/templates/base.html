@@ -5,35 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Django App{% endblock %}</title>
-   
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'group_list' %}">Groups</a></li>
-            <li><a href="{% url 'result_feedbacks' %}">Feedbacks</a></li>
-            <li><a href="{% url 'user_list' %}">Users</a></li>
+    <nav id="sitenav">
+        <div class="nav-header">
+            <div class="logo">TeamReflect</div>
+            <div class="menu-icon">☰</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Strona główna</a></li>
+            <li><a href="{% url 'group_list' %}">Grupy</a></li>
+            <li><a href="{% url 'result_feedbacks' %}">Feedbacki</a></li>
+            <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>       
             {% if user.is_authenticated %}
                 <li><a href="{% url 'profile_view' user.username %}">Profile</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Wyloguj</button>
+                </form>
             {% else %}
-                <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-            {% endif %}
+                <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
+                <li><a href="{% url 'login' %}">Zaloguj się</a></li>
+            {% endif %}   
         </ul>
     </nav>
-
+    <main id="content">
     <!-- Content Block -->
-    <div class="content">
         {% block content %}
         {% endblock %}
-    </div>
-
+    </main>
     <!-- Optional Footer -->
     <footer>
         <p>&copy; 2025 My Django App</p>
     </footer>
+
 </body>
 </html>

@@ -1,0 +1,323 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: #f4f4f9;
+    color: #333;
+    margin: 0;
+}
+
+/* Nagłówek i stopka */
+header, footer {
+    background: #007bff;
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+footer {
+    margin-top: 20px;
+}
+
+/* Nawigacja */
+nav {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-header {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin: 0 10px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: #0056b3;
+    border-radius: 5px;
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        background: #007bff;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        text-align: center;
+        margin: 10px 0;
+    }
+}
+
+/* Sekcje */
+section {
+    padding: 20px;
+    margin: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Strona Główna */
+#home .features {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feature {
+    flex: 1;
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feature h3 {
+    margin-bottom: 10px;
+}
+
+/* Formularze */
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input, form textarea, form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+/* Dynamiczne dodawanie członków grupy */
+#members-container label {
+    margin-top: 10px;
+    display: block;
+}
+
+#members-container input {
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Przyciski w formularzu grupy */
+#add-member-btn {
+    margin-bottom: 15px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#add-member-btn:hover {
+    background: #218838;
+}
+
+/* Historia Feedbacku */
+#view-feedback {
+    margin-top: 20px;
+}
+
+#filters {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+#filters input, #filters select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#feedback-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.feedback {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feedback p {
+    margin: 5px 0;
+}
+
+/* Dashboard */
+#dashboard {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#dashboard-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.stat {
+    flex: 1 1 calc(33% - 20px);
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat h3 {
+    margin-bottom: 10px;
+}
+
+/* Panel Administratora */
+#admin-panel {
+    padding: 20px;
+    background: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#admin-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#admin-actions button {
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#admin-actions button:hover {
+    background: #0056b3;
+}
+
+#admin-content {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Gwiazdki ocen */
+#rating {
+    display: flex;
+    gap: 5px;
+}
+
+#rating span {
+    cursor: pointer;
+    font-size: 24px;
+    color: #ddd;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+#rating span:hover {
+    transform: scale(1.2);
+}
+
+#rating span.selected {
+    color: gold;
+    transform: scale(1.2);
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    #dashboard-stats {
+        flex-direction: column;
+    }
+
+    .stat {
+        flex: 1 1 100%;
+    }
+
+    #filters {
+        flex-direction: column;
+    }
+
+    #filters input, #filters select {
+        width: 100%;
+    }
+}
