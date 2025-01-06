@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Create the button element
         const feedbackButton = document.createElement('button');
-        feedbackButton.id = 'feedback-add-button';
+        feedbackButton.classList.add('generic_button');
         feedbackButton.textContent = 'Dodaj feedback';
         feedbackButton.onclick = () => {
             window.location.href = '/feedback/form';

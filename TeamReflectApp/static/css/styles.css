@@ -180,7 +180,7 @@ header, footer {
     padding: 5px 0;
 }
 
-#feedback-add-button {
+.generic_button {
     background: #007bff;
     border:none;
     border-radius: 5px;
