@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Delete user{% endblock %}
+{% block title %}Usuń użytkownika{% endblock %}
 
 {% block content %}
 <style>
@@ -43,14 +43,14 @@
     }
 </style>
 <div class="container">
-    <h1>Confirm Deletion</h1>
-    <p class="message">Are you sure you want to delete the user <strong>{{ user.username }}</strong>?</p>
+    <h1>Potwierdź usunięcie</h1>
+    <p class="message">Czy na pewno chcesz usunąć użytkownika <strong>{{ user.username }}</strong>?</p>
 
     <form method="POST">
         {% csrf_token %}
-        <button type="submit" class="btn">Yes, Delete</button>
+        <button type="submit" class="btn">Tak, usuń</button>
     </form>
 
-    <a href="{% url 'user_list' %}" class="btn cancel">Cancel</a>
+    <a href="{% url 'user_list' %}" class="btn cancel">Anuluj</a>
 </div>
 {% endblock %}
