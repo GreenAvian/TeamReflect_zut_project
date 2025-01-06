@@ -4,84 +4,110 @@
 
 {% block content %}
 <body>
-    <p>
-        {% if profile.profile_image %}
-            <img src="{{ profile.profile_image.url }}" alt="Profile Picture" style="max-width: 600px; max-height: 600px;">
-        {% endif %}
+    <div id="profile-wrapper">
+        <div id="profile-wrapper-left">
+            <p>
+                {% if profile.profile_image %}
+                    <img id="profile-pic" src="{{ profile.profile_image.url }}" alt="Awatar">
+                {% else %}
+                    <img id="profile-pic" src="/media/images/default_profile.jpg" alt="Awatar">
+                {% endif %}
+                    
+                {% if can_edit %}
+                    <button class='generic_button' onclick="editField('imageForm')">Edytuj</button>
+                {% endif %}
+            </p>
             
-        {% if can_edit %}
-            <button onclick="editField('imageForm')">Edit</button>
-        {% endif %}
-    </p>
+            <form id="imageForm" style="display:none;" method="POST" enctype="multipart/form-data" action="{% url 'edit_profile_field' username=profile.user.username %}">
+                {% csrf_token %}
+                <input type="hidden" name="field" value="image">
+                <input type="file" name="image" accept="image/*">
+                <button type="submit">Zapisz</button>
+                <button type="button" onclick="cancelEdit('imageForm')">Anuluj</button>
+            </form>
+
+                {% if profile.user.first_name and profile.user.last_name %}
+                <h1>
+                    {{ profile.user.first_name }} {{ profile.user.last_name }}
+                </h1>
+                {% else %}
+                    {% if can_edit  %}
+                        Ustaw imię i nazwisko
+                    {% else %}
+                        Brak imienia i nazwiska
+                    {% endif %}
+                {% endif %}
+                {% if can_edit  %}
+                    <button class='generic_button' onclick="editField('nameForm')">Edytuj</button>
+                {% endif %}
+            
+            <form id="nameForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+                {% csrf_token %}
+                <input type="hidden" name="field" value="name">
+                <input type="text" name="first_name" placeholder="First Name" value="{{ profile.user.first_name }}">
+                <input type="text" name="last_name" placeholder="Last Name" value="{{ profile.user.last_name }}">
+                <button type="submit">Zapisz</button>
+                <button type="button" onclick="cancelEdit('nameForm')">Anuluj</button>
+            </form>
+
+            <h3>{{ profile.user.username }}</h3>
+
+            <p>
+                <strong>Telefon:</strong> {{ profile.phone_number }}
+                {% if can_edit %}
+                    <button class='generic_button' onclick="editField('phoneForm')">Edytuj</button>
+                {% endif %}
+            </p>
+            <form id="phoneForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+                {% csrf_token %}
+                <input type="hidden" name="field" value="phone_number">
+                <input type="text" name="phone_number" value="{{ profile.phone_number }}">
+                <button type="submit">Zapisz</button>
+                <button type="button" onclick="cancelEdit('phoneForm')">Anuluj</button>
+            </form>
+
+            <p>
+                <strong>Opis:</strong> {{ profile.description }}
+                {% if can_edit %}
+                    <button class='generic_button' onclick="editField('descriptionForm')">Edytuj</button>
+                {% endif %}
+            </p>
+            <form id="descriptionForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+                {% csrf_token %}
+                <input type="hidden" name="field" value="description">
+                <textarea name="description">{{ profile.description }}</textarea>
+                <button type="submit">Zapisz</button>
+                <button type="button" onclick="cancelEdit('descriptionForm')">Anuluj</button>
+            </form>
+
+            <p>
+                <strong>Ocena:</strong> {{ profile.rating }}
+            </p>
+            {% if not can_edit %}
+            <form id="ratingForm" style="display:inline;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+                {% csrf_token %}
+                <input type="hidden" name="field" value="rating">
+                <input type="hidden" name="rating" value= 1>
+                <button class='generic_button' type="submit">👍</button>
+            </form>
+            <form id="ratingForm" style="display:inline;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
+                {% csrf_token %}
+                <input type="hidden" name="field" value="rating">
+                <input type="hidden" name="rating" value= -1>
+                <button class='generic_button' type="submit">👎</button>
+            </form>
+            {% endif %}
+        </div>
     
-    <form id="imageForm" style="display:none;" method="POST" enctype="multipart/form-data" action="{% url 'edit_profile_field' username=profile.user.username %}">
-        {% csrf_token %}
-        <input type="hidden" name="field" value="image">
-        <input type="file" name="image" accept="image/*">
-        <button type="submit">Save</button>
-        <button type="button" onclick="cancelEdit('imageForm')">Cancel</button>
-    </form>
+        <div id="profile-wrapper-right">
+            <ul id="feedback-list">
+                {% for feedback in feedbacks %}
+                    <li> <a href="/feedback/{{ feedback.id_feedback }}"><b>{{ feedback.title }}</b></a>  Created on: {{ feedback.created_at }} Priority: {{ feedback.priority }} Status: {{ feedback.status }} Poster:{{ feedback.created_by }} {{ feedback.content }} Rating: {{ feedback.rating }}/5 Likes: {{ feedback.likes }}</li>
+                {% endfor %}
+            </ul>  
+        </div>
+    </div>  
 
-    <h1>{{ profile.user.username }}</h1>
-    <h2>
-        {{ profile.user.first_name }} {{ profile.user.last_name }}
-        {% if can_edit%}
-            <button onclick="editField('nameForm')">Edit</button>
-        {% endif %}
-    </h2>
-    <form id="nameForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
-        {% csrf_token %}
-        <input type="hidden" name="field" value="name">
-        <input type="text" name="first_name" placeholder="First Name" value="{{ profile.user.first_name }}">
-        <input type="text" name="last_name" placeholder="Last Name" value="{{ profile.user.last_name }}">
-        <button type="submit">Save</button>
-        <button type="button" onclick="cancelEdit('nameForm')">Cancel</button>
-    </form>
-
-    <p>
-        <strong>Phone:</strong> {{ profile.phone_number }}
-        {% if can_edit %}
-            <button onclick="editField('phoneForm')">Edit</button>
-        {% endif %}
-    </p>
-    <form id="phoneForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
-        {% csrf_token %}
-        <input type="hidden" name="field" value="phone_number">
-        <input type="text" name="phone_number" value="{{ profile.phone_number }}">
-        <button type="submit">Save</button>
-        <button type="button" onclick="cancelEdit('phoneForm')">Cancel</button>
-    </form>
-
-    <p>
-        <strong>Description:</strong> {{ profile.description }}
-        {% if can_edit %}
-            <button onclick="editField('descriptionForm')">Edit</button>
-        {% endif %}
-    </p>
-    <form id="descriptionForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
-        {% csrf_token %}
-        <input type="hidden" name="field" value="description">
-        <textarea name="description">{{ profile.description }}</textarea>
-        <button type="submit">Save</button>
-        <button type="button" onclick="cancelEdit('descriptionForm')">Cancel</button>
-    </form>
-
-    <p>
-        <strong>Rating:</strong> {{ profile.rating }}
-    </p>
-
-    <form id="ratingForm" style="display:inline;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
-        {% csrf_token %}
-        <input type="hidden" name="field" value="rating">
-        <input type="hidden" name="rating" value= 1>
-        <button type="submit">Like</button>
-    </form>
-    <form id="ratingForm" style="display:inline;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
-        {% csrf_token %}
-        <input type="hidden" name="field" value="rating">
-        <input type="hidden" name="rating" value= -1>
-        <button type="submit">Dislike</button>
-    </form>
 
     <script>
         function editField(formId) {

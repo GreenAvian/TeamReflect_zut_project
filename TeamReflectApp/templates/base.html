@@ -24,7 +24,7 @@
                     <li><a href="{% url 'result_feedbacks' %}">Feedbacki</a></li>
                     <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>       
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'profile_view' user.username %}">Profile</a></li>
+                        <li><a href="{% url 'profile_view' user.username %}">Profil</a></li>
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
                             <button type="submit">Wyloguj</button>

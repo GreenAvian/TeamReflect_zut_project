@@ -22,20 +22,20 @@ class FeedbackForm(forms.ModelForm):
         required=False)
     
     priority = forms.ChoiceField(
-        choices=[('High', 'High'), ('Medium', 'Medium'), ('Low', 'Low')],
+        choices=[('Wysoki', 'Wysoki'), ('Średni', 'Średni'), ('Niski', 'Niski')],
         widget=forms.Select(attrs={'class': 'feedback-priority-form'}),
         label="Priority",
         required=True
     )
 
     title = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'feedback-title-form', 'placeholder': 'Enter title here'}),
+        widget=forms.TextInput(attrs={'class': 'feedback-title-form', 'placeholder': 'Tytuł'}),
         label="Title",
         required=True
     )
     
     content = forms.CharField(
-        widget=forms.Textarea(attrs={'class': 'feedback-content-form', 'placeholder': 'Provide your feedback'}),
+        widget=forms.Textarea(attrs={'class': 'feedback-content-form', 'placeholder': 'Feedback'}),
         label="Content",
         required=True
     )

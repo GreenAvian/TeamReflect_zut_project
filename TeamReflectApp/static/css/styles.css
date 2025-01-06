@@ -74,14 +74,22 @@ header, footer {
     margin: 0 10px;
 }
 
-.nav-links a {
+.nav-links a, button {
     color: #fff;
     text-decoration: none;
     padding: 5px 10px;
     transition: background-color 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links button {
+    margin-top:-5px;
+    font-size: 14px;
+    background: transparent;
+    outline:none;
+    border:none;
+}
+
+.nav-links a:hover, button:hover {
     background: #0056b3;
     border-radius: 5px;
 }
@@ -190,4 +198,28 @@ header, footer {
     margin: 10px;
     color:#fff;
     font-weight: bold;
+}
+/*  Users Styling   */
+#profile-wrapper {
+    display: flex;
+    border-color: #000;
+    min-height: 100vh;
+}
+
+#profile-wrapper-left #profile-wrapper-right {
+    flex:1;
+}
+
+#profile-wrapper-left {
+    max-width: 30%;
+}
+
+#profile-wrapper-right {
+    border-left-color: black;
+    border-left-style: solid;
+    border-width: 2px;
+}
+
+#profile-pic {
+    max-width: 100%; max-height: 300px;
 }
