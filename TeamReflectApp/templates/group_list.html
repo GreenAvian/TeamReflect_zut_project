@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Group List{% endblock %}
+{% block title %}Lista Grup{% endblock %}
 
 {% block content %}
-<h1>Group List</h1>
+<h1>Lista Grup</h1>
 <ul>
     {% for group in groups %}
     <li>
         {{ group.name }}
-        <a href="{% url 'group_detail' group.id %}">Details</a>
-        <a href="{% url 'delete_group' group.id %}" onclick="return confirm('Are you sure you want to delete the group?');">Delete</a>
+        <a href="{% url 'group_detail' group.id %}">Szczegóły</a>
+        <a href="{% url 'delete_group' group.id %}" onclick="return confirm('Are you sure you want to delete the group?');">Usuń</a>
     </li>
     {% endfor %}
 </ul>
-<a href="{% url 'create_group' %}">Create New Group</a>
+<a href="{% url 'create_group' %}">Utwórz nową grupę</a>
 {% endblock %}

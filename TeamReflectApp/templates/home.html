@@ -3,10 +3,10 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>Homepage</h1>
+<h1>Strona główna</h1>
 {% if user.is_authenticated %}
-Hi {{ user.username }}!
+Witaj {{ user.username }}!
 {% else %}
-<p>You are not logged in</p>
+<p>Nie jesteś zalogowany</p>
 {% endif %}
 {% endblock %}

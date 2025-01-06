@@ -52,9 +52,9 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Username</th>
+                <th>Login</th>
                 <th>Email</th>
-                <th>Action</th>
+                <th>Opcje</th>
             </tr>
         </thead>
         <tbody>
@@ -64,7 +64,7 @@
                     <td><a href="/profile/{{  user.username }}">{{ user.username }}</a></td>
                     <td>{{ user.email }}</td>
                     <td>
-                        <a href="{% url 'confirm_delete_user' user.id %}">Delete</a>
+                        <a href="{% url 'confirm_delete_user' user.id %}">Usuń</a>
                     </td>
                 </tr>
             {% endfor %}

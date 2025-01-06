@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Group Members
+Członkowie grupy
 {% endblock %}
 
 {% block content %}
-<h1>Members of {{ group.name }}</h1>
+<h1>Członkowie grupy: {{ group.name }}</h1>
 <ul>
   {% for member in members %}
   <li>
     {{ member.user.username }}
     {% if member.is_leader %}(Leader){% endif %}
-    <a href="{% url 'remove_member' group.id_groups member.user.id %}">Remove</a>
-    <a href="{% url 'make_leader' group.id_groups member.user.id %}">Make Leader</a>
+    <a href="{% url 'remove_member' group.id_groups member.user.id %}">Usuń</a>
+    <a href="{% url 'make_leader' group.id_groups member.user.id %}">Ustaw jako lidera</a>
   </li>
   {% endfor %}
 </ul>

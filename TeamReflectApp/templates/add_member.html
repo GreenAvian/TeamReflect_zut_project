@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Add Member
+Dodaj członka
 {% endblock %}
 
 {% block content %}
-<h1>Add Member to {{ group.name }}</h1>
+<h1>Dodaj członka do grupy {{ group.name }}</h1>
 <form method="post">
     {% csrf_token %}
-    <label for="user_id">Select User:</label>
+    <label for="user_id">Wybierz użytkownika:</label>
     <select name="user_id">
         {% for user in users %}
         <option value="{{ user.id }}">{{ user.username }}</option>
         {% endfor %}
     </select>
-    <button type="submit">Add</button>
+    <button type="submit">Dodaj</button>
 </form>
-<a href="{% url 'group_members' group.id_groups %}">Back to Members</a>
+<a href="{% url 'group_members' group.id_groups %}">Powrót do członków</a>
 {% endblock %}
