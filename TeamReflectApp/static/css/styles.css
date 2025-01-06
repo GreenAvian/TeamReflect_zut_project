@@ -106,9 +106,13 @@ header, footer {
     
 }
 
+.feedback-form-rating {
+    padding-bottom:50px;
+}
+
 .feedback-rating-form label {
     float: left;
-    color: black;
+    color: #fff;
     clear: none;
     margin: 0px 1em 0px 8px;
 }
@@ -117,6 +121,8 @@ header, footer {
 .feedback-rating-form input.radio {
     float: left;
     clear: none;
+    outline:none;
+    border:none;
     margin: 2px 0 0 2px;
 }
 
@@ -129,6 +135,10 @@ header, footer {
 
 .feedback-priority-form {
     text-align: center;
+    border-radius: 5px;
+    outline:none;
+    border:none;
+    appearance: none;
 }
 
 .feedback-priority-label {
@@ -168,4 +178,16 @@ header, footer {
 .feedback-content-label {
     display: block;
     padding: 5px 0;
+}
+
+#feedback-add-button {
+    background: #007bff;
+    border:none;
+    border-radius: 5px;
+    min-width: 60px;
+    max-width: 150px;
+    min-height: 40px;
+    margin: 10px;
+    color:#fff;
+    font-weight: bold;
 }

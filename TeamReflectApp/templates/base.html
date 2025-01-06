@@ -6,32 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Django App{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/script.js' %}"></script>
 </head>
 <body>
+    
     <div id="flexboxwrapper">
         <!-- Navigation Bar -->
-        <nav id="sitenav">
-            <div class="nav-header">
-                <div class="logo">TeamReflect</div>
-                <div class="menu-icon">☰</div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="{% url 'home' %}">Strona główna</a></li>
-                <li><a href="{% url 'group_list' %}">Grupy</a></li>
-                <li><a href="{% url 'result_feedbacks' %}">Feedbacki</a></li>
-                <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>       
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'profile_view' user.username %}">Profile</a></li>
-                    <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit">Wyloguj</button>
-                    </form>
-                {% else %}
-                    <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
-                    <li><a href="{% url 'login' %}">Zaloguj się</a></li>
-                {% endif %}   
-            </ul>
-        </nav>
+        <header>
+            <nav id="sitenav">
+                <div class="nav-header">
+                    <div class="logo">TeamReflect</div>
+                    <div class="menu-icon">☰</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Strona główna</a></li>
+                    <li><a href="{% url 'group_list' %}">Grupy</a></li>
+                    <li><a href="{% url 'result_feedbacks' %}">Feedbacki</a></li>
+                    <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>       
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'profile_view' user.username %}">Profile</a></li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Wyloguj</button>
+                        </form>
+                    {% else %}
+                        <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
+                        <li><a href="{% url 'login' %}">Zaloguj się</a></li>
+                    {% endif %}   
+                </ul>
+            </nav>
+        </header>
         <main id="content">
         <!-- Content Block -->
             {% block content %}
@@ -39,7 +43,7 @@
         </main>
         <!-- Optional Footer -->
         <footer>
-            <p>&copy; 2025 My Django App</p>
+            <p>&copy; 2025 TeamReflect</p>
         </footer>
     </div>
 </body>
