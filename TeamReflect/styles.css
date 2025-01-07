@@ -320,4 +320,72 @@ form button:hover {
     #filters input, #filters select {
         width: 100%;
     }
+
+    /* Group List Page Styling */
+.group-list-container {
+    padding: 20px;
+    background: #f4f4f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.group-list-container h1 {
+    color: #007bff;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.group-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.group-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group-list li:last-child {
+    margin-bottom: 0;
+}
+
+.group-list li a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    margin-left: 10px;
+}
+
+.group-list li a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.create-group-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.create-group-link:hover {
+    background: #0056b3;
+}
+
 }

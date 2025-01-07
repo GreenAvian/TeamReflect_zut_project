@@ -1,4 +1,4 @@
-/*   Main styling    */
+/* Main styling */
 
 /* Reset */
 * {
@@ -16,19 +16,19 @@ html, body {
     height: 100%;
 }
 
- /* Used for wrapping the contents so the footer is the bottom of the screen */
-#flexboxwrapper {   
+/* Wrapping the contents for footer positioning */
+#flexboxwrapper {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 #content {
-    padding:0 20px;
-    flex:1;
+    padding: 0 20px;
+    flex: 1;
 }
 
-/* Nagłówek i stopka */
+/* Header and Footer */
 header, footer {
     background: #007bff;
     color: #fff;
@@ -36,24 +36,7 @@ header, footer {
     padding: 10px 20px;
 }
 
-.homepage-container {
-    display:flex;
-}
-
-.main-header, .welcoming-message{
-    flex:1;
-}
-
-.welcoming-message {
-    color: #777;
-    text-align: right;
-}
-
-.homepage-text-container {
-    padding: 30px;
-}
-
-/* Nawigacja */
+/* Navigation */
 #sitenav {
     background: #007bff;
     color: #fff;
@@ -99,11 +82,11 @@ header, footer {
 }
 
 .nav-links button {
-    margin-top:-5px;
+    margin-top: -5px;
     font-size: 14px;
     background: transparent;
-    outline:none;
-    border:none;
+    outline: none;
+    border: none;
 }
 
 .nav-links a:hover, button:hover {
@@ -111,189 +94,153 @@ header, footer {
     border-radius: 5px;
 }
 
-/*   Feedback styling    */
+/* Group List Styling */
+.group-list-container {
+    padding: 20px;
+    background: #f4f4f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 800px;
+}
 
+.group-list-container h1 {
+    color: #007bff;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.group-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.group-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.group-list li:last-child {
+    margin-bottom: 0;
+}
+
+.group-list li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    margin-left: 10px;
+}
+
+.group-list li a:hover {
+    background: #0056b3;
+}
+
+.create-group-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.create-group-link:hover {
+    background: #0056b3;
+}
+
+
+/* Group Details Styling */
+.group-details-container {
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.group-details-container h1 {
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.group-details-container p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.delete-group-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #dc3545;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.delete-group-link:hover {
+    background: #c82333;
+}
+
+
+
+/* Feedback Form Styling */
 .feedback-form-row {
-    clear:left;
+    clear: left;
     margin: 30px 0;
-    padding:5px 30px;
-    border-radius:10px;
+    padding: 5px 30px;
+    border-radius: 10px;
     max-width: 60%;
     background-color: #007bff;
-    color:#fff;
-}
-
-/* Rating field (RadioSelect) */
-.feedback-rating-label {
-    clear:left;
-    display: block;
-    padding: 5px 0;
-    
-}
-
-.feedback-form-rating {
-    padding-bottom:50px;
-}
-
-.feedback-rating-form label {
-    float: left;
     color: #fff;
-    clear: none;
-    margin: 0px 1em 0px 8px;
 }
 
-.feedback-rating-form input[type=radio],
-.feedback-rating-form input.radio {
-    float: left;
-    clear: none;
-    outline:none;
-    border:none;
-    margin: 2px 0 0 2px;
+.feedback-form-row label {
+    color: #fff;
 }
 
-/* Priority field (Select) */
-.feedback-priority-form {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-}
-
-.feedback-priority-form {
-    text-align: center;
-    border-radius: 5px;
-    outline:none;
-    border:none;
-    appearance: none;
-}
-
-.feedback-priority-label {
-    clear:left;
-    display: block;
-    padding: 5px 0;
-}
-
-/* Title field (TextInput) */
-.feedback-title-form {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-}
-
-.feedback-title-form::placeholder {
-    /* styling goes here */
-}
-
-.feedback-title-label {
-    display: block;
-    padding: 5px 0;
-}
-
-/* Content field (Textarea) */
-.feedback-content-form {
-    width:100%;
-    padding: 8px;
-    margin: 10px 0;
-    resize: none;
-}
-
-.feedback-content-form::placeholder {
-    /* styling goes here */
-}
-
-.feedback-content-label {
-    display: block;
-    padding: 5px 0;
-}
-
-.text-container {
-    overflow: hidden; /* Prevent overflow */
-    display: block;
-    word-wrap: break-word;
-    word-break: break-word;
-}
-
+/* Generic Button Styling */
 .generic_button {
     background: #007bff;
-    border:none;
+    border: none;
     border-radius: 5px;
     min-width: 60px;
     max-width: 150px;
     min-height: 40px;
     margin: 10px;
-    color:#fff;
+    color: #fff;
     font-weight: bold;
 }
 
-#feedback-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.generic_button:hover {
+    background: #0056b3;
 }
 
-.feedback-item {
-    border: 2px solid #007bff;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px 15px;
-}
-
-.feedback-item-singular {
-    border-radius: 10px;
-    padding: 15px;
-    margin: 15px 15px;
-}
-
-
-.feedback-header {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 10px;
-}
-
-.feedback-header .feedback-title {
-    font-size: 1.2rem;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.feedback-header .feedback-title:hover {
-    text-decoration: underline;
-}
-
-.feedback-meta {
-    font-size: 0.9rem;
-    color: #555;
-    margin-top: 5px;
-}
-
-.feedback-body {
-    font-size: 1rem;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.feedback-footer {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-    color: #777; 
-}
-
-.feedback-footer span {
-    display: inline-block;
-    margin-right: 10px; 
-}
-
-
-/*  Users Styling   */
+/* Profile Styling */
 #profile-wrapper {
     display: flex;
     border-color: #000;
     min-height: 100vh;
 }
 
-#profile-wrapper-left #profile-wrapper-right {
-    flex:1;
+#profile-wrapper-left, #profile-wrapper-right {
+    flex: 1;
 }
 
 #profile-wrapper-left {
@@ -308,5 +255,6 @@ header, footer {
 }
 
 #profile-pic {
-    max-width: 100%; max-height: 300px;
+    max-width: 100%;
+    max-height: 300px;
 }
