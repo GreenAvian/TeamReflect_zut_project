@@ -22,8 +22,8 @@
                 {% csrf_token %}
                 <input type="hidden" name="field" value="image">
                 <input type="file" name="image" accept="image/*">
-                <button type="submit">Zapisz</button>
-                <button type="button" onclick="cancelEdit('imageForm')">Anuluj</button>
+                <button class="generic_button" type="submit">Zapisz</button>
+                <button class="generic_button" type="button" onclick="cancelEdit('imageForm')">Anuluj</button>
             </form>
 
                 {% if profile.user.first_name and profile.user.last_name %}
@@ -46,14 +46,14 @@
                 <input type="hidden" name="field" value="name">
                 <input type="text" name="first_name" placeholder="First Name" value="{{ profile.user.first_name }}">
                 <input type="text" name="last_name" placeholder="Last Name" value="{{ profile.user.last_name }}">
-                <button type="submit">Zapisz</button>
-                <button type="button" onclick="cancelEdit('nameForm')">Anuluj</button>
+                <button class="generic_button" type="submit">Zapisz</button>
+                <button class="generic_button" type="button" onclick="cancelEdit('nameForm')">Anuluj</button>
             </form>
 
             <h3>{{ profile.user.username }}</h3>
 
             <p>
-                <strong>Telefon:</strong> {{ profile.phone_number }}
+                <strong>Telefon:</strong> <p>{{ profile.phone_number }}</p>
                 {% if can_edit %}
                     <button class='generic_button' onclick="editField('phoneForm')">Edytuj</button>
                 {% endif %}
@@ -62,22 +62,25 @@
                 {% csrf_token %}
                 <input type="hidden" name="field" value="phone_number">
                 <input type="text" name="phone_number" value="{{ profile.phone_number }}">
-                <button type="submit">Zapisz</button>
-                <button type="button" onclick="cancelEdit('phoneForm')">Anuluj</button>
+                <button class="generic_button" type="submit">Zapisz</button>
+                <button class="generic_button" type="button" onclick="cancelEdit('phoneForm')">Anuluj</button>
             </form>
 
             <p>
-                <strong>Opis:</strong> {{ profile.description }}
-                {% if can_edit %}
-                    <button class='generic_button' onclick="editField('descriptionForm')">Edytuj</button>
-                {% endif %}
+                <strong>Opis:</strong> 
+                <p class="text-container">
+                    {{ profile.description }}
+                </p>
             </p>
+            {% if can_edit %}
+                <button class='generic_button' onclick="editField('descriptionForm')">Edytuj</button>
+            {% endif %}
             <form id="descriptionForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
                 {% csrf_token %}
                 <input type="hidden" name="field" value="description">
-                <textarea name="description">{{ profile.description }}</textarea>
-                <button type="submit">Zapisz</button>
-                <button type="button" onclick="cancelEdit('descriptionForm')">Anuluj</button>
+                <textarea class = "feedback-content-form" name="description">{{ profile.description }}</textarea>
+                <button class="generic_button" type="submit">Zapisz</button>
+                <button class="generic_button" type="button" onclick="cancelEdit('descriptionForm')">Anuluj</button>
             </form>
 
             <p>
@@ -102,9 +105,27 @@
         <div id="profile-wrapper-right">
             <ul id="feedback-list">
                 {% for feedback in feedbacks %}
-                    <li> <a href="/feedback/{{ feedback.id_feedback }}"><b>{{ feedback.title }}</b></a>  Created on: {{ feedback.created_at }} Priority: {{ feedback.priority }} Status: {{ feedback.status }} Poster:{{ feedback.created_by }} {{ feedback.content }} Rating: {{ feedback.rating }}/5 Likes: {{ feedback.likes }}</li>
+                    <li class="feedback-item">
+                        <div class="feedback-header">
+                            <a href="/feedback/{{ feedback.id_feedback }}">
+                                <b class="feedback-title">{{ feedback.title }}</b>
+                            </a>
+                            <span class="feedback-meta">
+                                Stworzony: {{ feedback.created_at }} | 
+                                Priorytet: {{ feedback.priority }} | 
+                            </span>
+                        </div>
+                        <div class="feedback-body">
+                            <p><b>Poster:</b> {{ feedback.created_by }}</p>
+                            <p class="text-container">{{ feedback.content }}</p>
+                        </div>
+                        <div class="feedback-footer">
+                            <span><b>Ocena:</b> {{ feedback.rating }}/5</span>
+                            <span><b>👍:</b> {{ feedback.likes }}</span>
+                        </div>
+                    </li>
                 {% endfor %}
-            </ul>  
+            </ul>
         </div>
     </div>  
 

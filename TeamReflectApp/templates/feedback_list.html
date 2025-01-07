@@ -5,7 +5,25 @@
 {% block content %}
 <ul id="feedback-list">
     {% for feedback in feedbacks %}
-        <li> <a href="/feedback/{{ feedback.id_feedback }}"><b>{{ feedback.title }}</b></a>  Created on: {{ feedback.created_at }} Priority: {{ feedback.priority }} Status: {{ feedback.status }} Poster:{{ feedback.created_by }} {{ feedback.content }} Rating: {{ feedback.rating }}/5 Likes: {{ feedback.likes }}</li>
+        <li class="feedback-item">
+            <div class="feedback-header">
+                <a href="/feedback/{{ feedback.id_feedback }}">
+                    <b class="feedback-title">{{ feedback.title }}</b>
+                </a>
+                <span class="feedback-meta">
+                    Stworzony: {{ feedback.created_at }} | 
+                    Priorytet: {{ feedback.priority }} | 
+                </span>
+            </div>
+            <div class="feedback-body">
+                <p><b>Poster:</b> {{ feedback.created_by }}</p>
+                <p class="text-container">{{ feedback.content }}</p>
+            </div>
+            <div class="feedback-footer">
+                <span><b>Ocena:</b> {{ feedback.rating }}/5</span>
+                <span><b>👍:</b> {{ feedback.likes }}</span>
+            </div>
+        </li>
     {% endfor %}
 </ul>
 {% endblock %}

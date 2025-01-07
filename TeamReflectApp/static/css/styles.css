@@ -36,6 +36,23 @@ header, footer {
     padding: 10px 20px;
 }
 
+.homepage-container {
+    display:flex;
+}
+
+.main-header, .welcoming-message{
+    flex:1;
+}
+
+.welcoming-message {
+    color: #777;
+    text-align: right;
+}
+
+.homepage-text-container {
+    padding: 30px;
+}
+
 /* Nawigacja */
 #sitenav {
     background: #007bff;
@@ -188,6 +205,13 @@ header, footer {
     padding: 5px 0;
 }
 
+.text-container {
+    overflow: hidden; /* Prevent overflow */
+    display: block;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
 .generic_button {
     background: #007bff;
     border:none;
@@ -199,6 +223,68 @@ header, footer {
     color:#fff;
     font-weight: bold;
 }
+
+#feedback-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feedback-item {
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px 15px;
+}
+
+.feedback-item-singular {
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px 15px;
+}
+
+
+.feedback-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.feedback-header .feedback-title {
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.feedback-header .feedback-title:hover {
+    text-decoration: underline;
+}
+
+.feedback-meta {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 5px;
+}
+
+.feedback-body {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.feedback-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #777; 
+}
+
+.feedback-footer span {
+    display: inline-block;
+    margin-right: 10px; 
+}
+
+
 /*  Users Styling   */
 #profile-wrapper {
     display: flex;
@@ -211,11 +297,12 @@ header, footer {
 }
 
 #profile-wrapper-left {
-    max-width: 30%;
+    min-width: 40%;
+    min-height: 50px;
 }
 
 #profile-wrapper-right {
-    border-left-color: black;
+    border-left-color: #007bff;
     border-left-style: solid;
     border-width: 2px;
 }

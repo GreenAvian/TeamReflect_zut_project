@@ -3,10 +3,23 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>Strona główna</h1>
-{% if user.is_authenticated %}
-Witaj {{ user.username }}!
-{% else %}
-<p>Nie jesteś zalogowany</p>
-{% endif %}
+<div class="homepage-container">
+    <h1 class="main-header">Strona główna</h1>
+    {% if user.is_authenticated %}
+    <p class="welcoming-message">Witaj {{ user.username }}!</p>
+    {% else %}
+    <p class="welcoming-message">Nie jesteś zalogowany</p>
+    {% endif %}
+</div>
+<p class="text-container homepage-text-container">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod venenatis varius. Nulla lacus sem, aliquam id tellus ut, pharetra tempus ligula. Aliquam tempus, tellus vel rutrum pharetra, magna erat iaculis nisi, quis auctor enim neque ut leo. Curabitur sit amet suscipit felis, nec accumsan metus. Pellentesque ac risus id lectus egestas molestie sed eu turpis. Suspendisse tristique, sem at ultrices sagittis, justo est vestibulum urna, id efficitur leo sapien eu diam. Proin nisl nisl, sodales vitae augue ultricies, molestie mattis erat. Praesent porttitor sem ut consectetur pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu pharetra nisl. Duis semper nisi est, sit amet dapibus turpis pharetra sollicitudin. Phasellus lacinia posuere lorem, non condimentum dui rhoncus ultricies. Mauris vitae purus purus.
+    
+    Fusce dictum turpis ex, quis tristique lorem consequat nec. In a dictum velit. Nullam laoreet finibus mollis. Ut lacinia diam finibus nunc interdum lacinia. Cras tempus vulputate massa, id pulvinar turpis porta eget. Nulla gravida, ante eu luctus interdum, dui libero condimentum odio, id vestibulum diam ante sed magna. Aliquam rutrum eros ut urna ultrices laoreet.
+    
+    Donec nec vulputate enim, eget porttitor ante. Ut fringilla non orci at luctus. In finibus faucibus diam, vitae faucibus dui feugiat eget. Duis dignissim orci et urna blandit, quis tincidunt nunc lacinia. Ut commodo nunc at ligula auctor laoreet. Duis vitae ligula in metus ultrices cursus. Curabitur consectetur ante interdum ligula congue iaculis vitae nec massa. Morbi risus urna, viverra aliquam euismod a, vehicula ac diam. Pellentesque gravida nisi quis velit egestas facilisis. Nunc dolor mauris, iaculis id turpis at, sollicitudin aliquam ante. Nullam suscipit lorem ut augue rutrum lacinia. Donec in lectus ac leo viverra tristique. Praesent egestas sem eget fermentum imperdiet. Duis id magna maximus, ornare massa a, eleifend neque. Sed magna neque, tempor non maximus nec, consequat ornare eros.
+    
+    Aenean volutpat maximus nisi, sit amet consectetur purus tristique eu. Etiam eu interdum leo. Nullam lobortis convallis sodales. Vestibulum id ante id ligula facilisis consequat. Pellentesque pulvinar nec eros in finibus. Cras pellentesque est vel orci sollicitudin, vitae vulputate velit vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam eleifend id sapien sed egestas.
+    
+    Duis sed gravida purus, nec laoreet est. Nunc velit risus, placerat eget viverra sit amet, pulvinar quis massa. Proin viverra lacus risus. Maecenas ultricies suscipit ipsum in venenatis. Praesent sollicitudin iaculis dolor id elementum. Aenean tristique nunc sed vulputate feugiat. Maecenas maximus accumsan ultricies. Morbi gravida fermentum diam, sit amet viverra leo condimentum ultricies. Etiam varius egestas venenatis. Quisque suscipit faucibus nisl id elementum. Nam turpis velit, fringilla id enim sed, fringilla commodo elit. Donec venenatis nulla non lacus dictum ultrices. Nunc euismod, quam commodo maximus suscipit, libero tortor dignissim leo, at maximus velit nibh in diam. Nunc vel felis vitae neque interdum vulputate eget id arcu. 
+</p>
 {% endblock %}
