@@ -81,18 +81,18 @@ def create_group(request):
 
     return render(request, 'create_group.html')
 
-# @login_required # TODO
-# def leader_post(request):
-#     if request.method == 'POST':
-#         group_name = request.POST.get('name')
-#         if not group_name:
-#             return render(request, 'create_group.html', {'error': 'Nazwa grupy jest wymagana.'})
+@login_required # TODO
+def leader_post(request):
+    if request.method == 'POST':
+        group_name = request.POST.get('name')
+        if not group_name:
+            return render(request, 'create_group.html', {'error': 'Nazwa grupy jest wymagana.'})
 
-#         group = Group.objects.create(name=group_name)
-#         group.user_set.add(request.user)  
-#         return redirect('group_list')
+        group = Group.objects.create(name=group_name)
+        group.user_set.add(request.user)  
+        return redirect('group_list')
 
-#     return render(request, 'create_group.html')
+    return render(request, 'create_group.html')
 
 @login_required
 def delete_group(request, group_id):

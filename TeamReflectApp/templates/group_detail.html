@@ -21,11 +21,19 @@
 </ul>
 
 <h2>Dodaj nowego członka:</h2>
-<form method="post" action="">
+<form method="post" action="{% url 'group_list' %}">
     {% csrf_token %}
     <input type="text" name="username" placeholder="Nazwa użytkownika">
     <button type="submit" name="add_member">Dodaj</button>
 </form>
+
+<form method="post" action="{% url 'leader_post' %}">
+    {% csrf_token %}
+    <input type="text" name="topic" placeholder="Temat">
+    <textarea class = "feedback-content-form" name="description" placeholder="Treść">{{ profile.description }} </textarea>
+    <button class="generic_button" type="submit" name="submit_post">Dodaj</button>
+</form>
+
 
 <a class="generic_button group-back-btn" href="{% url 'group_list' %}">Powrót do listy grup</a>
 

@@ -20,6 +20,7 @@ urlpatterns = [
     path('groups/<int:group_id>/', views.group_detail, name='group_detail'),
     path('groups/create/', views.create_group, name='create_group'),
     path('groups/<int:group_id>/delete/', views.delete_group, name='delete_group'),
+    path('groups/write_post/', views.leader_post, name='leader_post'),
 ]
 
 if settings.DEBUG:
