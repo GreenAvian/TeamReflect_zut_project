@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
 from .forms import FeedbackForm
-from .models import Feedback, UserProfile
+from .models import Feedback, UserProfile, LeaderPost, LeaderPollItem
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -83,16 +83,23 @@ def create_group(request):
 
 @login_required # TODO
 def leader_post(request):
-    if request.method == 'POST':
-        group_name = request.POST.get('name')
-        if not group_name:
-            return render(request, 'create_group.html', {'error': 'Nazwa grupy jest wymagana.'})
+    topic = request.POST.get('topic')
+    content = request.POST.get('content')
+    poll_options = request.POST.getlist('pollOption[]')  #Grabs all poll options
 
-        group = Group.objects.create(name=group_name)
-        group.user_set.add(request.user)  
-        return redirect('group_list')
+    if (topic and content):
+        leader_post = LeaderPost.objects.create(created_by=request.user.username, topic=topic, content=content,)
+        for option in poll_options:
+            if option.strip():  #Avoid saving empty options
+                LeaderPollItem.objects.create(leader_post=leader_post, content=option)
 
-    return render(request, 'create_group.html')
+    return redirect('post_view', post_id=leader_post.id_post)
+
+def post_view(request, post_id):
+    post = LeaderPost.objects.get(id_post=post_id)
+    profile = UserProfile.objects.get(user__username=post.created_by)
+    poll = post.poll_items.all()
+    return render(request, 'group_post.html', {'post': post, 'poll':poll, 'profile':profile})
 
 @login_required
 def delete_group(request, group_id):

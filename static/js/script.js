@@ -28,14 +28,16 @@ function cancelEdit(formId) {
     document.getElementById(formId).style.display = 'none';
 }
 
-//
+
 const addOptionBtn = document.getElementById('addPollOptionBtn');
+var pollCounter = 1;
 
 // Add function for the "Add Option" button
 function addPollOptionFunc(pollOptionsContainer) {
     // Create a new input field for poll option
     const newOption = document.createElement('div');
     newOption.className = 'group-poll-option';
-    newOption.innerHTML = `<input type="text" placeholder="Opcja" name="pollOption[]">`;
+    newOption.innerHTML = `<input type="text" placeholder="Opcja ${pollCounter}" name="pollOption[]">`;
+    pollCounter += 1;
     document.getElementById(pollOptionsContainer).appendChild(newOption);
 }

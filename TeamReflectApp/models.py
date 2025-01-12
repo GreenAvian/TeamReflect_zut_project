@@ -33,7 +33,28 @@ class FeedbackReview(models.Model):
         managed = True
         db_table = 'Feedback_Review'
 
+class LeaderPost(models.Model):
+    id_post = models.AutoField(db_column='id_Post', primary_key=True)
+    created_by = models.CharField(db_column='Created_by', max_length=50, null=True)  
+    topic = models.CharField(db_column='Topic', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
+    content = models.TextField(db_column='Content', null=True)
 
+    def __str__(self):
+        return self.name
+    class Meta:
+        managed = True
+        db_table = 'Leader_Post'
+
+class LeaderPollItem(models.Model):
+    id_item = models.AutoField(db_column='id_Item', primary_key=True)
+    leader_post = models.ForeignKey(LeaderPost, db_column='Leader_post', on_delete=models.CASCADE, related_name='poll_items', blank=True, null=True)
+    content = models.CharField(db_column='Content', max_length=150, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+    class Meta:
+        managed = True
+        db_table = 'Leader_Poll'
 
 class Feedbackvisibility(models.Model):
     id_feedbackvisibility = models.TextField(db_column='id_FeedbackVisibility', blank=True, null=True)  # Field name made lowercase. This field type is a guess.

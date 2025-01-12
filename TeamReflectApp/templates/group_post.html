@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Post lidera{% endblock %}
+
+{% block content %}
+    <p>{{ post.created_by }}
+    {% if profile.user.first_name and profile.user.last_name %}
+        ({{profile.user.first_name}} {{profile.user.last_name}})
+    {% endif %}
+    </p>
+    <p>{{ post.topic }}</p>  
+    <p>{{ post.content }}</p>
+
+    {% if poll %}
+        {% for item in poll %}
+            <li>{{ item.content }}</li>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
