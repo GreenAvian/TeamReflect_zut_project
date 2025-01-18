@@ -6,17 +6,17 @@
 <div class="post-list-container">
     <h1 class="post-list-title">Lista Grup</h1>
 
-    {% if Leader_Post %}
+    {% if posts %}
         <ul class="post-list">
-            {% for post in Leader_Post %}
+            {% for post in posts %}
             <li class="post-item">
-                <span class="post-name">{{ Leader_Post.Topic }}</span>
+                <span class="post-name">{{ posts.Topic }}</span>
             </li>
             {% endfor %}
         </ul>
     {% else %}
         <p class="no-posts-message">Nie ma żadnych postów</p>
     {% endif %}
-    
+
 </div>
 {% endblock %}
