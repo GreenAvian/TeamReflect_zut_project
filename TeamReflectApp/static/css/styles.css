@@ -72,8 +72,16 @@ header, footer {
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 36px;
     font-weight: bold;
+}
+.logo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo a:hover {
+    font-style: italic;
 }
 
 .menu-icon {
@@ -111,6 +119,42 @@ header, footer {
     border-radius: 5px;
 }
 
+/* Dropdown Menu Styling, still in nav btw */
+.dropdown {
+    position: relative; /* Position relative to parent li */
+}
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute; /* Positions it out of normal flow */
+    top: 100%; /* Positions the dropdown directly below the parent link */
+    left: -50%; /* Aligns the dropdown menu to the left edge of the parent link */
+    background-color: #007bff;
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    min-width: 200px;
+    z-index: 1000; /* Ensures the dropdown is on top of other content */
+}
+
+/* Dropdown list items should take the full width */
+.dropdown-menu li {
+    width: 100%;
+    margin:0;
+}
+
+/* Dropdown link styling */
+.dropdown-menu a {
+    padding: 0.5rem 1rem;
+    display: block;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Show the dropdown on hover */
+.dropdown:hover .dropdown-menu {
+    display: block; /* Show the dropdown when hovering over the parent item */
+}
 /*   Feedback styling    */
 
 .feedback-form-row {

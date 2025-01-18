@@ -15,24 +15,37 @@
         <header>
             <nav id="sitenav">
                 <div class="nav-header">
-                    <div class="logo">TeamReflect</div>
+                    <div class="logo"><a href="{% url 'home' %}">TeamReflect</a></div>
                     <div class="menu-icon">☰</div>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="{% url 'home' %}">Strona główna</a></li>
                     <li><a href="{% url 'group_list' %}">Grupy</a></li>
-                    <li><a href="{% url 'result_feedbacks' %}">Feedbacki</a></li>   
-                    <li><a href="{% url 'post_list' %}">Posty</a></li>                 
-                    <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>       
+                    <li class="dropdown">
+                        <a href="{% url 'result_feedbacks' %}">Feedbacki⬇️</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'get_feedback' %}">Dodaj Feedback</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="{% url 'post_list' %}">Posty</a></li>
+                    <li class="dropdown">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'profile_view' user.username %}">Profil⬇️</a>
+                        {% else %}
+                            <a href="{% url 'login' %}">Zaloguj się⬇️</a>
+                        {% endif %}
+                        <ul class="dropdown-menu">
+                        {% if not user.is_authenticated %}
+                            <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>
+                        </ul>
+                    </li>                         
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'profile_view' user.username %}">Profil</a></li>
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
                             <button type="submit">Wyloguj</button>
                         </form>
-                    {% else %}
-                        <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
-                        <li><a href="{% url 'login' %}">Zaloguj się</a></li>
                     {% endif %}   
                 </ul>
             </nav>
