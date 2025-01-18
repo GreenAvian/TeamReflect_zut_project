@@ -155,6 +155,56 @@ header, footer {
 .dropdown:hover .dropdown-menu {
     display: block; /* Show the dropdown when hovering over the parent item */
 }
+
+/* Post list styling */
+.post-list-title {
+    font-size: 30px;
+    font-weight: bold;
+    color:#007bff;
+}
+
+a { 
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Makes the link inherit the text color of its parent */
+}
+
+.post-list-container {
+    margin-top:-5px;
+    
+    
+}
+.post-item{
+    background-color: white;
+    border-radius:10px;
+    border: 2px solid #007bff;
+    padding: 15px; 
+    margin: 15px;
+    
+}
+
+
+.post-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.post-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #0056b3;
+}
+
+.post-content {
+    font-size: 14px;
+    color: #0056b3;
+    line-height: 1.5;
+}
+
+.post-name{
+    font-weight: bold;
+    font-size: 1.25rem;
+}
 /*   Feedback styling    */
 
 .feedback-form-row {
