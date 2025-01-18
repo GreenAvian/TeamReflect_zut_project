@@ -1,20 +1,17 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}Lista Postów{% endblock %}
+{% block title %}Stwórz post{% endblock %}
 
 {% block content %}
-<div class="post-list">
-  {% for post in posts %}
-  <div class="post-container">
-    <h2 class="post-title">{{ post.title }}</h2>
-    <p class="post-content">{{ post.content }}</p>
-    <div class="post-footer">
-      <span class="post-rating">Ocena: {{ post.rating }}</span>
-      <span class="post-priority">Priorytet: {{ post.priority }}</span>
+<h2>Dodaj post:</h2>
+<form method="post" action="{% url 'leader_post' %}">
+    {% csrf_token %}
+    <input type="text" name="topic" placeholder="Temat">
+    <textarea class = "feedback-content-form" name="content" placeholder="Treść">{{ profile.description }} </textarea>
+    <button class="generic_button" id="addPollOptionBtn" onclick="addPollOptionFunc('pollOptionContainer')" type="button">Dodaj pytanie</button>
+    <div id="pollOptionContainer">
+        <!-- New poll options will go here -->
     </div>
-  </div>
-  {% empty %}
-  <p>Brak postów do wyświetlenia.</p>
-  {% endfor %}
-</div>
+    <button class="generic_button" type="submit" name="submit_post">Dodaj post</button>
+</form>
 {% endblock %}
