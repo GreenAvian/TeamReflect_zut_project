@@ -18,51 +18,59 @@ def home(request):
 
 @login_required
 def group_list(request):
-    """Lista grup"""
-    groups = Group.objects.all()
+    """Lista grup, do których należy zalogowany użytkownik"""
+    groups = request.user.groups.all()  # Pobieranie grup, do których należy użytkownik
     return render(request, 'group_list.html', {'groups': groups})
 
 @login_required
 def group_detail(request, group_id):
     """Szczegóły grupy, dodawanie/usuwanie członków i ustawianie lidera"""
     group = get_object_or_404(Group, id=group_id)
+
+    # Sprawdzenie, czy użytkownik jest członkiem grupy
+    if group not in request.user.groups.all():
+        raise PermissionDenied("Nie masz dostępu do tej grupy.")
+
     members = group.user_set.all()  
 
     if request.method == "POST":
-        # Dodawanie członka
         if "add_member" in request.POST:
             username = request.POST.get("username")
             if username:
                 try:
                     user = User.objects.get(username=username)
-                    group.user_set.add(user)  
+                    if user in group.user_set.all():
+                        messages.error(request, f"Użytkownik {username} jest już członkiem grupy.")
+                    else:
+                        group.user_set.add(user)  
+                        messages.success(request, f"Użytkownik {username} został dodany do grupy.")
                 except User.DoesNotExist:
-                    return render(request, "group_detail.html", {
-                        "group": group,
-                        "members": members,
-                        "error": "Nie znaleziono użytkownika.",
-                    })
+                    messages.error(request, "Nie znaleziono użytkownika.")
                 return redirect("group_detail", group_id=group.id)
 
-        
         if "remove_member" in request.POST:
             user_id = request.POST.get("user_id")
             user = get_object_or_404(User, id=user_id)
+            if user.profile.is_leader:
+                user.profile.is_leader = False
+                user.profile.save()
             group.user_set.remove(user)  
+            messages.success(request, f"Użytkownik {user.username} został usunięty z grupy.")
             return redirect("group_detail", group_id=group.id)
 
-       
         if "set_leader" in request.POST:
+            if not request.user.profile.is_leader:
+                raise PermissionDenied("Tylko lider grupy może zmienić lidera.")
+
             user_id = request.POST.get("user_id")
             user = get_object_or_404(User, id=user_id)
             if user not in group.user_set.all():
                 raise PermissionDenied("Użytkownik nie jest członkiem tej grupy.")
 
-            
             UserProfile.objects.filter(user__in=group.user_set.all()).update(is_leader=False)
-          
             user.profile.is_leader = True
             user.profile.save()
+            messages.success(request, f"Użytkownik {user.username} został nowym liderem.")
             return redirect("group_detail", group_id=group.id)
 
     return render(request, "group_detail.html", {"group": group, "members": members})
