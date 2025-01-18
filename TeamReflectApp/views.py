@@ -81,7 +81,11 @@ def create_group(request):
 
     return render(request, 'create_group.html')
 
-@login_required # TODO
+@login_required
+def leader_post_form(request):
+    return render(request,'post_form.html')
+
+@login_required
 def leader_post(request):
     topic = request.POST.get('topic')
     content = request.POST.get('content')
@@ -92,8 +96,8 @@ def leader_post(request):
         for option in poll_options:
             if option.strip():  #Avoid saving empty options
                 LeaderPollItem.objects.create(leader_post=leader_post, content=option)
-
-    return redirect('post_view', post_id=leader_post.id_post)
+        return redirect('post_view', post_id=leader_post.id_post)
+    return redirect('group_list')
 
 def post_view(request, post_id):
     post = LeaderPost.objects.get(id_post=post_id)

@@ -3,13 +3,13 @@
 {% block title %}Post lidera{% endblock %}
 
 {% block content %}
-    <p>{{ post.created_by }}
+    <p>Poster: {{ post.created_by }}
     {% if profile.user.first_name and profile.user.last_name %}
         ({{profile.user.first_name}} {{profile.user.last_name}})
     {% endif %}
     </p>
-    <p>{{ post.topic }}</p>  
-    <p>{{ post.content }}</p>
+    <p>Tytuł: {{ post.topic }}</p>  
+    <p>Treść: {{ post.content }}</p>
 
     {% if poll %}
         {% for item in poll %}

@@ -29,7 +29,7 @@ class FeedbackForm(forms.ModelForm):
     )
 
     title = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'feedback-title-form', 'placeholder': 'Tytuł'}),
+        widget=forms.TextInput(attrs={'class': 'feedback-title-form', 'placeholder': 'Temat'}),
         label="Title",
         required=True
     )
