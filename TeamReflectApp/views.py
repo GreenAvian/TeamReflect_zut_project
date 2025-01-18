@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.views.generic import CreateView, UpdateView
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
@@ -9,6 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+
 
 
 def home(request):
@@ -149,6 +151,11 @@ def result_feedbacks(request):
     return render(request, 'feedback_list.html', {"feedbacks": feedbacks})
 
 #@login_required
+def post_list(request):
+    posts = LeaderPost.objects.all()  
+    return render(request, 'post_list.html', {'posts': posts})
+
+#@login_required
 def user_list(request):
     users = User.objects.all()
     return render(request, 'user_list.html',{'users': users})
@@ -235,4 +242,8 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
+    
+    
+
+    
    

@@ -44,6 +44,14 @@ class Groupmembership(models.Model):
 #         managed = True
 #         db_table = 'Group'
 
+class Groups(models.Model):
+    id_groups = models.TextField(db_column='id_Groups', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    name = models.TextField(db_column='Name', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+
+    class Meta:
+        managed = False
+        db_table = 'Groups'
+        
 class Feedback(models.Model):
     id_feedback = models.AutoField(db_column='id_Feedback', primary_key=True)
     title = models.CharField(db_column='Title', max_length=50, null=True)
