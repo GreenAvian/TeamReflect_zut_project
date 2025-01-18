@@ -31,6 +31,24 @@
       {{ form.priority }}
   </div>
 
+    <!-- Shockingly Easy To Implement User Field -->
+    <div class="feedback-form-row feedback-form-priority">
+        <label class="feedback-title-label" for="{{ form.for_user.id_for_label }}">Dla użytkownika:</label>
+        {{ form.for_user }}
+    </div>
+
+    <!-- Shockingly Easy To Implement Group Field -->
+    <div class="feedback-form-row feedback-form-priority">
+        <label class="feedback-title-label" for="{{ form.for_group.id_for_label }}">Dla grupy:</label>
+        {{ form.for_group }}
+    </div>
+
+    <!-- Shockingly Easy To Implement Post Field -->
+    <div class="feedback-form-row feedback-form-priority">
+        <label class="feedback-title-label" for="{{ form.for_post.id_for_label }}">Do posta:</label>
+        {{ form.for_post }}
+    </div>
+
   <input class="generic_button" type="submit" value="Wyślij">
 </form>
 

@@ -13,6 +13,22 @@
                 <span class="feedback-meta">
                     Stworzony: {{ feedback.created_at }} | 
                     Priorytet: {{ feedback.priority }} | 
+                    {% if feedback.for_post %}  {% comment %} Post > User > Group, TODO, properly make these fields exclusive so this doesn't need to be a thing {% endcomment %}
+                        Do postu: 
+                        <a href="/post/{{ feedback.for_post.id_post }}">
+                            {{ feedback.for_post }}
+                        </a> |
+                    {% elif feedback.for_user %}
+                        Dla użytkownika: 
+                        <a href="/profile/{{ feedback.for_user }}">
+                            {{ feedback.for_user }}
+                        </a> |
+                    {% elif feedback.for_group %}
+                        Dla grupy: 
+                        <a href="/groups/{{ feedback.for_group.id_group }}">
+                            {{ feedback.for_group }}
+                        </a> |
+                    {% endif %}
                 </span>
             </div>
             <div class="feedback-body">

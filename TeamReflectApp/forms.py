@@ -1,5 +1,6 @@
 from django import forms
-from .models import Feedback
+from django.contrib.auth.models import User, Group
+from .models import Feedback, LeaderPost
 
 class FeedbackForm(forms.ModelForm):
     RATING_CHOICES = [
@@ -40,6 +41,30 @@ class FeedbackForm(forms.ModelForm):
         required=True
     )
 
+
+        # Fields for foreign key relationships
+    for_post = forms.ModelChoiceField(
+        queryset=LeaderPost.objects.all(),
+        widget=forms.Select(attrs={'class': 'feedback-for-post-form'}),
+        label="For Post",
+        required=False
+    )
+    
+    for_user = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        widget=forms.Select(attrs={'class': 'feedback-for-user-form'}),
+        label="For User",
+        required=False
+    )
+    
+    for_group = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.Select(attrs={'class': 'feedback-for-group-form'}),
+        label="For Group",
+        required=False
+    )
+
+
     class Meta:
         model = Feedback
-        fields = ['title', 'content', 'rating', 'priority', 'created_by']  # Specify fields to include in the form
+        fields = ['title', 'content', 'rating', 'priority', 'created_by', 'for_post', 'for_user', 'for_group']  # Specify fields to include in the form

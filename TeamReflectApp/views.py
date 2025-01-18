@@ -6,10 +6,9 @@ from django.urls import reverse, reverse_lazy
 from .forms import FeedbackForm
 from .models import Feedback, UserProfile, LeaderPost, LeaderPollItem
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.models import Group
 
 
 def home(request):
@@ -125,7 +124,7 @@ def delete_group(request, group_id):
     group.delete()
     return redirect('group_list')
 
-def get_feedback(request):
+def get_feedback(request): # TODO - Rename this function I swear to God
     # if this is a POST request we need to process the form data
     if request.method == "POST":
         # create a form instance and populate it with data from the request:
@@ -136,7 +135,6 @@ def get_feedback(request):
             feedback.created_by = request.user
             feedback.save()
             return HttpResponseRedirect(reverse('result_feedbacks'))
-        
     # GET
     else:
         form = FeedbackForm(initial={'created_by': request.user.username})
