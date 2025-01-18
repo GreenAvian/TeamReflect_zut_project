@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.views.generic import CreateView, UpdateView
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
@@ -10,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.models import Group
+
 
 
 def home(request):
@@ -113,6 +115,10 @@ def post_view(request, post_id):
     poll = post.poll_items.all()
     return render(request, 'group_post.html', {'post': post, 'poll':poll, 'profile':profile})
 
+
+
+
+
 @login_required
 def delete_group(request, group_id):
     """Usuwanie grupy"""
@@ -149,6 +155,12 @@ def result_feedbacks(request):
     #   OR
     feedbacks = Feedback.objects.all() # Fetch all Person records or the last inserted one
     return render(request, 'feedback_list.html', {"feedbacks": feedbacks})
+
+@login_required
+def post_list(request):
+    
+    posts = LeaderPost.objects.all()  
+    return render(request, 'post_list.html', {'posts': posts})
 
 #@login_required
 def user_list(request):
@@ -237,4 +249,8 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
+    
+    
+
+    
    

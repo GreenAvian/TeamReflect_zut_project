@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista postów{% endblock %}
+
+{% block content %}
+<div class="post-list-container">
+    <h1 class="post-list-title">Lista Grup</h1>
+
+    {% if Leader_Post %}
+        <ul class="post-list">
+            {% for post in Leader_Post %}
+            <li class="post-item">
+                <span class="post-name">{{ Leader_Post.Topic }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-posts-message">Nie ma żadnych postów</p>
+    {% endif %}
+    
+</div>
+{% endblock %}
