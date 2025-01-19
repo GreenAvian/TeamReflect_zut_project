@@ -4,7 +4,8 @@ from django.contrib.auth.models import User, Group
 
 class LeaderPost(models.Model):
     id_post = models.AutoField(db_column='id_Post', primary_key=True)
-    created_by = models.CharField(db_column='Created_by', max_length=50, null=True)  
+    created_by = models.CharField(db_column='Created_by', max_length=50, null=True)
+    tag = models.CharField(db_column='Tag', max_length=50, null=True)
     topic = models.CharField(db_column='Topic', max_length=50, null=True)  # Field name made lowercase. This field type is a guess.
     content = models.TextField(db_column='Content', null=True)
     # feedback = 

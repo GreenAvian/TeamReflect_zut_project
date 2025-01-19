@@ -18,6 +18,16 @@
         <textarea class="feedback-content-form post-textarea" name="content" id="content" placeholder="Treść">{{ profile.description }}</textarea>
     </div>
     
+    <!-- Tag -->
+    <div class="feedback-form-row feedback-form-content">
+        <label for="tag">Tag:</label>
+        <select id="tag" class="feedback-priority-form" name="tag">
+            <option value="task">Zadanie</option>
+            <option value="poll">Ankieta</option>
+            <option value="general">Ogólny</option>
+        </select>
+    </div>
+
     <button class="generic_button" id="addPollOptionBtn" onclick="addPollOptionFunc('pollOptionContainer')" type="button">Dodaj pytanie</button>
     
     <div id="pollOptionContainer">

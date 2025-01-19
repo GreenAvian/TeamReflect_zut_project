@@ -98,10 +98,11 @@ def leader_post_form(request):
 def leader_post(request):
     topic = request.POST.get('topic')
     content = request.POST.get('content')
+    tag = request.POST.get('tag')
     poll_options = request.POST.getlist('pollOption[]')  #Grabs all poll options
 
     if (topic and content):
-        leader_post = LeaderPost.objects.create(created_by=request.user.username, topic=topic, content=content,)
+        leader_post = LeaderPost.objects.create(created_by=request.user.username, topic=topic, content=content, tag=tag)
         for option in poll_options:
             if option.strip():  #Avoid saving empty options
                 LeaderPollItem.objects.create(leader_post=leader_post, content=option)
