@@ -8,6 +8,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("feedback/form/", views.get_feedback, name = 'get_feedback'),
+    path("feedback/form/partfill", lambda request: views.get_feedback(request, is_prefilled=True),  name = 'get_feedback_partfill'),
     path("feedback/list/", views.result_feedbacks, name = 'result_feedbacks'),
     path('feedback/<int:id_feedback>/', views.feedback_view, name='feedback_view'),
     path("signup/", SignUpView.as_view(), name="signup"),

@@ -45,21 +45,21 @@ class FeedbackForm(forms.ModelForm):
         # Fields for foreign key relationships
     for_post = forms.ModelChoiceField(
         queryset=LeaderPost.objects.all(),
-        widget=forms.Select(attrs={'class': 'feedback-for-post-form'}),
+        widget=forms.Select(attrs={'class': 'feedback-priority-form'}), #TODO - Rename this priority form to something more generic
         label="For Post",
         required=False
     )
     
     for_user = forms.ModelChoiceField(
         queryset=User.objects.all(),
-        widget=forms.Select(attrs={'class': 'feedback-for-user-form'}),
+        widget=forms.Select(attrs={'class': 'feedback-priority-form'}),
         label="For User",
         required=False
     )
     
     for_group = forms.ModelChoiceField(
         queryset=Group.objects.all(),
-        widget=forms.Select(attrs={'class': 'feedback-for-group-form'}),
+        widget=forms.Select(attrs={'class': 'feedback-priority-form'}),
         label="For Group",
         required=False
     )

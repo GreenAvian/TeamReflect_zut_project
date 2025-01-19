@@ -1,3 +1,36 @@
+// Hides/shows the for_target fields in feedback creation
+document.addEventListener('DOMContentLoaded', function() {
+    const targetFieldDropdown = document.getElementById('target_field');
+    
+    // Function to show the selected field and hide others
+    function updateVisibleField() {
+        const selectedValue = targetFieldDropdown.value;
+        // Declare field vars
+        var targer_user_field = document.getElementById('feedback-form-target-user')
+        var targer_group_field = document.getElementById('feedback-form-target-group')
+        var targer_post_field = document.getElementById('feedback-form-target-post')
+        // Hide all fields
+        targer_user_field.style.display = 'none';
+        targer_group_field.style.display = 'none';
+        targer_post_field.style.display = 'none';
+        
+        // Show the selected field
+        if (selectedValue === 'user') {
+            targer_user_field.style.display = 'block';
+        } else if (selectedValue === 'group') {
+            targer_group_field.style.display = 'block';
+        } else if (selectedValue === 'post') {
+            targer_post_field.style.display = 'block';
+        }
+    }
+
+    // Update the visible field when the dropdown selection changes
+    targetFieldDropdown.addEventListener('change', updateVisibleField);
+
+    // Initial field display based on the default dropdown value
+    updateVisibleField();
+});
+
 //      Renders the add feedback button
 document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('/feedback/') && !window.location.pathname.includes('/feedback/form')) {

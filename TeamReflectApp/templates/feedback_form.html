@@ -31,20 +31,31 @@
       {{ form.priority }}
   </div>
 
+    {% comment %} TODO -- A user can fill multiple of these target fields, fix that {% endcomment %}
+    <!-- Dropdown for selecting which field to display -->
+    <div class="feedback-form-row feedback-form-dropdown">
+        <label for="target_field">Wybierz docelowe pole(Dla kogo/czego jest przeznaczony feedback):</label>
+        <select id="target_field" class="feedback-priority-form" name="target_field">
+            <option value="user">Dla użytkownika</option>
+            <option value="group">Dla grupy</option>
+            <option value="post">Do posta</option>
+        </select>
+    </div>
+    
     <!-- Shockingly Easy To Implement User Field -->
-    <div class="feedback-form-row feedback-form-priority">
+    <div id="feedback-form-target-user" class="feedback-form-row">
         <label class="feedback-title-label" for="{{ form.for_user.id_for_label }}">Dla użytkownika:</label>
         {{ form.for_user }}
     </div>
 
     <!-- Shockingly Easy To Implement Group Field -->
-    <div class="feedback-form-row feedback-form-priority">
+    <div id="feedback-form-target-group" class="feedback-form-row">
         <label class="feedback-title-label" for="{{ form.for_group.id_for_label }}">Dla grupy:</label>
         {{ form.for_group }}
     </div>
 
     <!-- Shockingly Easy To Implement Post Field -->
-    <div class="feedback-form-row feedback-form-priority">
+    <div id="feedback-form-target-post" class="feedback-form-row">
         <label class="feedback-title-label" for="{{ form.for_post.id_for_label }}">Do posta:</label>
         {{ form.for_post }}
     </div>

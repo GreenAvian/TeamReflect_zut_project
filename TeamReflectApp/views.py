@@ -126,18 +126,41 @@ def delete_group(request, group_id):
     group.delete()
     return redirect('group_list')
 
-def get_feedback(request): # TODO - Rename this function I swear to God
-    # if this is a POST request we need to process the form data
+def get_feedback(request, is_prefilled = False): # TODO - Rename this function later
     if request.method == "POST":
-        # create a form instance and populate it with data from the request:
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            # If you don't do it this way it won't work
-            feedback = form.save(commit=False)
-            feedback.created_by = request.user
-            feedback.save()
-            return HttpResponseRedirect(reverse('result_feedbacks'))
-    # GET
+        if (not is_prefilled): # Check if we're allowed to make a simple empty form like God intended
+            # create a form instance and populate it with data from the request:
+            form = FeedbackForm(request.POST)
+            if form.is_valid():
+                # If you don't do it this way it won't work
+                feedback = form.save(commit=False)
+                feedback.created_by = request.user
+                feedback.save()
+                return HttpResponseRedirect(reverse('result_feedbacks'))
+        else: # Sadly, we have to fill some fields
+            prefilled_field = request.POST.get('field')
+            prefilled_val = request.POST.get('prefilled_val')
+            if prefilled_field == "for_post":
+                related_instance = get_object_or_404(LeaderPost, id_post=prefilled_val) # Can't just fill the field with an ID, you gotta grab the object instance
+                form = FeedbackForm(initial={
+                    'created_by': request.user.username,
+                    prefilled_field: related_instance,
+                })
+            elif prefilled_field == "for_user":
+                related_instance = get_object_or_404(User, id=prefilled_val)
+                form = FeedbackForm(initial={
+                    'created_by': request.user.username,
+                    prefilled_field: related_instance,
+                })
+            elif prefilled_field == "for_group":
+                related_instance = get_object_or_404(Group, id=prefilled_val)
+                form = FeedbackForm(initial={
+                    'created_by': request.user.username,
+                    prefilled_field: related_instance,
+                })
+            else:
+                raise PermissionDenied("You are trying to fill a column that doesn't exist")
+    # On normal GET
     else:
         form = FeedbackForm(initial={'created_by': request.user.username})
         
