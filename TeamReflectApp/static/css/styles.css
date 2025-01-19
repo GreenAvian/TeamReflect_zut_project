@@ -10,8 +10,8 @@
 html, body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background: #f4f4f9;
-    color: #333;
+    background: #F6B68A;
+    color: #1f4954;
     margin: 0;
     height: 100%;
 }
@@ -30,7 +30,7 @@ html, body {
 
 /* Nagłówek i stopka */
 header, footer {
-    background: #007bff;
+    background: #09476F;
     color: #fff;
     text-align: center;
     padding: 10px 20px;
@@ -55,7 +55,7 @@ header, footer {
 
 /* Nawigacja */
 #sitenav {
-    background: #007bff;
+    background: #09476F;
     color: #fff;
     padding: 10px 20px;
     display: flex;
@@ -128,7 +128,7 @@ header, footer {
     position: absolute; /* Positions it out of normal flow */
     top: 100%; /* Positions the dropdown directly below the parent link */
     left: -50%; /* Aligns the dropdown menu to the left edge of the parent link */
-    background-color: #007bff;
+    background-color: #09476F;
     list-style: none;
     padding: 0.5rem 0;
     margin: 0;
@@ -160,7 +160,7 @@ header, footer {
 .post-list-title {
     font-size: 30px;
     font-weight: bold;
-    color:#007bff;
+    color:#09476F;
 }
 
 a { 
@@ -175,9 +175,9 @@ a {
 }
 .post-item{
     list-style: none;
-    background-color: white;
+    background-color: #F6B68A; 
     border-radius:10px;
-    border: 2px solid #007bff;
+    border: 2px solid #09476F;
     padding: 15px; 
     margin: 15px;
     
@@ -214,7 +214,7 @@ a {
     padding:5px 30px;
     border-radius:10px;
     max-width: 60%;
-    background-color: #007bff;
+    background-color: #09476F;
     color:#fff;
 }
 
@@ -305,14 +305,14 @@ a {
 }
 
 .generic_button {
-    background: #007bff;
+    background: #09476F;
     border:none;
     border-radius: 5px;
     min-width: 60px;
     max-width: 150px;
     min-height: 40px;
     margin: 10px;
-    color:#fff;
+    color: #c3caca;
     font-weight: bold;
 }
 
@@ -323,7 +323,7 @@ a {
 }
 
 .feedback-item {
-    border: 2px solid #007bff;
+    border: 2px solid #09476F;
     border-radius: 10px;
     padding: 15px;
     margin: 15px 15px;
@@ -343,7 +343,7 @@ a {
 
 .feedback-header .feedback-title {
     font-size: 1.2rem;
-    color: #007bff;
+    color: #09476F;
     text-decoration: none;
 }
 
@@ -392,7 +392,7 @@ a {
 }
 
 #profile-wrapper-right {
-    border-left-color: #007bff;
+    border-left-color: #09476F;
     border-left-style: solid;
     border-width: 2px;
 }
@@ -406,15 +406,18 @@ a {
 /* Group List Styling */
 .group-list-container {
     padding: 20px;
-    background: #f4f4f9;
-    border-radius: 5px;
+    background: #acb2b2;
+    border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
     max-width: 800px;
+    border: 3px solid #575454; /* Thick border with a solid style and orange color */
+    border-radius: 10px; /* Optional: Rounds the corners for a smoother look */
+    padding: 16px; /* Adds space between the border and the content */
+    
 }
 
  .group-list ul {
-    list-style: none;
     padding: 0;
   }
 
@@ -430,7 +433,7 @@ a {
   
 
  .group-details-container h1 {
-     color: #007bff;
+     color: #09476F;
      margin-bottom: 10px;
   }
 
@@ -460,7 +463,7 @@ a {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f4f4f9;
+    background-color: #F6B68A;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -469,7 +472,68 @@ a {
 .post-header {
     font-size: 2rem;
     font-weight: bold;
-    color: #007bff;
+    color: #09476F;
     margin-bottom: 20px;
     text-align: center;
+}
+
+
+.post-form-row {
+    clear:left;
+    margin: 30px 0;
+    padding: 5px 30px;
+    border-radius: 10px;
+    max-width: 60%;
+    background-color: #09476F;
+    color: #fff;
+}
+
+
+.post-title-label {
+    display: block;
+    padding: 5px 0;
+}
+
+
+.post-input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 2px solid #09476F;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+
+.post-textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    resize: none;
+    border: 2px solid #09476F;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+
+.generic_button {
+    background: #09476F;
+    border: none;
+    border-radius: 5px;
+    min-width: 60px;
+    max-width: 150px;
+    min-height: 40px;
+    margin: 10px;
+    color: #c3caca;
+    font-weight: bold;
+}
+
+
+#addPollOptionBtn {
+    margin-top: 10px;
+}
+
+
+#pollOptionContainer {
+    margin-top: 15px;
 }
