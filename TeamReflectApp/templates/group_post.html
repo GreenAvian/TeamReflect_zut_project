@@ -3,11 +3,11 @@
 {% block title %}Post lidera{% endblock %}
 
 {% block content %}
+<div class="post-item">
     <p>Poster: {{ post.created_by }}
     {% if profile.user.first_name and profile.user.last_name %}
         ({{profile.user.first_name}} {{profile.user.last_name}})
-    {% endif %}
-    </p>
+    {% endif %}</p>
     <p>Tytuł: {{ post.topic }}</p>  
     <p>Treść: {{ post.content }}</p>
 
@@ -16,4 +16,5 @@
             <li>{{ item.content }}</li>
         {% endfor %}
     {% endif %}
+</div>
 {% endblock %}
