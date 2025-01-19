@@ -100,6 +100,14 @@
                 <button class='generic_button' type="submit">👎</button>
             </form>
             {% endif %}
+
+            {% comment %} Adding a feedback linked to this {% endcomment %}
+            <form id="open_feedback" method="POST" action="{% url 'get_feedback_partfill' %}">
+                {% csrf_token %}
+                <input type="hidden" name="field" value="for_user">
+                <input type="hidden" name="prefilled_val" value="{{ profile.user.id }}">
+                <button class="generic_button" type="submit">Napisz Feedback</button>
+            </form>
         </div>
     
         <div id="profile-wrapper-right">

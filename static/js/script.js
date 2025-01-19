@@ -1,25 +1,38 @@
 // Hides/shows the for_target fields in feedback creation
 document.addEventListener('DOMContentLoaded', function() {
     const targetFieldDropdown = document.getElementById('target_field');
+    const targer_user_field = document.getElementById('feedback-form-target-user');
+    const targer_group_field = document.getElementById('feedback-form-target-group');
+    const targer_post_field = document.getElementById('feedback-form-target-post');
     
     // Function to show the selected field and hide others
     function updateVisibleField() {
         const selectedValue = targetFieldDropdown.value;
-        // Declare field vars
-        var targer_user_field = document.getElementById('feedback-form-target-user')
-        var targer_group_field = document.getElementById('feedback-form-target-group')
-        var targer_post_field = document.getElementById('feedback-form-target-post')
+        const userValue = document.getElementById('id_for_user').value;
+        const groupValue = document.getElementById('id_for_group').value;
+        const postValue = document.getElementById('id_for_post').value;
         // Hide all fields
         targer_user_field.style.display = 'none';
         targer_group_field.style.display = 'none';
         targer_post_field.style.display = 'none';
-        
+
+
         // Show the selected field
         if (selectedValue === 'user') {
             targer_user_field.style.display = 'block';
         } else if (selectedValue === 'group') {
             targer_group_field.style.display = 'block';
         } else if (selectedValue === 'post') {
+            targer_post_field.style.display = 'block';
+        }
+
+        if (userValue !== undefined  && userValue !== "") {
+            targer_user_field.style.display = 'block';
+        }
+        if (groupValue !== undefined  && groupValue !== "") {
+            targer_group_field.style.display = 'block';
+        }
+        if (postValue !== undefined  &&  postValue !== "") {
             targer_post_field.style.display = 'block';
         }
     }
