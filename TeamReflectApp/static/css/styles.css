@@ -120,7 +120,7 @@ header, footer {
 }
 
 .nav-links a:hover, button:hover {
-   
+    background-color: rgb(3, 44, 99);
     border-radius: 5px;
 }
 
