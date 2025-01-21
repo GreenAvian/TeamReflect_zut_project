@@ -535,6 +535,11 @@ a {
     font-weight: bold;
 }
 
+.generic_button:hover {
+    background-color: rgb(3, 44, 99);
+    border-radius: 5px;
+}
+
 
 #addPollOptionBtn {
     margin-top: 10px;
