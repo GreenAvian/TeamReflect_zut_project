@@ -14,7 +14,44 @@
 
     {% if poll %}
         {% for item in poll %}
-            <li>{{ item.content }}</li>
+            <li>
+                {{ item.content }}
+                <form id="commentForm" style="display:none;" method="POST" action="{% url 'get_feedback' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_id" value="{item.id_item}">
+                    <input type="text" name="content" placeholder="Komentarz">
+
+                    <label>
+                    <input type="radio" name="color" value="1">
+                        1
+                    </label>
+                    
+                    <label>
+                    <input type="radio" name="color" value="2">
+                        2
+                    </label>
+                    
+                    <label>
+                    <input type="radio" name="color" value="3">
+                        3
+                    </label>
+                    
+                    <label>
+                        <input type="radio" name="color" value="3">
+                        4
+                    </label>
+                    
+                    <label>
+                        <input type="radio" name="color" value="3">
+                        5
+                    </label>
+                            
+
+                    <button class="generic_button" type="submit">Wyślij</button>
+                    <button class="generic_button" type="button" onclick="cancelEdit('phoneForm')">Anuluj</button>
+                </form>
+            </li>
+
         {% endfor %}
     {% endif %}
 
