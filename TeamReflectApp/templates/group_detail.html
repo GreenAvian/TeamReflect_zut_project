@@ -21,7 +21,7 @@
 </ul>
 
 <h2>Dodaj nowego członka:</h2>
-<form method="post" action="{% url 'group_list' %}">
+<form method="post" action="">
     {% csrf_token %}
     <input type="text" name="username" placeholder="Nazwa użytkownika">
     <button class="generic_button" type="submit" name="add_member">Dodaj</button>

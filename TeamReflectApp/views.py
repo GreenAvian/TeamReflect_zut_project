@@ -1,4 +1,4 @@
-from pyexpat.errors import messages
+from django.contrib import messages
 from django.views.generic import CreateView, UpdateView
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
@@ -32,7 +32,7 @@ def group_detail(request, group_id):
     if group not in request.user.groups.all():
         raise PermissionDenied("Nie masz dostępu do tej grupy.")
 
-    members = group.user_set.all()  
+    members = group.user_set.all()
 
     if request.method == "POST":
         if "add_member" in request.POST:
@@ -43,7 +43,7 @@ def group_detail(request, group_id):
                     if user in group.user_set.all():
                         messages.error(request, f"Użytkownik {username} jest już członkiem grupy.")
                     else:
-                        group.user_set.add(user)  
+                        group.user_set.add(user)
                         messages.success(request, f"Użytkownik {username} został dodany do grupy.")
                 except User.DoesNotExist:
                     messages.error(request, "Nie znaleziono użytkownika.")
@@ -52,23 +52,31 @@ def group_detail(request, group_id):
         if "remove_member" in request.POST:
             user_id = request.POST.get("user_id")
             user = get_object_or_404(User, id=user_id)
-            if user.profile.is_leader:
+            if hasattr(user, 'profile') and user.profile.is_leader:
                 user.profile.is_leader = False
                 user.profile.save()
-            group.user_set.remove(user)  
+            group.user_set.remove(user)
             messages.success(request, f"Użytkownik {user.username} został usunięty z grupy.")
             return redirect("group_detail", group_id=group.id)
 
         if "set_leader" in request.POST:
-            if not request.user.profile.is_leader:
+            # Sprawdź, czy aktualny użytkownik jest liderem
+            if not hasattr(request.user, 'profile') or not request.user.profile.is_leader:
                 raise PermissionDenied("Tylko lider grupy może zmienić lidera.")
 
             user_id = request.POST.get("user_id")
             user = get_object_or_404(User, id=user_id)
+
+            # Sprawdź, czy użytkownik należy do grupy
             if user not in group.user_set.all():
                 raise PermissionDenied("Użytkownik nie jest członkiem tej grupy.")
 
+            # Ustaw wszystkich jako nie-liderów
             UserProfile.objects.filter(user__in=group.user_set.all()).update(is_leader=False)
+
+            # Ustaw nowego lidera
+            if not hasattr(user, 'profile'):
+                raise Exception(f"Użytkownik {user.username} nie ma przypisanego profilu.")
             user.profile.is_leader = True
             user.profile.save()
             messages.success(request, f"Użytkownik {user.username} został nowym liderem.")
