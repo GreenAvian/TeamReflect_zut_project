@@ -92,6 +92,14 @@ def create_group(request):
         if not group_name:
             return render(request, 'create_group.html', {'error': 'Nazwa grupy jest wymagana.'})
 
+      
+        if Group.objects.filter(name=group_name).exists():
+            return render(request, 'create_group.html', {
+                'error': f'Grupa o nazwie "{group_name}" już istnieje.',
+                'group_name': group_name,
+            })
+
+ 
         group = Group.objects.create(name=group_name)
         group.user_set.add(request.user)  
         return redirect('group_list')
