@@ -16,40 +16,51 @@
         {% for item in poll %}
             <li>
                 {{ item.content }}
-                <form id="commentForm" style="display:none;" method="POST" action="{% url 'get_feedback' %}">
+                <form id="commentForm_{{item.id_item}}" style="display:none;" method="POST" action="{% url 'comment_post' %}">
                     {% csrf_token %}
-                    <input type="hidden" name="item_id" value="{item.id_item}">
+                    <input type="hidden" name="id_item" value="{{item.id_item}}">
                     <input type="text" name="content" placeholder="Komentarz">
 
                     <label>
-                    <input type="radio" name="color" value="1">
+                        <input type="radio" name="rating" value="1">
                         1
                     </label>
                     
                     <label>
-                    <input type="radio" name="color" value="2">
+                        <input type="radio" name="rating" value="2">
                         2
                     </label>
                     
                     <label>
-                    <input type="radio" name="color" value="3">
+                        <input type="radio" name="rating" value="3">
                         3
                     </label>
                     
                     <label>
-                        <input type="radio" name="color" value="3">
+                        <input type="radio" name="rating" value="4">
                         4
                     </label>
                     
                     <label>
-                        <input type="radio" name="color" value="3">
+                        <input type="radio" name="rating" value="5" checked>
                         5
                     </label>
-                            
-
+                         
                     <button class="generic_button" type="submit">Wyślij</button>
-                    <button class="generic_button" type="button" onclick="cancelEdit('phoneForm')">Anuluj</button>
+                    <button class="generic_button" type="button" onclick="cancelComment('commentForm_{{ item.id_item }}')">Anuluj</button>
                 </form>
+                <button class='generic_button' onclick="postComment('commentForm_{{ item.id_item }}')">Dodaj komentarz</button>
+                {% if comments %}
+                <ul class='comment-list'>
+                    {% for comment in comments %}
+                        {% if comment.leader_poll_item.id_item == item.id_item %}
+                            <p>{{comment.created_by}}</p>
+                            <p>{{comment.content}}</p>
+                            <p>{{comment.rating}}/5</p>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% endif %}
             </li>
 
         {% endfor %}

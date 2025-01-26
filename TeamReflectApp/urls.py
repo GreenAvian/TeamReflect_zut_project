@@ -23,6 +23,7 @@ urlpatterns = [
     path('groups/<int:group_id>/delete/', views.delete_group, name='delete_group'),
     path('post/', views.leader_post_form, name='leader_post_form'), #Rename these
     path('post/write_post', views.leader_post, name='leader_post'),
+    path('post/write_comment', views.comment_post, name='comment_post'),
     path('post/<int:post_id>', views.post_view, name='post_view'),
     path('post/list/', views.post_list, name='post_list'),
 ]

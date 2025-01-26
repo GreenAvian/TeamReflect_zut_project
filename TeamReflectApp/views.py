@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
 from .forms import FeedbackForm
-from .models import Feedback, UserProfile, LeaderPost, LeaderPollItem
+from .models import Feedback, UserProfile, LeaderPost, LeaderPollItem, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
@@ -109,11 +109,27 @@ def leader_post(request):
         return redirect('post_view', post_id=leader_post.id_post)
     return redirect('group_list')
 
+@login_required #TODO -- extend this
+def comment_post(request):
+    
+    id_item = request.POST.get('id_item')
+    item = LeaderPollItem.objects.get(id_item=id_item)
+    post = item.leader_post
+    content = request.POST.get('content')
+    rating = request.POST.get('rating')
+    
+    comment = Comment.objects.create(created_by=request.user, rating=rating, leader_poll_item=item)
+    if (content):
+        comment.content = content
+    
+    return redirect('post_view', post_id=post.id_post)
+
 def post_view(request, post_id):
     post = LeaderPost.objects.get(id_post=post_id)
     profile = UserProfile.objects.get(user__username=post.created_by)
     poll = post.poll_items.all()
-    return render(request, 'group_post.html', {'post': post, 'poll':poll, 'profile':profile})
+    comments = Comment.objects.all()
+    return render(request, 'group_post.html', {'post': post, 'poll':poll, 'profile':profile, 'comments':comments})
 
 @login_required
 def delete_group(request, group_id):
@@ -127,7 +143,7 @@ def delete_group(request, group_id):
     group.delete()
     return redirect('group_list')
 
-def get_feedback(request, is_prefilled = False): # TODO - Rename this function later
+def get_feedback(request, is_prefilled = False): # TODO - Rename this function
     if request.method == "POST":
         if (not is_prefilled): # Check if we're allowed to make a simple empty form like God intended
             # create a form instance and populate it with data from the request:

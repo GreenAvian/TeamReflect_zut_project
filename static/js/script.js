@@ -74,6 +74,14 @@ function cancelEdit(formId) {
     document.getElementById(formId).style.display = 'none';
 }
 
+//      Alias for comments
+function postComment(formId) {
+    editField(formId);
+}
+
+function cancelComment(formId) {
+    cancelEdit(formId);
+}
 
 const addOptionBtn = document.getElementById('addPollOptionBtn');
 var pollCounter = 1;

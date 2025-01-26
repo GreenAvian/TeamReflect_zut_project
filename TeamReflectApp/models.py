@@ -19,13 +19,25 @@ class LeaderPost(models.Model):
 class LeaderPollItem(models.Model):
     id_item = models.AutoField(db_column='id_Item', primary_key=True)
     leader_post = models.ForeignKey(LeaderPost, db_column='Leader_post', on_delete=models.CASCADE, related_name='poll_items', blank=True, null=True)
-    content = models.CharField(db_column='Content', max_length=150, blank=True, null=True)
+    content = models.TextField(db_column='Content', blank=True, null=True)
 
     def __str__(self):
-        return self.content
+        return self.id_item
     class Meta:
         managed = True
         db_table = 'Leader_Poll'
+
+class Comment(models.Model):
+    id_comment = models.AutoField(db_column='id_Comment', primary_key=True)
+    leader_poll_item = models.ForeignKey(LeaderPollItem, db_column='Leader_poll_item', on_delete=models.CASCADE, blank=True, null=True)
+    created_by = models.ForeignKey(User, db_column='Created_by', on_delete=models.CASCADE, blank=True, null=True)
+    content = models.TextField(db_column='Content', blank=True, null=True)
+    rating = models.IntegerField(db_column='Rating')
+    def __str__(self):
+        return self.id_comment
+    class Meta:
+        managed = True
+        db_table = 'Comment'
 
 class Groupmembership(models.Model):
     id_membership = models.TextField(db_column='id_Membership', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
