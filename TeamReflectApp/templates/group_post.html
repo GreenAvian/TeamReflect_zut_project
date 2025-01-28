@@ -28,7 +28,7 @@
     {% if poll %}
         {% for item in poll %}
             <li>
-                <span onclick="hide_or_show('comment-list-{{item.id_item}}')">{{ item.content }}</span>
+                <span onclick="hide_or_show('comment-list-{{item.id_item}}')"> {{ item.content }}⬇️ </span>
                 <form id="commentForm_{{item.id_item}}" style="display:none;" method="POST" action="{% url 'comment_post' %}">
                     {% csrf_token %}
                     <input type="hidden" name="id_item" value="{{item.id_item}}">
@@ -67,11 +67,10 @@
                 <ul id='comment-list-{{item.id_item}}' style="display:none;">
                     {% for comment in comments %}
                         {% if comment.leader_poll_item.id_item == item.id_item %}
-                        <div class ="myDiv">
+                        <div class ="myDiv"> {% comment %} TODO {% endcomment %}
                             <p>{{comment.created_by}}</p>
                             <p>{{comment.content}}</p>
                             <p>{{comment.rating}}/5</p>
-
                         </div>    
                         {% endif %}
                     {% endfor %}
