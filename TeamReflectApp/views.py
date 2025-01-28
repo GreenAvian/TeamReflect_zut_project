@@ -134,9 +134,9 @@ def comment_post(request):
     content = request.POST.get('content')
     rating = request.POST.get('rating')
     
-    comment = Comment.objects.create(created_by=request.user, rating=rating, leader_poll_item=item)
-    if (content):
-        comment.content = content
+    comment = Comment.objects.create(created_by=request.user, rating=rating, leader_poll_item=item, content=content)
+    #if (content):
+        #comment.content = content
     
     return redirect('post_view', post_id=post.id_post)
 

@@ -2,7 +2,20 @@
 
 {% block title %}Post lidera{% endblock %}
 
+
+
 {% block content %}
+<style>
+    .myDiv {
+      border: 3px outset blue;
+      border-radius: 20px;
+      width:200px;
+      background-color: lightblue;
+      text-align: center;
+      margin-top: 5px;
+    }
+</style>
+
 <div class="post-item">
     <p>Poster: {{ post.created_by }}
     {% if profile.user.first_name and profile.user.last_name %}
@@ -54,9 +67,12 @@
                 <ul id='comment-list-{{item.id_item}}' style="display:none;">
                     {% for comment in comments %}
                         {% if comment.leader_poll_item.id_item == item.id_item %}
+                        <div class ="myDiv">
                             <p>{{comment.created_by}}</p>
                             <p>{{comment.content}}</p>
                             <p>{{comment.rating}}/5</p>
+
+                        </div>    
                         {% endif %}
                     {% endfor %}
                 </ul>
