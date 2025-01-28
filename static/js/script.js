@@ -74,6 +74,15 @@ function cancelEdit(formId) {
     document.getElementById(formId).style.display = 'none';
 }
 
+function hide_or_show(divId) {
+    var element = document.getElementById(divId)
+    if (element.style.display === 'none')
+    {element.style.display = 'block'}
+    else if ( element.style.display === 'block')
+    {element.style.display = 'none'}
+}
+
+
 //      Alias for comments
 function postComment(formId) {
     editField(formId);

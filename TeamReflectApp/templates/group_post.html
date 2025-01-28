@@ -15,7 +15,7 @@
     {% if poll %}
         {% for item in poll %}
             <li>
-                {{ item.content }}
+                <span onclick="hide_or_show('comment-list-{{item.id_item}}')">{{ item.content }}</span>
                 <form id="commentForm_{{item.id_item}}" style="display:none;" method="POST" action="{% url 'comment_post' %}">
                     {% csrf_token %}
                     <input type="hidden" name="id_item" value="{{item.id_item}}">
@@ -51,7 +51,7 @@
                 </form>
                 <button class='generic_button' onclick="postComment('commentForm_{{ item.id_item }}')">Dodaj komentarz</button>
                 {% if comments %}
-                <ul class='comment-list'>
+                <ul id='comment-list-{{item.id_item}}' style="display:none;">
                     {% for comment in comments %}
                         {% if comment.leader_poll_item.id_item == item.id_item %}
                             <p>{{comment.created_by}}</p>
