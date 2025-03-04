@@ -159,9 +159,9 @@ def delete_group(request, group_id):
     group.delete()
     return redirect('group_list')
 
-def get_feedback(request, is_prefilled = False): # TODO - Rename this function
+def feedback_form(request, is_prefilled = False):
     if request.method == "POST":
-        if (not is_prefilled): # Check if we're allowed to make a simple empty form like God intended
+        if (not is_prefilled): # Check if we're allowed to make a simple empty form
             # create a form instance and populate it with data from the request:
             form = FeedbackForm(request.POST)
             if form.is_valid():
@@ -169,8 +169,8 @@ def get_feedback(request, is_prefilled = False): # TODO - Rename this function
                 feedback = form.save(commit=False)
                 feedback.created_by = request.user
                 feedback.save()
-                return HttpResponseRedirect(reverse('result_feedbacks'))
-        else: # Sadly, we have to fill some fields
+                return HttpResponseRedirect(reverse('feedback_list'))
+        else: # There are fields that need prefilling
             prefilled_field = request.POST.get('field')
             prefilled_val = request.POST.get('prefilled_val')
             if prefilled_field == "for_post":
@@ -199,7 +199,7 @@ def get_feedback(request, is_prefilled = False): # TODO - Rename this function
         
     return render(request, "feedback_form.html", {"form": form})
 
-def result_feedbacks(request):
+def feedback_list(request):
     print(request.build_absolute_uri()) #optional
     #form = request.session.pop('form_data', None) # Retrieve the session data
     #   OR

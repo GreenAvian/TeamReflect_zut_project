@@ -82,7 +82,7 @@
     {% endif %}
 
     {% comment %} Adding a feedback linked to this {% endcomment %}
-    <form id="open_feedback" method="POST" action="{% url 'get_feedback_partfill' %}">
+    <form id="open_feedback" method="POST" action="{% url 'feedback_form_partfill' %}">
         {% csrf_token %}
         <input type="hidden" name="field" value="for_post">
         <input type="hidden" name="prefilled_val" value="{{ post.id_post }}">
