@@ -10,6 +10,8 @@ urlpatterns = [
     path("feedback/form/", views.feedback_form, name = 'feedback_form'),
     path("feedback/form/partfill", lambda request: views.feedback_form(request, is_prefilled=True),  name = 'feedback_form_partfill'),
     path("feedback/list/", views.feedback_list, name = 'feedback_list'),
+    path("feedback/results/", views.feedback_list, name='result_feedbacks'),
+    path("feedback/add/", views.feedback_form, name="get_feedback"),
     path('feedback/<int:id_feedback>/', views.feedback_view, name='feedback_view'),
     path("signup/", SignUpView.as_view(), name="signup"),
     path('delete_user/<int:user_id>/', DeleteUserView.as_view(), name='delete_user'),
