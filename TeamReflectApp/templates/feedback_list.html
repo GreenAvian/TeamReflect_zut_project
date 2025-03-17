@@ -3,6 +3,24 @@
 {% block title %}Feedback list{% endblock %}
 
 {% block content %}
+
+<button id="toggleCharts" onclick="toggleCharts()">📊 Pokaż/Ukryj Wykresy</button>
+<button id="toggleChartType" data-type="bar" style="display: none;">🔄 Zmień wykres</button>
+
+<div id="chartsContainer" style="display: none;">
+
+    {% if data_target %}
+        <h3> Według Typu</h3>
+        <canvas id="feedbackTypeChart" style="max-width: 600px; max-height: 400px;"></canvas>
+    {% endif %}
+
+    {% if data_priority %}
+        <h3> Według Priorytetu</h3>
+        <canvas id="feedbackPriorityChart" style="max-width: 600px; max-height: 400px;"></canvas>
+    {% endif %}
+
+</div> <!-- Koniec div chartsContainer -->
+
 <ul id="feedback-list">
     {% for feedback in feedbacks %}
         <li class="feedback-item">
@@ -42,4 +60,153 @@
         </li>
     {% endfor %}
 </ul>
+
+    <!-- Dodanie Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const dataTarget = JSON.parse('{{ data_target|safe }}');
+        const dataPriority = JSON.parse('{{ data_priority|safe }}');
+
+        const labelsTarget = Object.keys(dataTarget);
+        const valuesTarget = Object.values(dataTarget);
+
+        const labelsPriority = Object.keys(dataPriority);
+        const valuesPriority = Object.values(dataPriority);
+
+        let feedbackTypeChart, feedbackPriorityChart;
+        let currentChartType = "bar"; // Domyślnie wykres słupkowy
+
+        function getPriorityColors() {
+            return labelsPriority.map(label => {
+                if (label.toLowerCase().includes("niski")) return "blue";
+                if (label.toLowerCase().includes("średni")) return "green";
+                if (label.toLowerCase().includes("wysoki")) return "red";             
+            });
+        }
+
+        function getPercentageData(values) {
+            const total = values.reduce((sum, value) => sum + value, 0);
+            return values.map(value => ((value / total) * 100).toFixed(1)); 
+        }
+
+        function createCharts(chartType) {
+            
+            if (feedbackTypeChart) feedbackTypeChart.destroy();
+            if (feedbackPriorityChart) feedbackPriorityChart.destroy();
+
+           
+            const colorBar = "purple"; 
+            const colorsPiePriority = getPriorityColors(); // Dynamiczne kolory dla priorytetów w kołowym
+
+            
+            const percentagePriority = getPercentageData(valuesPriority);
+            const percentageTarget = getPercentageData(valuesTarget);
+
+            const displayDataTarget = chartType === "pie" ? percentageTarget : valuesTarget;
+            const displayDataPriority = chartType === "pie" ? percentagePriority : valuesPriority;
+
+           
+            feedbackTypeChart = new Chart(document.getElementById("feedbackTypeChart"), {
+                type: chartType,
+                data: {
+                    labels: labelsTarget,
+                    datasets: [{
+                        label: "Średnia ocena",
+                        data: displayDataTarget,
+                        backgroundColor: chartType === "bar" ? colorBar : ["red", "blue", "green"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { 
+                        legend: { display: chartType === "pie" },
+                        tooltip: { 
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const originalValue = valuesTarget[tooltipItem.dataIndex]; // Pobiera średnią ocenę
+                                    return `${tooltipItem.label}: ${originalValue.toFixed(1)}`;
+                                }
+                            }
+                        },
+                        datalabels: chartType === "pie" ? { 
+                            color: "white",
+                            font: { weight: "bold", size: 14 },
+                            formatter: (value) => `${value}%`
+                        } : false
+                    }
+                },
+                plugins: chartType === "pie" ? [ChartDataLabels] : []
+            });
+
+          
+            feedbackPriorityChart = new Chart(document.getElementById("feedbackPriorityChart"), {
+                type: chartType,
+                data: {
+                    labels: labelsPriority,
+                    datasets: [{
+                        label: "Średnia ocena",
+                        data: displayDataPriority,
+                        backgroundColor: chartType === "bar" ? colorBar : colorsPiePriority
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { 
+                        legend: { display: chartType === "pie" },
+                        tooltip: { 
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const originalValue = valuesPriority[tooltipItem.dataIndex]; // Pobiera średnią ocenę
+                                    return `${tooltipItem.label}: ${originalValue.toFixed(1)}`;
+                                }
+                            }
+                        },
+                        datalabels: chartType === "pie" ? { 
+                            color: "white",
+                            font: { weight: "bold", size: 14 },
+                            formatter: (value) => `${value}%`
+                        } : false
+                    }
+                },
+                plugins: chartType === "pie" ? [ChartDataLabels] : []
+            });
+        }
+
+       
+        function toggleChartType() {
+            currentChartType = currentChartType === "bar" ? "pie" : "bar";
+            createCharts(currentChartType);
+
+            
+            document.getElementById("toggleChartType").textContent =
+                currentChartType === "bar" ? "🔄 Zmień na wykres kołowy" : "🔄 Zmień na wykres słupkowy";
+        }
+
+        function toggleCharts() {
+            var container = document.getElementById("chartsContainer");
+            var toggleChartTypeButton = document.getElementById("toggleChartType");
+
+            if (container.style.display === "none") {
+                container.style.display = "block";
+                toggleChartTypeButton.style.display = "inline-block"; 
+                createCharts("bar"); 
+
+                
+                currentChartType = "bar";
+                toggleChartTypeButton.textContent = "🔄 Zmień na wykres kołowy";
+            } else {
+                container.style.display = "none";
+                toggleChartTypeButton.style.display = "none"; 
+            }
+        }
+
+        
+        document.getElementById("toggleChartType").addEventListener("click", toggleChartType);
+        document.getElementById("toggleCharts").addEventListener("click", toggleCharts);
+    });
+</script>
+
 {% endblock %}

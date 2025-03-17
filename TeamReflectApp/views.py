@@ -10,7 +10,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-
+from django.db.models import Avg
+import json  # Do konwersji danych do JSON
 
 
 def home(request):
@@ -200,11 +201,26 @@ def feedback_form(request, is_prefilled = False):
     return render(request, "feedback_form.html", {"form": form})
 
 def feedback_list(request):
-    print(request.build_absolute_uri()) #optional
-    #form = request.session.pop('form_data', None) # Retrieve the session data
-    #   OR
-    feedbacks = Feedback.objects.all() # Fetch all Person records or the last inserted one
-    return render(request, 'feedback_list.html', {"feedbacks": feedbacks})
+    feedbacks = Feedback.objects.all()
+
+    # Dane dla wykresu priorytetów
+    feedback_avg = Feedback.objects.values("priority").annotate(avg_rating=Avg("rating"))
+    data_priority = {f["priority"]: f["avg_rating"] for f in feedback_avg if f["avg_rating"] is not None}
+
+    # Dane dla wykresu typów odbiorców
+    feedback_types = {
+        "Dla użytkownika": Feedback.objects.filter(for_user__isnull=False).aggregate(avg_rating=Avg("rating"))["avg_rating"],
+        "Dla grupy": Feedback.objects.filter(for_group__isnull=False).aggregate(avg_rating=Avg("rating"))["avg_rating"],
+        "Do posta": Feedback.objects.filter(for_post__isnull=False).aggregate(avg_rating=Avg("rating"))["avg_rating"],
+    }
+    data_target = {k: v for k, v in feedback_types.items() if v is not None}
+
+    return render(request, "feedback_list.html", {
+        "feedbacks": feedbacks,
+        "data_priority": json.dumps(data_priority),  # Konwersja na JSON
+        "data_target": json.dumps(data_target),
+    })
+
 
 #@login_required
 def post_list(request):
