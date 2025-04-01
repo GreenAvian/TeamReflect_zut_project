@@ -10,7 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.db.models import Avg
+from django.db.models import Avg, Count
 import json  # Do konwersji danych do JSON
 
 
@@ -199,33 +199,98 @@ def feedback_form(request, is_prefilled = False):
         form = FeedbackForm(initial={'created_by': request.user.username})
         
     return render(request, "feedback_form.html", {"form": form})
-
-def feedback_list(request):
-    feedbacks = Feedback.objects.all()
-
-    # Dane dla wykresu priorytetów
-    feedback_avg = Feedback.objects.values("priority").annotate(avg_rating=Avg("rating"))
-    data_priority = {f["priority"]: f["avg_rating"] for f in feedback_avg if f["avg_rating"] is not None}
-
-    # Dane dla wykresu typów odbiorców
-    feedback_types = {
-        "Dla użytkownika": Feedback.objects.filter(for_user__isnull=False).aggregate(avg_rating=Avg("rating"))["avg_rating"],
-        "Dla grupy": Feedback.objects.filter(for_group__isnull=False).aggregate(avg_rating=Avg("rating"))["avg_rating"],
-        "Do posta": Feedback.objects.filter(for_post__isnull=False).aggregate(avg_rating=Avg("rating"))["avg_rating"],
+def get_priority_value(priority):
+    mapping = {
+        "niski": 3,
+        "średni": 2,
+        "wysoki": 1
     }
-    data_target = {k: v for k, v in feedback_types.items() if v is not None}
+    return mapping.get(priority.lower(), 0)
+def feedback_list(request):
+    sort = request.GET.get('sort', 'newest')  # domyślne sortowanie
+
+    if sort == 'oldest':
+        feedbacks = Feedback.objects.all().order_by('created_at')
+    elif sort == 'priority':
+        feedbacks = sorted(Feedback.objects.all(), key=lambda f: get_priority_value(f.priority))
+    elif sort == 'priority_desc':
+        feedbacks = sorted(Feedback.objects.all(), key=lambda f: get_priority_value(f.priority), reverse=True)
+    elif sort == 'author':
+         feedbacks = Feedback.objects.all().order_by('created_by')
+    elif sort == 'rating_desc':
+         feedbacks = Feedback.objects.all().order_by('-rating', 'created_at')  
+    elif sort == 'rating':
+         feedbacks = Feedback.objects.all().order_by('rating', 'created_at')  
+    else:  # 'newest'
+        feedbacks = Feedback.objects.all().order_by('-created_at')
+
+    priority_order = ["Niski", "Średni", "Wysoki"]
+
+    feedback_counts = Feedback.objects.values("priority").annotate(count=Count("id_feedback"))
+    data_priority_count_unsorted = {f["priority"]: f["count"] for f in feedback_counts if f["count"] > 0}
+    data_priority_count = {
+        k: data_priority_count_unsorted[k]
+        for k in priority_order if k in data_priority_count_unsorted
+}
+# Średnie oceny
+    feedback_avg = Feedback.objects.values("priority").annotate(avg_rating=Avg("rating"))
+    data_priority_avg_unsorted = {f["priority"]: f["avg_rating"] for f in feedback_avg if f["avg_rating"] is not None}
+    data_priority_avg = {k: data_priority_avg_unsorted[k] for k in priority_order if k in data_priority_avg_unsorted}
+
+
+    # ŚREDNIA ocena dla typu odbiorcy (słupkowy)
+    feedback_avg_type = {
+        "Dla użytkownika": Feedback.objects.filter(for_user__isnull=False).aggregate(avg=Avg("rating"))["avg"],
+        "Dla grupy": Feedback.objects.filter(for_group__isnull=False).aggregate(avg=Avg("rating"))["avg"],
+        "Do posta": Feedback.objects.filter(for_post__isnull=False).aggregate(avg=Avg("rating"))["avg"],
+    }
+    data_target_avg = {k: v for k, v in feedback_avg_type.items() if v is not None}
+
+    # LICZBA feedbacków dla typu odbiorcy (kołowy)
+    feedback_counts_type = {
+        "Dla użytkownika": Feedback.objects.filter(for_user__isnull=False).count(),
+        "Dla grupy": Feedback.objects.filter(for_group__isnull=False).count(),
+        "Do posta": Feedback.objects.filter(for_post__isnull=False).count(),
+    }
+    data_target_count = {k: v for k, v in feedback_counts_type.items() if v > 0}
+
+    print("Feedback count for post:", feedback_counts_type["Do posta"])
+    print("Feedback count for user:", feedback_counts_type["Dla użytkownika"])
+    print("Feedback count for group:", feedback_counts_type["Dla grupy"])
+    print("DATA TARGET:", data_target_count)
 
     return render(request, "feedback_list.html", {
         "feedbacks": feedbacks,
-        "data_priority": json.dumps(data_priority),  # Konwersja na JSON
-        "data_target": json.dumps(data_target),
+        "data_priority_avg": json.dumps(data_priority_avg),
+        "data_priority_count": json.dumps(data_priority_count),
+        "data_target_avg": json.dumps(data_target_avg),
+        "data_target_count": json.dumps(data_target_count),
     })
 
 
 #@login_required
 def post_list(request):
-    posts = LeaderPost.objects.all()  
-    return render(request, 'post_list.html', {'posts': posts})
+    sort = request.GET.get('sort', 'newest')
+
+    if sort == 'title_asc':
+        posts = LeaderPost.objects.all().order_by('topic')
+    elif sort == 'title_desc':
+        posts = LeaderPost.objects.all().order_by('-topic')
+    elif sort == 'tag_ankieta':
+        posts = LeaderPost.objects.filter(tag__iexact='ankieta')
+    elif sort == 'tag_ogolny':
+        posts = LeaderPost.objects.filter(tag__iexact='ogólny')
+    elif sort == 'tag_zadanie':
+        posts = LeaderPost.objects.filter(tag__iexact='zadanie')
+    elif sort == 'oldest':
+        posts = LeaderPost.objects.all().order_by('id_post')  # lub 'created_at' jeśli istnieje
+    else:
+        posts = LeaderPost.objects.all().order_by('-id_post')  # domyślnie najnowsze
+
+    return render(request, 'post_list.html', {
+        'posts': posts,
+        'sort': sort
+    })
 
 #@login_required
 def user_list(request):

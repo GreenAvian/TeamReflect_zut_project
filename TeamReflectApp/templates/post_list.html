@@ -26,4 +26,16 @@
     {% endif %}
 
 </div>
+<form method="get" style="text-align: right; margin-bottom: 20px;">
+    <label for="sort"><b>Sortuj według:</b></label>
+    <select name="sort" id="sort" onchange="this.form.submit()">
+        <option value="newest" {% if sort == "newest" or not sort %}selected{% endif %}>📅 Najnowsze</option>
+        <option value="oldest" {% if sort == "oldest" %}selected{% endif %}>📆 Najstarsze</option>
+        <option value="title_asc" {% if sort == "title_asc" %}selected{% endif %}>🔤 Tytuł (A-Z)</option>
+        <option value="title_desc" {% if sort == "title_desc" %}selected{% endif %}>🔤 Tytuł (Z-A)</option>
+        <option value="tag_ankieta" {% if sort == "tag_ankieta" %}selected{% endif %}>📊 Tylko Ankiety</option>
+        <option value="tag_ogolny" {% if sort == "tag_ogolny" %}selected{% endif %}>📘 Tylko Ogólne</option>
+        <option value="tag_zadanie" {% if sort == "tag_zadanie" %}selected{% endif %}>📝 Tylko Zadania</option>
+    </select>
+</form>
 {% endblock %}
