@@ -53,6 +53,30 @@ header, footer {
     padding: 30px;
 }
 
+#homepage-wrapper {
+    display: flex;
+    background: url('/media/images/homepage-background.jpg') no-repeat center center / cover;
+    min-height: 80vh;
+}
+
+#homepage-wrapper-left #profile-wrapper-right {
+    flex:1;
+}
+
+#homepage-wrapper-left {
+    min-width: 40%;
+    min-height: 50px;
+    background-color: rgb(255, 255, 255, 0.75);
+    border-radius: 10%;
+    margin:1% 5% 1% 1%;
+}
+
+#homepage-wrapper-right {
+    border-radius: 10%;
+    background-color: rgb(255, 255, 255, 0.75);
+    margin:1% 1% 1% 0%;
+}
+
 /* Nawigacja */
 #sitenav {
     background: #09476F;
