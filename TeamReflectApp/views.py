@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
 from .forms import FeedbackForm
-from .models import Feedback, UserProfile, LeaderPost, LeaderPollItem, Comment
+from .models import Feedback, UserProfile, LeaderPost, LeaderPollItem, Comment, Groupmembership
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
@@ -45,6 +45,11 @@ def group_detail(request, group_id):
                         messages.error(request, f"Użytkownik {username} jest już członkiem grupy.")
                     else:
                         group.user_set.add(user)
+                        Member = Groupmembership()
+                        Member.id_user = user.id
+                        Member.id_group = group.id
+                        Member.is_leader = False
+                        Member.save()
                         messages.success(request, f"Użytkownik {username} został dodany do grupy.")
                 except User.DoesNotExist:
                     messages.error(request, "Nie znaleziono użytkownika.")
@@ -52,12 +57,34 @@ def group_detail(request, group_id):
 
         if "remove_member" in request.POST:
             user_id = request.POST.get("user_id")
+            remover_id = request.user.id
+            
             user = get_object_or_404(User, id=user_id)
-            if hasattr(user, 'profile') and user.profile.is_leader:
-                user.profile.is_leader = False
-                user.profile.save()
-            group.user_set.remove(user)
-            messages.success(request, f"Użytkownik {user.username} został usunięty z grupy.")
+            
+            Member = get_object_or_404(Groupmembership, id_user=remover_id, id_group = group.id)
+            Target = get_object_or_404(Groupmembership, id_user = user.id, id_group = group.id)
+            
+            print("czy jest liderem: ",Member.is_leader)
+            
+            print("czlonek tej grupy: ",Member.id_group)
+            
+            print("id tej grupy: ",group.id)
+            
+            
+            
+            
+            if (Member.is_leader == 1 and int(Member.id_group) == group.id):
+                
+                group.user_set.remove(user)
+                group.save()
+                messages.success(request, f"Użytkownik {user.username} został usunięty z grupy.")
+                Target.delete()
+                print("POPRAWNE")
+            else:    
+                messages.error(request, f"Nie masz uprawnień do usuwania członków grupy")     
+                print("NIEPOPRAWNE")
+            print("wykonane")    
+                    
             return redirect("group_detail", group_id=group.id)
 
         if "set_leader" in request.POST:
@@ -99,10 +126,26 @@ def create_group(request):
                 'error': f'Grupa o nazwie "{group_name}" już istnieje.',
                 'group_name': group_name,
             })
-
- 
+        #print("etap1")
+        
+        user = request.user
+        #print("etap2")
         group = Group.objects.create(name=group_name)
         group.user_set.add(request.user)  
+        GroupLeader = Groupmembership()
+        GroupLeader.id_membership = 1#???
+        GroupLeader.id_user = user.id
+        GroupLeader.id_group = group.id
+        GroupLeader.is_leader = True
+        GroupLeader.save()
+        #print("etap3")
+        #user.profile.is_leader = True
+        #user.profile.which_group_is_leader.append(group_name)
+        #user.profile.save()
+        #print("etap4")
+        #print("Kto jest liderem",user.profile.which_group_is_leader)
+        #print("Lider tej grupy", GroupLeader.id_user)
+        #print("Twórcą grupy jest",user.id )
         return redirect('group_list')
 
     return render(request, 'create_group.html')
