@@ -18,48 +18,92 @@
                     <div class="logo"><a href="{% url 'home' %}">TeamReflect</a></div>
                     <div class="menu-icon">☰</div>
                 </div>
-                <ul class="nav-links">
+                <ul class="nav-links nav-desktop">
                     <li class="dropdown">
-                        <a href="{% url 'group_list' %}">Grupy⬇️</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'create_group' %}">Dodaj grupę</a></li>
-                        </ul>
-                    </li>  
-
-                    <li class="dropdown">
-                        <a href="{% url 'result_feedbacks' %}">Feedbacki⬇️</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'get_feedback' %}">Dodaj Feedback</a></li>
-                        </ul>
+                      <a href="{% url 'group_list' %}">Grupy⬇️</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'create_group' %}">Dodaj grupę</a></li>
+                      </ul>
                     </li>
-
                     <li class="dropdown">
-                        <a href="{% url 'post_list' %}">Posty⬇️</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'leader_post_form' %}">Dodaj post</a></li>
-                        </ul>
-                    </li>  
-
+                      <a href="{% url 'result_feedbacks' %}">Feedbacki⬇️</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'get_feedback' %}">Dodaj Feedback</a></li>
+                      </ul>
+                    </li>
                     <li class="dropdown">
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'profile_view' user.username %}">Profil⬇️</a>
-                        {% else %}
-                            <a href="{% url 'login' %}">Zaloguj się⬇️</a>
-                        {% endif %}
-                        <ul class="dropdown-menu">
+                      <a href="{% url 'post_list' %}">Posty⬇️</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'leader_post_form' %}">Dodaj post</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      {% if user.is_authenticated %}
+                        <a href="{% url 'profile_view' user.username %}">Profil⬇️</a>
+                      {% else %}
+                        <a href="{% url 'login' %}">Zaloguj się⬇️</a>
+                      {% endif %}
+                      <ul class="dropdown-menu">
                         {% if not user.is_authenticated %}
-                            <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
+                          <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
                         {% endif %}
                         <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>
-                        </ul>
-                    </li>                         
+                      </ul>
+                    </li>
                     {% if user.is_authenticated %}
-                        <form action="{% url 'logout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit">Wyloguj</button>
-                        </form>
-                    {% endif %}   
-                </ul>
+                      <li><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Wyloguj</button></form></li>
+                    {% endif %}
+                  </ul>
+                  
+                  <!-- Menu mobilne -->
+                  <ul class="nav-links nav-mobile">
+                    <li class="dropdown">
+                      <div class="dropdown-link">
+                        <a href="{% url 'group_list' %}">Grupy</a>
+                        <button class="dropdown-toggle" onclick="toggleDropdown(this)">⬇️</button>
+                      </div>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'create_group' %}">Dodaj grupę</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <div class="dropdown-link">
+                        <a href="{% url 'result_feedbacks' %}">Feedbacki</a>
+                        <button class="dropdown-toggle" onclick="toggleDropdown(this)">⬇️</button>
+                      </div>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'get_feedback' %}">Dodaj Feedback</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <div class="dropdown-link">
+                        <a href="{% url 'post_list' %}">Posty</a>
+                        <button class="dropdown-toggle" onclick="toggleDropdown(this)">⬇️</button>
+                      </div>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url 'leader_post_form' %}">Dodaj post</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown">
+                      <div class="dropdown-link">
+                        {% if user.is_authenticated %}
+                          <a href="{% url 'profile_view' user.username %}">Profil</a>
+                        {% else %}
+                          <a href="{% url 'login' %}">Zaloguj się</a>
+                        {% endif %}
+                        <button class="dropdown-toggle" onclick="toggleDropdown(this)">⬇️</button>
+                      </div>
+                      <ul class="dropdown-menu">
+                        {% if not user.is_authenticated %}
+                          <li><a href="{% url 'signup' %}">Zarejestruj się</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'user_list' %}">Użytkownicy</a></li>
+                      </ul>
+                    </li>
+                    {% if user.is_authenticated %}
+                      <li><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Wyloguj</button></form></li>
+                    {% endif %}
+                  </ul>
             </nav>
         </header>
         <main id="content">
@@ -72,5 +116,19 @@
             <p>&copy; 2025 TeamReflect</p>
         </footer>
     </div>
+    <script>
+        function toggleDropdown(button) {
+          const parent = button.closest('.dropdown');
+          const isOpen = parent.classList.contains('open');
+        
+          // Zamknij wszystkie
+          document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+        
+          // Jeśli nie był otwarty – otwórz
+          if (!isOpen) {
+            parent.classList.add('open');
+          }
+        }
+        </script>
 </body>
 </html>

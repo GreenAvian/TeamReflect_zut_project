@@ -573,3 +573,133 @@ a {
 #pollOptionContainer {
     margin-top: 15px;
 }
+
+/* responsywność */
+@media (max-width: 768px) {
+    /* MENU */
+    #sitenav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .nav-links {
+      flex-direction: column;
+      width: 100%;
+      padding-left: 0;
+    }
+  
+    .nav-links li {
+      margin: 5px 0;
+    }
+  
+    /* Dropdown link (ikona + tekst) */
+    .dropdown-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 5px;
+      width: 100%;
+    }
+  
+    .dropdown-toggle {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0;
+    }
+  
+    /* Dropdown menu */
+    .dropdown-menu {
+      display: none;
+      position: static; /* ← to ważne na telefonach */
+      width: 100%;
+      background-color: #09476F;
+      list-style: none;
+      padding: 10px 0;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+  
+    .dropdown.open .dropdown-menu {
+        display: block;
+    }
+  
+    .dropdown-menu li {
+      width: 100%;
+    }
+  
+    .dropdown-menu a {
+      display: block;
+      width: 100%;
+    }
+  
+    /* OGÓLNE ELEMENTY STRONY */
+    .homepage-container {
+      flex-direction: column;
+    }
+  
+    .homepage-text-container {
+      padding: 15px;
+    }
+  
+    .feedback-form-row,
+    .post-form-row {
+      max-width: 100%;
+      padding: 10px;
+    }
+  
+    .group-list-container,
+    .group-details-container,
+    .post-form {
+      padding: 10px;
+      margin: 10px;
+      width: auto;
+    }
+  
+    .feedback-item,
+    .feedback-item-singular {
+      margin: 10px;
+      padding: 10px;
+    }
+  
+    .generic_button {
+      width: 100%;
+      max-width: none;
+    }
+  
+    #profile-wrapper {
+      flex-direction: column;
+    }
+  
+    #profile-wrapper-right {
+      border-left: none;
+      border-top: 2px solid #09476F;
+      margin-top: 20px;
+    }
+  
+    footer {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+  /* Domyślnie: komputer – pokazuj desktopowe */
+.nav-desktop {
+    display: flex;
+  }
+  .nav-mobile {
+    display: none;
+  }
+  
+  /* Na telefonie: pokazuj mobilne, ukryj desktopowe */
+  @media (max-width: 768px) {
+    .nav-desktop {
+      display: none;
+    }
+    .nav-mobile {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  }
