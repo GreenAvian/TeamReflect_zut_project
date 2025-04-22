@@ -1,6 +1,7 @@
 /*   Main styling    */
 
 /* Reset */
+
 * {
     margin: 0;
     padding: 0;
@@ -202,6 +203,7 @@ a {
     
     
 }
+
 .post-item{
     list-style: none;
     background-color: #c7c2e4; 
@@ -209,7 +211,6 @@ a {
     border: 2px solid #09476F;
     padding: 15px; 
     margin: 15px;
-    
 }
 
 
@@ -574,6 +575,22 @@ a {
     margin-top: 15px;
 }
 
+/* Login page */
+.login-item
+{
+    list-style: none;
+    background: #09476F;
+    color:#fff;
+    max-width: 60vh;
+    border-radius:10px;
+    padding: 15px; 
+    margin: 15px;
+}
+
+.login-field-container
+{ 
+/*     insert style here */
+}
 /* responsywność */
 @media (max-width: 768px) {
     /* MENU */
@@ -635,6 +652,8 @@ a {
       width: 100%;
     }
   
+
+   
     /* OGÓLNE ELEMENTY STRONY */
     .homepage-container {
       flex-direction: column;
