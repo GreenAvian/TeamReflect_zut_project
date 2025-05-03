@@ -43,7 +43,7 @@ class Groupmembership(models.Model):
     id_membership = models.TextField(db_column='id_Membership', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
     id_user = models.TextField(db_column='id_User', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
     id_group = models.TextField(db_column='id_Group', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
-    is_leader = models.TextField(db_column='is_Leader', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
+    is_leader = models.BooleanField(db_column='is_Leader', blank=True, null=True)  # Field name made lowercase. This field type is a guess.
 
     class Meta:
         managed = True
@@ -125,6 +125,7 @@ class UserProfile(models.Model):
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     phone_number = models.CharField(db_column='Phone_number', validators=[phone_regex], max_length=17, blank=True) # Validators should be a listhone_number = models.PhoneNumberField(db_column='Phone_number', null=False, blank=False, unique=True)
     is_leader = models.BooleanField(default=False) 
+    which_group_is_leader = [] #Here will be names of groups that this profile is leading
     profile_image = models.ImageField(upload_to='images/', blank=True, null=True)
 
     def __str__(self):
