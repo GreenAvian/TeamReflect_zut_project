@@ -3,10 +3,31 @@
 {% block title %}Zarejestruj się{% endblock %}
 
 {% block content %}
-<h2>Zarejestruj się</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form }}
-  <button class="generic_button" type="submit">Zarejestruj się</button>
-</form>
+  <div class="centered_container">
+    <h2>Zarejestruj się</h2>
+    <form method="post">
+    <div class="login-item">
+      
+        {% csrf_token %}
+        
+      <div class="login-field-container">
+        {{ form.username.label }}:
+        {{ form.username }}
+      </div>
+      
+      <div class="login-field-container">
+        {{ form.password1.label }}:
+        {{ form.password1 }}
+      </div>
+
+      <div class="login-field-container">
+        {{ form.password2.label }}:
+        {{ form.password2 }}
+      </div>
+    
+    </div>
+    <button class="generic_button" type="submit">Zarejestruj się</button>
+    {{ form.password1.help_text }}
+    </form>
+  </div>
 {% endblock %}
