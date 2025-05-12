@@ -284,7 +284,7 @@ a {
     list-style: none;
     background-color: #ffffff; 
     border-radius:10px;
-    border: 2px solid #E63946;
+    border: 2px solid #1A1F36;
     padding: 15px; 
     margin: 15px;
 }
@@ -411,7 +411,7 @@ a {
 }
 
 .generic_button {
-    background: #E63946;
+    background: #1A1F36;
     border:none;
     border-radius: 5px;
     min-width: 60px;
@@ -429,7 +429,7 @@ a {
 }
 
 .feedback-item {
-    border: 2px solid #E63946;
+    border: 2px solid #1A1F36;
     background-color: #ffffff;
     border-radius: 10px;
     padding: 15px;
