@@ -23,7 +23,13 @@
 <h2>Dodaj nowego członka:</h2>
 <form method="post" action="">
     {% csrf_token %}
-    <input type="text" name="username" placeholder="Nazwa użytkownika">
+    {% comment %} <input type="text" name="username" placeholder="Nazwa użytkownika"> {% endcomment %}
+    <select name="username" class="group-user-add-select" id="id_for_user">
+        <option value="" selected>---------</option>
+        {% for user in users %}
+            <option value="{{ user.username }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
     <button class="generic_button" type="submit" name="add_member">Dodaj</button>
 </form>
 

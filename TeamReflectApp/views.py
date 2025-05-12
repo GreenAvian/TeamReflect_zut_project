@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.urls import reverse, reverse_lazy
 from .forms import FeedbackForm
-from .models import Feedback, UserProfile, LeaderPost, LeaderPollItem, Comment, Groupmembership
+from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
@@ -109,8 +109,9 @@ def group_detail(request, group_id):
             user.profile.save()
             messages.success(request, f"Użytkownik {user.username} został nowym liderem.")
             return redirect("group_detail", group_id=group.id)
-
-    return render(request, "group_detail.html", {"group": group, "members": members})
+        
+    users = User.objects.exclude(id__in=members.values_list('id', flat=True))
+    return render(request, "group_detail.html", {"group": group, "members": members, "users":users})
 
 @login_required
 def create_group(request):
