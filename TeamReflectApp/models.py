@@ -20,6 +20,8 @@ class LeaderPollItem(models.Model):
     id_item = models.AutoField(db_column='id_Item', primary_key=True)
     leader_post = models.ForeignKey(LeaderPost, db_column='Leader_post', on_delete=models.CASCADE, related_name='poll_items', blank=True, null=True)
     content = models.TextField(db_column='Content', blank=True, null=True)
+    votes = models.IntegerField(db_column='Votes', blank=True, null=True, default=0)
+    voters = models.ManyToManyField(User, blank=True)  # Track who voted
 
     def __str__(self):
         return self.id_item
@@ -32,7 +34,7 @@ class Comment(models.Model):
     leader_poll_item = models.ForeignKey(LeaderPollItem, db_column='Leader_poll_item', on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.ForeignKey(User, db_column='Created_by', on_delete=models.CASCADE, blank=True, null=True)
     content = models.TextField(db_column='Content', blank=True, null=True)
-    rating = models.IntegerField(db_column='Rating')
+    rating = models.IntegerField(db_column='Rating', blank=True, null=True)
     def __str__(self):
         return self.id_comment
     class Meta:
@@ -134,6 +136,15 @@ class UserProfile(models.Model):
     class Meta:
         managed = True
         db_table = 'User Profile'
+
+class UserNote(models.Model):
+    target_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='target_user')  # Field name made lowercase. This field type is a guess.
+    source_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='source_user')  # Field name made lowercase. This field type is a guess.
+    note = models.TextField(db_column='Note', blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'User Note'
 
 class Forms(models.Model):
     id_forms = models.TextField(db_column='id_Forms', blank=True, null=True)  # Field name made lowercase. This field type is a guess.

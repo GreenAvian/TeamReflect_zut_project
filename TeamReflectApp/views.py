@@ -177,13 +177,33 @@ def comment_post(request):
     item = LeaderPollItem.objects.get(id_item=id_item)
     post = item.leader_post
     content = request.POST.get('content')
-    rating = request.POST.get('rating')
+    # rating = request.POST.get('rating')
     
-    comment = Comment.objects.create(created_by=request.user, rating=rating, leader_poll_item=item, content=content)
+    comment = Comment.objects.create(created_by=request.user,
+     #rating=rating, 
+     leader_poll_item=item, content=content)
     #if (content):
         #comment.content = content
-    
     return redirect('post_view', post_id=post.id_post)
+
+@login_required
+def vote_poll_item(request, item_id):
+    if request.method == 'POST':
+        item = get_object_or_404(LeaderPollItem, pk=item_id)
+                
+        # Update vote count and add user to voters
+        if request.user in item.voters.all():
+            # Remove vote
+            item.votes -= 1
+            item.voters.remove(request.user)
+        else:
+            # Add vote
+            item.votes += 1
+            item.voters.add(request.user)
+                
+        item.save()    
+        return redirect('post_view', post_id=item.leader_post.id_post)
+    return redirect('post_view', post_id=item.leader_post.id_post)
 
 def post_view(request, post_id):
     post = LeaderPost.objects.get(id_post=post_id)

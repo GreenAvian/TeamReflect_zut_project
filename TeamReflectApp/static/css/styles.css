@@ -164,7 +164,7 @@ header, footer {
     margin: 0 10px;
 }
 
-.nav-links a, button {
+.nav-links a  {
     color: #ffffff;
     background-color: #1A1F36;
     border: 1px solid #4C5C94;
@@ -182,6 +182,19 @@ header, footer {
 }
 
 .nav-links button {
+    color: #ffffff;
+    background-color: #1A1F36;
+    border: 1px solid #4C5C94;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
     margin-top:-5px;
     font-size: 14px;
     background: transparent;
@@ -189,7 +202,13 @@ header, footer {
     border:none;
 }
 
-.nav-links a:hover, button:hover {
+.nav-links a:hover {
+    background-color: #2C335A;
+    border-color: #6A7ABF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.nav-links button:hover {
     background-color: #2C335A;
     border-color: #6A7ABF;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -594,7 +613,6 @@ a {
     padding: 5px 0;
 }
 
-
 .post-input {
     width: 100%;
     padding: 8px;
@@ -603,7 +621,6 @@ a {
     border-radius: 10px;
     background-color: #fff;
 }
-
 
 .post-textarea {
     width: 100%;
@@ -615,6 +632,17 @@ a {
     background-color: #fff;
 }
 
+.post-comment-dropdown {
+    border: 1px solid black;
+    padding: 12px;  
+    margin: 10px 0;             
+    display: inline-block; 
+    border-radius: 4px;        
+    background-color: #fff; 
+    max-width: 40%;
+    box-sizing: border-box;
+    min-width: 20%;
+}
 
 .generic_button {
     background: #1A1F36;

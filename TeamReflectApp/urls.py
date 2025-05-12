@@ -28,6 +28,7 @@ urlpatterns = [
     path('post/write_comment', views.comment_post, name='comment_post'),
     path('post/<int:post_id>', views.post_view, name='post_view'),
     path('post/list/', views.post_list, name='post_list'),
+    path('post/vote/<int:item_id>/', views.vote_poll_item, name='vote_poll_item'),
 ]
 
 if settings.DEBUG:
