@@ -107,6 +107,13 @@
             </nav>
         </header>
         <main id="content">
+        {% if messages %}
+  <div id="message-container">
+    {% for message in messages %}
+      <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %} 
         <!-- Content Block -->
             {% block content %}
             {% endblock %}
@@ -130,5 +137,11 @@
           }
         }
         </script>
+        <script>
+  setTimeout(function() {
+    const container = document.getElementById("message-container");
+    if (container) container.style.display = "none";
+  }, 5000); 
+</script>
 </body>
 </html>

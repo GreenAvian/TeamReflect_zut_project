@@ -11,6 +11,8 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Avg, Count
+from django.contrib import messages
+from django.shortcuts import redirect
 import json  # Do konwersji danych do JSON
 
 
@@ -207,6 +209,9 @@ def vote_poll_item(request, item_id):
 
 def post_view(request, post_id):
     post = LeaderPost.objects.get(id_post=post_id)
+    for feedback in post.feedback_set.all():
+       if feedback.for_group and request.user not in feedback.for_group.user_set.all():
+           raise PermissionDenied("Nie należysz do grupy przypisanej do tego posta.")
     profile = UserProfile.objects.get(user__username=post.created_by)
     poll = post.poll_items.all()
     comments = Comment.objects.all()
@@ -224,45 +229,54 @@ def delete_group(request, group_id):
     group.delete()
     return redirect('group_list')
 
-def feedback_form(request, is_prefilled = False):
+def feedback_form(request, is_prefilled=False):
     if request.method == "POST":
-        if (not is_prefilled): # Check if we're allowed to make a simple empty form
-            # create a form instance and populate it with data from the request:
+        if not is_prefilled:
             form = FeedbackForm(request.POST)
+            form.fields['for_group'].queryset = request.user.groups.all()  # filtrujemy tylko grupy użytkownika
+
             if form.is_valid():
-                # If you don't do it this way it won't work
+                selected_group = form.cleaned_data.get('for_group')
+                if selected_group and selected_group not in request.user.groups.all():
+                    messages.error(request, "Nie możesz przypisać feedbacku do grupy, do której nie należysz.")
+                    return redirect('get_feedback')
+
                 feedback = form.save(commit=False)
                 feedback.created_by = request.user
                 feedback.save()
-                return HttpResponseRedirect(reverse('feedback_list'))
-        else: # There are fields that need prefilling
+                return redirect('feedback_list')
+
+        else:
             prefilled_field = request.POST.get('field')
             prefilled_val = request.POST.get('prefilled_val')
             if prefilled_field == "for_post":
-                related_instance = get_object_or_404(LeaderPost, id_post=prefilled_val) # Can't just fill the field with an ID, you gotta grab the object instance
-                form = FeedbackForm(initial={
-                    'created_by': request.user.username,
-                    prefilled_field: related_instance,
-                })
+                related_instance = get_object_or_404(LeaderPost, id_post=prefilled_val)
             elif prefilled_field == "for_user":
                 related_instance = get_object_or_404(User, id=prefilled_val)
-                form = FeedbackForm(initial={
-                    'created_by': request.user.username,
-                    prefilled_field: related_instance,
-                })
             elif prefilled_field == "for_group":
                 related_instance = get_object_or_404(Group, id=prefilled_val)
-                form = FeedbackForm(initial={
-                    'created_by': request.user.username,
-                    prefilled_field: related_instance,
-                })
+
+                # dodane zabezpieczenie dla prefill grupy
+                if related_instance not in request.user.groups.all():
+                    messages.error(request, "Nie możesz dodać feedbacku dla grupy, do której nie należysz.")
+                    return redirect('get_feedback')
             else:
-                raise PermissionDenied("You are trying to fill a column that doesn't exist")
-    # On normal GET
+                raise PermissionDenied("Niepoprawne pole prefillingu.")
+
+            form = FeedbackForm(initial={
+                'created_by': request.user.username,
+                prefilled_field: related_instance,
+            })
+
+            # ustaw filtr także dla tego formularza (ważne!)
+            form.fields['for_group'].queryset = request.user.groups.all()
+
     else:
         form = FeedbackForm(initial={'created_by': request.user.username})
-        
+        form.fields['for_group'].queryset = request.user.groups.all()  
+
     return render(request, "feedback_form.html", {"form": form})
+
 def get_priority_value(priority):
     mapping = {
         "niski": 3,
@@ -287,6 +301,9 @@ def feedback_list(request):
          feedbacks = Feedback.objects.all().order_by('rating', 'created_at')  
     else:  # 'newest'
         feedbacks = Feedback.objects.all().order_by('-created_at')
+
+    user_groups = request.user.groups.all()
+    feedbacks = [f for f in feedbacks if not f.for_group or f.for_group in user_groups]
 
     priority_order = ["Niski", "Średni", "Wysoki"]
 
@@ -322,15 +339,28 @@ def feedback_list(request):
     print("Feedback count for user:", feedback_counts_type["Dla użytkownika"])
     print("Feedback count for group:", feedback_counts_type["Dla grupy"])
     print("DATA TARGET:", data_target_count)
+    ratings = list(Feedback.objects.values_list('rating', flat=True))
+    rating_count = {i: 0 for i in range(1, 6)}  # Oceny 1–5
+
+    for r in ratings:
+        if r in rating_count:
+           rating_count[r] += 1
+
+    rating_labels = list(map(str, rating_count.keys()))  # ["1", "2", "3", "4", "5"]
+    rating_values = list(rating_count.values())
+
+    avg_rating = round(sum(ratings) / len(ratings), 2) if ratings else 0
 
     return render(request, "feedback_list.html", {
-        "feedbacks": feedbacks,
-        "data_priority_avg": json.dumps(data_priority_avg),
-        "data_priority_count": json.dumps(data_priority_count),
-        "data_target_avg": json.dumps(data_target_avg),
-        "data_target_count": json.dumps(data_target_count),
-    })
-
+    "feedbacks": feedbacks,
+    "data_priority_avg": json.dumps(data_priority_avg),
+    "data_priority_count": json.dumps(data_priority_count),
+    "data_target_avg": json.dumps(data_target_avg),
+    "data_target_count": json.dumps(data_target_count),
+    "rating_labels": json.dumps(rating_labels),
+    "rating_values": json.dumps(rating_values),
+    "avg_rating": avg_rating,
+})
 
 #@login_required
 def post_list(request):
@@ -372,6 +402,12 @@ def profile_view(request, username):
 
 def feedback_view(request, id_feedback):
     feedback = Feedback.objects.get(id_feedback=id_feedback)
+
+    
+    if feedback.for_group and request.user not in feedback.for_group.user_set.all():
+       messages.error(request, "Nie masz dostępu do tego feedbacku, ponieważ nie należysz do przypisanej grupy.")
+       return redirect("feedback_list") 
+    
     if request.method == "POST":
         feedback.likes = feedback.likes + int(request.POST.get('likes', feedback.rating))
         feedback.save()

@@ -11,6 +11,9 @@
 
     <h3> Według Priorytetu</h3>
     <canvas id="feedbackPriorityChart" style="max-width: 600px; max-height: 400px;"></canvas>
+
+    <h3> Według Oceny</h3>
+    <canvas id="feedbackRatingChart" style="max-width: 600px; max-height: 400px;"></canvas>
 </div>
 
 
@@ -69,6 +72,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const dataPriorityAvg = JSON.parse('{{ data_priority_avg|safe }}');
     const dataPriorityCount = JSON.parse('{{ data_priority_count|safe }}');
 
+    const labelsRating = JSON.parse('{{ rating_labels|safe }}');
+    const valuesRating = JSON.parse('{{ rating_values|safe }}');
+    const avgRating = parseFloat('{{ avg_rating }}');
+    
     const labelsTarget = Object.keys(dataTargetAvg);
     const valuesTargetAvg = Object.values(dataTargetAvg);
     const valuesTargetCount = Object.values(dataTargetCount);
@@ -78,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const valuesPriorityCount = Object.values(dataPriorityCount);
 
     let feedbackTypeChart, feedbackPriorityChart;
+    let feedbackRatingChart;
     let currentChartType = "bar";
 
     function getPriorityColors() {
@@ -176,8 +184,61 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             plugins: chartType === "pie" ? [ChartDataLabels] : []
         });
-    }
+        if (feedbackRatingChart) feedbackRatingChart.destroy();
 
+
+
+// Filtrowanie ocen: tylko te, które mają wartość > 0
+const filteredLabels = [];
+const filteredValues = [];
+valuesRating.forEach((val, i) => {
+    if (val > 0) {
+        filteredLabels.push("Ocena " + labelsRating[i]);
+        filteredValues.push(val);
+    }
+});
+
+// Przefiltrowana tablica do wykresu
+displayDataRating = chartType === "pie"
+    ? getPercentageData(filteredValues)
+    : filteredValues;
+
+feedbackRatingChart = new Chart(document.getElementById("feedbackRatingChart"), {
+    type: chartType,
+    data: {
+        labels: filteredLabels,
+        datasets: [{
+            label: chartType === "pie" ? "Liczba ocen" : `Liczba ocen (Śr. ${avgRating.toFixed(2)})`,
+            data: displayDataRating,
+            backgroundColor: chartType === "bar"
+                ? "navy"
+                : ["red", "#cc7a00", "#cccc00", "green", "blue"].slice(0, filteredLabels.length)
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: chartType === "pie" },
+            tooltip: {
+                callbacks: {
+                    label: function (tooltipItem) {
+                        return chartType === "pie"
+                            ? `${tooltipItem.label}: ${valuesRating[tooltipItem.dataIndex]}`
+                            : `${tooltipItem.label}: ${valuesRating[tooltipItem.dataIndex]}`;
+                    }
+                }
+            },
+            datalabels: chartType === "pie" ? {
+                color: "white",
+                font: { weight: "bold", size: 14 },
+                formatter: value => `${value}%`
+            } : false
+        }
+    },
+    plugins: chartType === "pie" ? [ChartDataLabels] : []
+});
+    }
+    
     function toggleChartType() {
         currentChartType = currentChartType === "bar" ? "pie" : "bar";
         createCharts(currentChartType);
