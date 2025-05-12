@@ -44,8 +44,8 @@
             <form id="nameForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
                 {% csrf_token %}
                 <input type="hidden" name="field" value="name">
-                <input type="text" name="first_name" placeholder="First Name" value="{{ profile.user.first_name }}">
-                <input type="text" name="last_name" placeholder="Last Name" value="{{ profile.user.last_name }}">
+                <input type="text" name="first_name" placeholder="Imię" value="{{ profile.user.first_name }}">
+                <input type="text" name="last_name" placeholder="Nazwisko" value="{{ profile.user.last_name }}">
                 <button class="generic_button" type="submit">Zapisz</button>
                 <button class="generic_button" type="button" onclick="cancelEdit('nameForm')">Anuluj</button>
             </form>
