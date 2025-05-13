@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User, Group
+from django.utils import timezone
 
 class LeaderPost(models.Model):
     id_post = models.AutoField(db_column='id_Post', primary_key=True)
@@ -40,6 +41,13 @@ class Comment(models.Model):
     class Meta:
         managed = True
         db_table = 'Comment'
+        
+class LeaderReport(models.Model):
+    leader_post = models.OneToOneField(LeaderPost, on_delete=models.CASCADE)
+    generated_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()     
+    def __str__(self):
+        return f"Raport dla posta: {self.leader_post.topic} ({self.generated_at.strftime('%Y-%m-%d %H:%M')})"   
 
 class Groupmembership(models.Model):
     id_membership = models.TextField(db_column='id_Membership', blank=True, null=True)  # Field name made lowercase. This field type is a guess.

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ post.topic }}</h1>
+    <h3>Tag: {{ post.tag }}</h3>
+    <p>{{ post.content }}</p>
+
+    <h2>Pytania z ankiety:</h2>
+    <div>
+        {% for item in post.poll_items.all %}
+            <div class="poll-item">
+                <h4>{{ item.content }}</h4>
+                
+                <h5>Odpowiedzi:</h5>
+                <ul>
+                    {% for comment in item.comment_set.all %}
+                        <li>
+                            <strong>
+                                {% if comment.created_by %}
+                                    {{ comment.created_by.username }}
+                                {% else %}
+                                    Anonimowy
+                                {% endif %}
+                            </strong>
+                            - Ocena: {{ comment.rating }}/5
+                            <p>{{ comment.content }}</p>
+                        </li>
+                    {% empty %}
+                        <p>Brak odpowiedzi.</p>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+
+    <hr>
+    {% if report %}
+    <h2>Wygenerowany raport:</h2>
+    <pre style="white-space: pre-wrap; background: #f5f5f5; padding: 1em; border-radius: 8px;">
+        {{ report.content }}
+    </pre>
+{% endif %}
+    <button id="generate-report-btn" data-post-id="{{ post.id_post }}">Wygeneruj raport</button>
+    <div id="report-result"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        document.getElementById('generate-report-btn').addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+
+            fetch(`/generate-report/${postId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('report-result').innerText = data.report;
+            })
+            .catch(error => {
+                alert("Wystąpił błąd podczas generowania raportu.");
+                console.error(error);
+            });
+        });
+    </script>
+{% endblock %}

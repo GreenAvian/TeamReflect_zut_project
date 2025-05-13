@@ -14,6 +14,21 @@ from django.db.models import Avg, Count
 from django.contrib import messages
 from django.shortcuts import redirect
 import json  # Do konwersji danych do JSON
+from django.http import JsonResponse, HttpResponseNotFound
+from .models import LeaderPost, LeaderReport
+from django.views.decorators.http import require_POST
+import os
+import traceback
+import requests
+from django.conf import settings
+
+
+
+
+
+
+
+
 
 
 def home(request):
@@ -479,6 +494,94 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
+    
+    
+@login_required
+@require_POST
+def generate_leader_report(request, post_id):
+    # Upewnij się, że użytkownik to lider
+    if not hasattr(request.user, 'profile') or not request.user.profile.is_leader:
+        return JsonResponse({'error': 'Brak uprawnień - tylko lider może generować raport.'}, status=403)
+
+    try:
+        post = LeaderPost.objects.prefetch_related('poll_items__comment_set').get(id_post=post_id)
+    except LeaderPost.DoesNotExist:
+        return HttpResponseNotFound("Nie znaleziono posta lidera.")
+
+    feedback_context = f"Tytuł ankiety: {post.topic}\nTemat: {post.tag}\n\n"
+
+    for i, item in enumerate(post.poll_items.all(), 1):
+        feedback_context += f"Pytanie {i}: {item.content}\n"
+        avg_rating = item.comment_set.aggregate(avg=Avg('rating'))['avg']
+        if avg_rating:
+            feedback_context += f"  Średnia ocena: {avg_rating:.2f}/5\n"
+        for j, comment in enumerate(item.comment_set.all(), 1):
+            user = comment.created_by.username if comment.created_by else "Anonimowy"
+            feedback_context += f"  Odpowiedź {j} [{user}, ocena {comment.rating}/5]: {comment.content}\n"
+        feedback_context += "\n"
+
+    prompt = f"""
+Na podstawie poniższej ankiety oraz komentarzy uczestników, wygeneruj raport dla lidera. Uwzględnij:
+- Najczęstsze pozytywne obserwacje
+- Obszary wymagające poprawy
+- Średnie oceny (jeśli to możliwe)
+- Ogólne wrażenie zespołu
+- Rekomendacje
+
+{feedback_context}
+"""
+
+    # Wyślij do zewnętrznego LLM (OLLAMA)
+    try:
+        response = requests.post(
+            f"{settings.OLLAMA_API_URL}/api/generate",
+            json={
+                "model": "mistral",
+                "prompt": prompt,
+                "stream": False
+            },
+            timeout=30  # ważne, by nie zawiesić serwera
+        )
+        response.raise_for_status()
+        result = response.json()
+        summary = result.get("response", "Brak wygenerowanego raportu.")
+
+    except Exception as e:
+        print("Błąd połączenia z LLM:", e)
+        traceback.print_exc()
+        return JsonResponse({'error': f"Błąd LLM: {str(e)}"}, status=500)
+
+    # Zapisz raport do bazy
+    LeaderReport.objects.update_or_create(
+        leader_post=post,
+        defaults={'content': summary}
+    )
+
+    return JsonResponse({'report': summary})
+
+
+def leader_post_detail(request, post_id):
+    # Pobieranie posta lidera
+    post = get_object_or_404(LeaderPost, id_post=post_id)
+
+    # Pobieranie pytań ankiety
+    poll_items = post.poll_items.all()
+    report = LeaderReport.objects.filter(leader_post=post).first()
+
+    # Przekazywanie danych do szablonu
+    return render(request, 'leader_post_detail.html', {
+        'post': post,
+        'poll_items': poll_items,
+        'report': report
+    })
+
+
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"   
+    
     
     
 

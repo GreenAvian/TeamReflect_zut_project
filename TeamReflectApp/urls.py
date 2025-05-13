@@ -29,6 +29,8 @@ urlpatterns = [
     path('post/<int:post_id>', views.post_view, name='post_view'),
     path('post/list/', views.post_list, name='post_list'),
     path('post/vote/<int:item_id>/', views.vote_poll_item, name='vote_poll_item'),
+    path('leader-post/<int:post_id>/', views.leader_post_detail, name='leader_post_detail'),
+    path('generate-report/<int:post_id>/', views.generate_leader_report, name='generate_report'),
 ]
 
 if settings.DEBUG:
