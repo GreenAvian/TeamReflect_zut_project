@@ -12,12 +12,12 @@
                 {% else %}
                     <img id="profile-pic" src="/media/images/default_profile.jpg" alt="Awatar">
                 {% endif %}
-                    
+
                 {% if can_edit %}
                     <button class='generic_button' onclick="editField('imageForm')">Edytuj</button>
                 {% endif %}
             </p>
-            
+
             <form id="imageForm" style="display:none;" method="POST" enctype="multipart/form-data" action="{% url 'edit_profile_field' username=profile.user.username %}">
                 {% csrf_token %}
                 <input type="hidden" name="field" value="image">
@@ -40,7 +40,7 @@
                 {% if can_edit  %}
                     <button class='generic_button' onclick="editField('nameForm')">Edytuj</button>
                 {% endif %}
-            
+
             <form id="nameForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
                 {% csrf_token %}
                 <input type="hidden" name="field" value="name">
@@ -67,7 +67,7 @@
             </form>
 
             <p>
-                <strong>Opis:</strong> 
+                <strong>Opis:</strong>
                 <p class="text-container">
                     {{ profile.description }}
                 </p>
@@ -109,7 +109,7 @@
                 <button class="generic_button" type="submit">Napisz Feedback</button>
             </form>
         </div>
-    
+
         <div id="profile-wrapper-right">
             <ul id="feedback-list">
                 {% for feedback in feedbacks %}
@@ -119,26 +119,26 @@
                                 <b class="feedback-title">{{ feedback.title }}</b>
                             </a>
                             <span class="feedback-meta">
-                                Stworzony: {{ feedback.created_at }} | 
-                                Priorytet: {{ feedback.priority }} | 
+                                Stworzony: {{ feedback.created_at }} |
+                                Priorytet: {{ feedback.priority }} |
                                 {% if feedback.for_post %}  {% comment %} Post > User > Group, TODO, properly make these fields exclusive so this doesn't need to be a thing {% endcomment %}
-                                    Do postu: 
+                                    Do postu:
                                     <a href="/post/{{ feedback.for_post.id_post }}">
                                         {{ feedback.for_post }}
                                     </a> |
                                 {% elif feedback.for_user %}
-                                    Dla użytkownika: 
+                                    Dla użytkownika:
                                     <a href="/profile/{{ feedback.for_user }}">
                                         {{ feedback.for_user }}
                                     </a> |
                                 {% elif feedback.for_group %}
-                                    Dla grupy: 
+                                    Dla grupy:
                                     <a href="/groups/{{ feedback.for_group.id_group }}">
                                         {{ feedback.for_group }}
                                     </a> |
                                 {% endif %}
-            
-            
+
+
                             </span>
                         </div>
                         <div class="feedback-body">
@@ -153,6 +153,6 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>  
+    </div>
 </body>
 {% endblock %}

@@ -834,3 +834,114 @@ a {
       width: 100%;
     }
   }
+/* === wygląd profilu użytkownika === */
+
+#profile-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    padding: 40px;
+}
+
+#profile-wrapper-left,
+#profile-wrapper-right {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+}
+
+#profile-wrapper-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#profile-pic {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #1A1F36;
+    margin-bottom: 20px;
+}
+
+.profile-info p {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.profile-info strong {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+/* Przycisk – ujednolicony */
+.generic_button {
+    background: #1A1F36;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    margin: 5px 0;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.generic_button:hover {
+    background: #2C335A;
+}
+
+/* Feedback w stylu kart */
+.feedback-item {
+    border-left: 4px solid #09476F;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.feedback-title {
+    font-size: 1.1rem;
+    color: #09476F;
+    font-weight: bold;
+}
+
+.feedback-meta, .feedback-footer {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.feedback-body {
+    margin-top: 10px;
+}
+
+/* Dla układu mobilnego */
+@media (max-width: 768px) {
+    #profile-wrapper {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    #profile-wrapper-left,
+    #profile-wrapper-right {
+        max-width: 100%;
+        box-shadow: none;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    #profile-wrapper-right {
+        border-top: 2px solid #09476F;
+        border-left: none;
+        margin-top: 20px;
+    }
+}

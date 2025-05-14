@@ -15,7 +15,12 @@
         <header>
             <nav id="sitenav">
                 <div class="nav-header">
-                    <div class="logo"><a href="{% url 'home' %}">TeamReflect</a></div>
+                    <div class="logo">
+                    <a href="{% url 'home' %}" style="display: flex; align-items: center; gap: 10px;">
+                    <img src="{% static 'img/logo_team.png' %}" alt="Logo" style="height: 100px;">
+                    <span style="font-size: 1.2em; font-weight: bold; color: inherit;">TeamReflect</span>
+                  </a>
+                </div>
                     <div class="menu-icon">☰</div>
                 </div>
                 <ul class="nav-links nav-desktop">
