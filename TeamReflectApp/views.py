@@ -224,13 +224,34 @@ def vote_poll_item(request, item_id):
 
 def post_view(request, post_id):
     post = LeaderPost.objects.get(id_post=post_id)
+
     for feedback in post.feedback_set.all():
-       if feedback.for_group and request.user not in feedback.for_group.user_set.all():
-           raise PermissionDenied("Nie należysz do grupy przypisanej do tego posta.")
+        if feedback.for_group and request.user not in feedback.for_group.user_set.all():
+            raise PermissionDenied("Nie należysz do grupy przypisanej do tego posta.")
+
     profile = UserProfile.objects.get(user__username=post.created_by)
     poll = post.poll_items.all()
     comments = Comment.objects.all()
-    return render(request, 'group_post.html', {'post': post, 'poll':poll, 'profile':profile, 'comments':comments})
+
+    poll_data = {
+    "labels": [],
+    "votes": []
+    }
+    for item in poll:
+        poll_data["labels"].append(item.content)
+        poll_data["votes"].append(item.votes)
+
+    # ⬇️ Dodajemy do kontekstu
+    context = {
+        'post': post,
+        'poll': poll,
+        'profile': profile,
+        'comments': comments,
+        'poll_data_json': json.dumps(poll_data)  # JSON dla wykresów
+    }
+    
+    print("WYKRES:", poll_data)
+    return render(request, 'group_post.html', context)
 
 @login_required
 def delete_group(request, group_id):

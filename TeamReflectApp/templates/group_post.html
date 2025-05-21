@@ -96,5 +96,98 @@
         <input type="hidden" name="prefilled_val" value="{{ post.id_post }}">
         <button class="generic_button" type="submit">Napisz Feedback</button>
     </form>
+    <h3>Podsumowanie głosów:</h3>
+<button onclick="toggleSummaryChart()">📊 Pokaż/Ukryj Podsumowanie</button>
+<button id="toggleChartType" data-type="bar" style="display: none;">🔄 Zmień na wykres kołowy</button>
+
+<div id="summaryChartContainer" style="display: none; max-width: 500px; margin: auto;">
+    <canvas id="summaryChart" style="max-width: 100%; height: auto;"></canvas>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+<script>
+let summaryChart = null;
+let currentChartType = "bar";
+
+document.addEventListener("DOMContentLoaded", function () {
+    const pollData = JSON.parse('{{ poll_data_json|safe }}');
+    console.log("PollData:", pollData);
+
+    renderChart("bar", pollData); // Domyślnie słupkowy
+
+    document.getElementById("toggleChartType").addEventListener("click", function () {
+        currentChartType = currentChartType === "bar" ? "pie" : "bar";
+        renderChart(currentChartType, pollData);
+        this.textContent = currentChartType === "bar"
+            ? "🔄 Zmień na wykres kołowy"
+            : "🔄 Zmień na wykres słupkowy";
+    });
+});
+
+function toggleSummaryChart() {
+    const container = document.getElementById("summaryChartContainer");
+    const toggleBtn = document.getElementById("toggleChartType");
+
+    const isVisible = container.style.display === "block";
+    container.style.display = isVisible ? "none" : "block";
+    toggleBtn.style.display = isVisible ? "none" : "inline-block";
+}
+
+function renderChart(type, pollData) {
+    const ctx = document.getElementById("summaryChart").getContext("2d");
+
+    if (summaryChart) {
+        summaryChart.destroy();
+    }
+
+    const totalVotes = pollData.votes.reduce((sum, val) => sum + val, 0);
+
+    summaryChart = new Chart(ctx, {
+        type: type,
+        data: {
+            labels: pollData.labels,
+            datasets: [{
+                label: "Głosy",
+                data: pollData.votes,
+                backgroundColor: type === "pie"
+                    ? ["#007bff", "#00cc66", "#ff9933", "#cc0000", "#6600cc"].slice(0, pollData.labels.length)
+                    : "navy"
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: type === "pie" },
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                        }
+                    }
+                },
+                datalabels: type === "pie" ? {
+                    color: "white",
+                    font: { weight: "bold", size: 14 },
+                    formatter: function (value) {
+                        const percent = totalVotes > 0 ? (value / totalVotes) * 100 : 0;
+                        return percent.toFixed(1) + "%";
+                    }
+                } : false
+            },
+            scales: type === "bar" ? {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0,
+                        stepSize: 1
+                    }
+                }
+            } : {}
+        },
+        plugins: type === "pie" ? [ChartDataLabels] : []
+    });
+}
+</script>
+
 {% endblock %}
