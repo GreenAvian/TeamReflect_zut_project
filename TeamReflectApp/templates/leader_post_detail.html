@@ -46,9 +46,19 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script>
-        document.getElementById('generate-report-btn').addEventListener('click', function() {
+<script>
+    console.log("Script loaded");
+    document.addEventListener('DOMContentLoaded', function () {
+        const btn = document.getElementById('generate-report-btn');
+        if (!btn) {
+            console.error('Button not found');
+            return;
+        }
+
+        btn.addEventListener('click', function () {
+            console.log("Przycisk kliknięty!");
             const postId = this.getAttribute('data-post-id');
+            console.log("Post ID:", postId);
 
             fetch(`/generate-report/${postId}/`, {
                 method: 'POST',
@@ -57,14 +67,21 @@
                     'Content-Type': 'application/json'
                 },
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log("Odpowiedź z serwera status:", response.status);
+                return response.json();
+            })
+
             .then(data => {
+                console.log("Dane z serwera:", data);
                 document.getElementById('report-result').innerText = data.report;
             })
             .catch(error => {
+                console.error("Błąd fetch:", error);
                 alert("Wystąpił błąd podczas generowania raportu.");
                 console.error(error);
             });
         });
-    </script>
+    });
+</script>
 {% endblock %}

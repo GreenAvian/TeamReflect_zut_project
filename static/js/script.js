@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const targer_group_field = document.getElementById('feedback-form-target-group');
     const targer_post_field = document.getElementById('feedback-form-target-post');
     
+
+    if (!targetFieldDropdown) {
+        return;
+    }
+
     // Function to show the selected field and hide others
     function updateVisibleField() {
         const selectedValue = targetFieldDropdown.value;
@@ -92,8 +97,15 @@ function cancelComment(formId) {
     cancelEdit(formId);
 }
 
-const addOptionBtn = document.getElementById('addPollOptionBtn');
-var pollCounter = 1;
+document.addEventListener('DOMContentLoaded', function () {
+    const addOptionBtn = document.getElementById('addPollOptionBtn');
+    var pollCounter = 1;
+
+    if (addOptionBtn) {
+        addOptionBtn.addEventListener('click', function () {
+            addPollOptionFunc('pollOptionsContainer'); // Change to your actual container ID
+        });
+    }
 
 function addPollOptionFunc(pollOptionsContainer) {
     const newOption = document.createElement('div');
@@ -101,4 +113,5 @@ function addPollOptionFunc(pollOptionsContainer) {
     newOption.innerHTML = `<input type="text" placeholder="Opcja ${pollCounter}" name="pollOption[]">`;
     pollCounter += 1;
     document.getElementById(pollOptionsContainer).appendChild(newOption);
-}
+    }
+});

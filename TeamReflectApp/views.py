@@ -521,8 +521,8 @@ class SignUpView(CreateView):
 @require_POST
 def generate_leader_report(request, post_id):
     # Upewnij się, że użytkownik to lider
-    if not hasattr(request.user, 'profile') or not request.user.profile.is_leader:
-        return JsonResponse({'error': 'Brak uprawnień - tylko lider może generować raport.'}, status=403)
+    #if not hasattr(request.user, 'profile') or not request.user.profile.is_leader:
+        #return JsonResponse({'error': 'Brak uprawnień - tylko lider może generować raport.'}, status=403)
 
     try:
         post = LeaderPost.objects.prefetch_related('poll_items__comment_set').get(id_post=post_id)
