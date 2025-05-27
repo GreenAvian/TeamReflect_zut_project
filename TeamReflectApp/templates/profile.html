@@ -14,7 +14,7 @@
                 {% endif %}
 
                 {% if can_edit %}
-                    <button class='generic_button' onclick="editField('imageForm')">Edytuj</button>
+                    <button class='generic_button' onclick="hide_or_show('imageForm')">Edytuj</button>
                 {% endif %}
             </p>
 
@@ -23,7 +23,6 @@
                 <input type="hidden" name="field" value="image">
                 <input type="file" name="image" accept="image/*">
                 <button class="generic_button" type="submit">Zapisz</button>
-                <button class="generic_button" type="button" onclick="cancelEdit('imageForm')">Anuluj</button>
             </form>
 
                 {% if profile.user.first_name and profile.user.last_name %}
@@ -38,7 +37,7 @@
                     {% endif %}
                 {% endif %}
                 {% if can_edit  %}
-                    <button class='generic_button' onclick="editField('nameForm')">Edytuj</button>
+                    <button class='generic_button' onclick="hide_or_show('nameForm')">Edytuj</button>
                 {% endif %}
 
             <form id="nameForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
@@ -47,7 +46,6 @@
                 <input type="text" name="first_name" placeholder="Imię" value="{{ profile.user.first_name }}">
                 <input type="text" name="last_name" placeholder="Nazwisko" value="{{ profile.user.last_name }}">
                 <button class="generic_button" type="submit">Zapisz</button>
-                <button class="generic_button" type="button" onclick="cancelEdit('nameForm')">Anuluj</button>
             </form>
 
             <h3>{{ profile.user.username }}</h3>
@@ -55,7 +53,7 @@
             <p>
                 <strong>Telefon:</strong> <p>{{ profile.phone_number }}</p>
                 {% if can_edit %}
-                    <button class='generic_button' onclick="editField('phoneForm')">Edytuj</button>
+                    <button class='generic_button' onclick="hide_or_show('phoneForm')">Edytuj</button>
                 {% endif %}
             </p>
             <form id="phoneForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
@@ -63,7 +61,6 @@
                 <input type="hidden" name="field" value="phone_number">
                 <input type="text" name="phone_number" value="{{ profile.phone_number }}">
                 <button class="generic_button" type="submit">Zapisz</button>
-                <button class="generic_button" type="button" onclick="cancelEdit('phoneForm')">Anuluj</button>
             </form>
 
             <p>
@@ -73,14 +70,13 @@
                 </p>
             </p>
             {% if can_edit %}
-                <button class='generic_button' onclick="editField('descriptionForm')">Edytuj</button>
+                <button class='generic_button' onclick="hide_or_show('descriptionForm')">Edytuj</button>
             {% endif %}
             <form id="descriptionForm" style="display:none;" method="POST" action="{% url 'edit_profile_field' username=profile.user.username %}">
                 {% csrf_token %}
                 <input type="hidden" name="field" value="description">
                 <textarea class = "feedback-content-form" name="description">{{ profile.description }}</textarea>
                 <button class="generic_button" type="submit">Zapisz</button>
-                <button class="generic_button" type="button" onclick="cancelEdit('descriptionForm')">Anuluj</button>
             </form>
 
             <p>

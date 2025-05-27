@@ -21,14 +21,7 @@ import os
 import traceback
 import requests
 from django.conf import settings
-
-
-
-
-
-
-
-
+import logging
 
 
 def home(request):
@@ -557,19 +550,26 @@ Na podstawie poniższej ankiety oraz komentarzy uczestników, wygeneruj raport d
         response = requests.post(
             f"{settings.OLLAMA_API_URL}/api/generate",
             json={
-                "model": "mistral",
+                "model": "tinyllama",
                 "prompt": prompt,
                 "stream": False
             },
-            timeout=30  # ważne, by nie zawiesić serwera
+            #timeout=300  # ważne, by nie zawiesić serwera #nie właśnie nie jest to ważne, zarówno django jak i nginx mają własne timeouty
         )
+
+        logger = logging.getLogger(__name__)
+
+        logger.info(f"Ollama response status: {response.status_code}")
+        logger.info(f"Ollama response headers: {response.headers}")
+        logger.info(f"Ollama response content: {response.text[:500]}")  # First 500 chars
+
         response.raise_for_status()
         result = response.json()
         summary = result.get("response", "Brak wygenerowanego raportu.")
 
-    except Exception as e:
-        print("Błąd połączenia z LLM:", e)
-        traceback.print_exc()
+    except Exception as e: 
+        logger.error("Błąd połączenia z LLM:", exc_info=True)
+        # traceback.print_exc()
         return JsonResponse({'error': f"Błąd LLM: {str(e)}"}, status=500)
 
     # Zapisz raport do bazy
@@ -595,8 +595,6 @@ def leader_post_detail(request, post_id):
         'poll_items': poll_items,
         'report': report
     })
-
-
 
 class SignUpView(CreateView):
     form_class = UserCreationForm
