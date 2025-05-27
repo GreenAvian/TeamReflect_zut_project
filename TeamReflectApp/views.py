@@ -452,25 +452,34 @@ def edit_profile(request, username):
 
     if request.method == "POST":
         field = request.POST.get('field')
-
-        if field == "name":
+        print(request.POST)  # See all POST data
+        
+        if field == "all":
             profile.user.first_name = request.POST.get('first_name', profile.user.first_name)
             profile.user.last_name = request.POST.get('last_name', profile.user.last_name)
-            profile.user.save()
-        elif field == "phone_number":
             profile.phone_number = request.POST.get('phone_number', profile.phone_number)
-        elif field == "description":
             profile.description = request.POST.get('description', profile.description)
-        elif field == "rating":
-            profile.rating = profile.rating + int(request.POST.get('rating', profile.rating))
-        elif field == "image":
-            if 'image' in request.FILES:
-                profile.profile_image = request.FILES['image']
-            else:
-                raise PermissionDenied("No image uploaded.")
         else:
-            raise PermissionDenied("Invalid field.")
+            if field == "name":
+                profile.user.first_name = request.POST.get('first_name', profile.user.first_name)
+                profile.user.last_name = request.POST.get('last_name', profile.user.last_name)
+                # profile.user.save()
+            elif field == "phone_number":
+                profile.phone_number = request.POST.get('phone_number', profile.phone_number)
+            elif field == "description":
+                profile.description = request.POST.get('description', profile.description)
+            elif field == "rating":
+                profile.rating = profile.rating + int(request.POST.get('rating', profile.rating))
+            elif field == "image":
+                if 'image' in request.FILES:
+                    profile.profile_image = request.FILES['image']
+                else:
+                    raise PermissionDenied("No image uploaded.")
+            else:
+                raise PermissionDenied("Invalid field.")
 
+
+        profile.user.save()
         profile.save()
     return redirect('profile_view', username=profile.user.username)
 
