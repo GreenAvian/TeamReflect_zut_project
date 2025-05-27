@@ -51,21 +51,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('DOMContentLoaded', function() {//Function that allows to save all profile fields at once
-    document.getElementById('profileAllForm').addEventListener('submit', function(e) {  
+    const form = document.getElementById('profileAllForm')
+    if(form){ 
+        form.addEventListener('submit', function(e) {
+
         // const avatar = document.getElementById('displayedImageForm').textContent;
-        const firstName = document.getElementById('displayedNameForm').value;
-        const lastName = document.getElementById('displayedSurnameForm').value;
-        const phone = document.getElementById('displayedPhoneForm').value;
-        const description = document.getElementById('displayedDescForm').value;
+            const firstName = document.getElementById('displayedNameForm').value;
+            const lastName = document.getElementById('displayedSurnameForm').value;
+            const phone = document.getElementById('displayedPhoneForm').value;
+            const description = document.getElementById('displayedDescForm').value;
 
         
         // document.getElementById('hiddenImageForm').value = avatar;
-        document.getElementById('hiddenNameForm').value = firstName;
-        document.getElementById('hiddenSurnameForm').value = lastName;
-        document.getElementById('hiddenPhoneForm').value = phone;
-        document.getElementById('hiddenDescForm').value = description;
+            document.getElementById('hiddenNameForm').value = firstName;
+            document.getElementById('hiddenSurnameForm').value = lastName;
+            document.getElementById('hiddenPhoneForm').value = phone;
+            document.getElementById('hiddenDescForm').value = description;
         
-    });
+        });
+    }
 });
 //      Renders the add feedback button
 document.addEventListener('DOMContentLoaded', () => {
@@ -115,6 +119,42 @@ function cancelComment(formId) {
     cancelEdit(formId);
 }
 
+
+
+let pollCounter = 1;
+
+function addPollOptionFunc(pollOptionsContainerId) {
+     const container = document.getElementById(pollOptionsContainerId);
+    if (!container) {
+        console.error(`No element found with ID: ${pollOptionsContainerId}`);
+        return;
+    }
+
+    const newOption = document.createElement('div');
+    newOption.className = 'group-poll-option';
+    newOption.innerHTML = `<input type="text" placeholder="Opcja ${pollCounter}" name="pollOption[]">`;
+    pollCounter += 1;
+    container.appendChild(newOption);
+    }
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const addOptionBtn = document.getElementById('addPollOptionBtn');
+    
+
+    if (addOptionBtn) {
+        addOptionBtn.addEventListener('click', function () {
+            addPollOptionFunc('pollOptionsContainer'); // Change to your actual container ID
+        });
+    }
+
+
+});
+
+
+
+/*
 document.addEventListener('DOMContentLoaded', function () {
     const addOptionBtn = document.getElementById('addPollOptionBtn');
     var pollCounter = 1;
@@ -133,3 +173,4 @@ function addPollOptionFunc(pollOptionsContainer) {
     document.getElementById(pollOptionsContainer).appendChild(newOption);
     }
 });
+*/

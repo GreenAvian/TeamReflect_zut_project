@@ -23,6 +23,7 @@ import requests
 from django.conf import settings
 import logging
 
+logger = logging.getLogger(__name__)
 
 def home(request):
     print(request.build_absolute_uri()) #optional
@@ -574,7 +575,10 @@ Na podstawie poniższej ankiety oraz komentarzy uczestników, wygeneruj raport d
 
         response.raise_for_status()
         result = response.json()
-        summary = result.get("response", "Brak wygenerowanego raportu.")
+        summary = result.get("response", "Brak wygenerowanego raportu.").strip()
+        
+        if not summary:
+            raise ValueError("Empty response from LLM")
 
     except Exception as e: 
         logger.error("Błąd połączenia z LLM:", exc_info=True)

@@ -68,18 +68,26 @@
                 },
             })
             .then(response => {
-                console.log("Odpowiedź z serwera status:", response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 return response.json();
             })
 
             .then(data => {
-                console.log("Dane z serwera:", data);
-                document.getElementById('report-result').innerText = data.report;
+                if (data.error) {
+                    alert(data.error);
+                } else if (data.report) {
+                    // Corrected line with proper replace() usage
+                    document.getElementById('report-result').innerHTML = 
+                        data.report.replace(/\n/g, '<br>');
+                } else {
+                    alert("Received empty response from server");
+                }
             })
             .catch(error => {
-                console.error("Błąd fetch:", error);
-                alert("Wystąpił błąd podczas generowania raportu.");
-                console.error(error);
+                console.error("Fetch error:", error);
+                alert("Error: " + error.message);
             });
         });
     });
