@@ -95,6 +95,8 @@
         <input type="hidden" name="field" value="for_post">
         <input type="hidden" name="prefilled_val" value="{{ post.id_post }}">
         <button class="generic_button" type="submit">Napisz Feedback</button>
+        <a href="{% url 'leader_post_detail' post_id=post.id_post %}" class="generic_button">🔍 Zobacz raport</a>
+
     </form>
     <h3>Podsumowanie głosów:</h3>
 <button onclick="toggleSummaryChart()">📊 Pokaż/Ukryj Podsumowanie</button>
