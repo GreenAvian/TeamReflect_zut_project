@@ -1,6 +1,9 @@
-Tutorial do django w VS codzie:
-https://code.visualstudio.com/docs/python/tutorial-django
+Team reflect to platforma webowa pozwalająca na publikowanie feedbacków i tworzenia ankiet w zespołach projektowych.
 
-Automatyczna migracja tabeli z models.py do bazy danych:
-py manage.py makemigrations
-py manage.py migrate
+Projekt został wykonany na trzecim roku studiów informatycznych.
+
+Zależności:
+djangorestframework
+pillow
+requests
+python-ollama
